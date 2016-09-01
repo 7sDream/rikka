@@ -80,6 +80,9 @@ func main() {
 	http.HandleFunc("/index", index)
 	http.HandleFunc("/upload", upload)
 	http.HandleFunc("/files/", files)
+
+	fmt.Println("Start rikka...")
+
 	err := http.ListenAndServe(":80", nil)
 	if err != nil {
 		fmt.Println(err.Error())
