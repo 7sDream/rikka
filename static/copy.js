@@ -21,7 +21,7 @@ function addCopyEventListener(){
                 while (btn.firstChild) {
                     btn.removeChild(btn.firstChild);
                 }
-                btn.insertAdjacentText("afterbegin", "Copyed!");
+                btn.insertAdjacentText("afterbegin", "Copied!");
                 btn.disabled = true;
                 setTimeout(function(){
                     while (btn.firstChild) {

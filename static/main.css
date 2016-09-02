@@ -1,3 +1,7 @@
+@import 'https://fonts.googleapis.com/css?family=Satisfy';
+h1, p, span {
+    font-family: 'Satisfy', sans-serif;
+}
 body, header, main {
     display: flex;
     flex-flow: column nowrap;
@@ -9,14 +13,15 @@ header {
 }
 h1 {
     order: 0;
-    font-size: 2em;
+    font-size: 3em;
     margin: 0;
 }
 h1 a {
     text-decoration: none;
     color: black;
 }
-p {
+header p {
+    font-size: 1em;
     margin: 0;
 }
 main {
@@ -34,17 +39,24 @@ form {
 div.line {
     display: flex;
     margin-bottom: 0.5em;
-    width: 20em;
+    width: 15em;
 }
-div.line label, input#submitBtn {
-    width: 50%;
+div.line label {
     color: #66ccff;
     border: 1px solid;
     border-radius: 2px;
     text-align: center;
+    font-size: 1em;
+}
+div.line label {
+    width: 40%;
+}
+div.line input {
+    width: 60%;
 }
 footer {
     width: 100%;
+    font-size: 1em;
     display: flex;
     justify-content: center;
     align-items: center;

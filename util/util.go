@@ -2,7 +2,6 @@ package util
 
 import (
 	"bytes"
-	"fmt"
 	"html/template"
 	"net/http"
 	"os"
@@ -69,7 +68,6 @@ func Render(templatePath string, w http.ResponseWriter, data interface{}) {
 // Else don't do anything and return true.
 func MustBeOr404(w http.ResponseWriter, r *http.Request, path string) bool {
 	if r.URL.Path != path {
-		fmt.Println(r.URL.Path)
 		http.NotFound(w, r)
 		return false
 	}
