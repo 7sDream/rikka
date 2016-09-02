@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -70,7 +69,7 @@ func upload(w http.ResponseWriter, r *http.Request) {
 	if userPassword != *password {
 		w.WriteHeader(http.StatusUnauthorized)
 		w.Write([]byte("Error password."))
-		util.Error("Someont input a error password:", userPassword)
+		util.Error("Someone input a error password:", userPassword)
 		return
 	}
 
@@ -155,6 +154,6 @@ func main() {
 
 	err := http.ListenAndServe(":"+strconv.Itoa(*port), nil)
 	if err != nil {
-		fmt.Println(err.Error())
+		util.Error(err.Error())
 	}
 }
