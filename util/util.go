@@ -73,3 +73,15 @@ func MustBeOr404(w http.ResponseWriter, r *http.Request, path string) bool {
 	}
 	return true
 }
+
+// DisableListDir accept a FileServer handle and return a handle that not allow
+// list dir.
+func DisableListDir(h http.Handler) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		if strings.HasSuffix(r.URL.Path, "/") {
+			http.NotFound(w, r)
+		} else {
+			h.ServeHTTP(w, r)
+		}
+	}
+}

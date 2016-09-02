@@ -142,14 +142,14 @@ func main() {
 		fmt.Println("Get password from env: ", password)
 	}
 
-	staticFs := http.FileServer(http.Dir("static"))
-	fileFs := http.FileServer(http.Dir("files"))
+	staticFs := util.DisableListDir(http.FileServer(http.Dir("static")))
+	fileFs := util.DisableListDir(http.FileServer(http.Dir("files")))
 
 	http.HandleFunc("/", index)
 	http.HandleFunc("/upload", upload)
-	http.HandleFunc("/view/", view)
-	http.Handle("/files/", http.StripPrefix("/files/", fileFs))
-	http.Handle("/static/", http.StripPrefix("/static/", staticFs))
+	http.HandleFunc("/view", view)
+	http.Handle("/files", http.StripPrefix("/files", fileFs))
+	http.Handle("/static", http.StripPrefix("/static", staticFs))
 
 	fmt.Println("Starting rikka...")
 
