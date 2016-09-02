@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"os"
 	pathutil "path/filepath"
 	"strconv"
 	"time"
@@ -125,15 +126,18 @@ func main() {
 	util.Info("Args password =", *password)
 	util.Info("Args maxFileSize =", *maxSizeByMB, "MB")
 
+	if !util.CheckExist("files") {
+		os.MkdirAll("files", 0755)
+	}
+
 	requireFiles := []string{
-		"files",
 		"templates", "templates/index.html", "templates/view.html",
 		"static", "static/main.css", "static/index.css", "static/view.css", "static/rikka.png",
 	}
 
 	for _, file := range requireFiles {
 		if !util.CheckExist(file) {
-			util.Error(file, "not exist, exit.")
+			util.Error(file, "not exist, exit")
 			return
 		}
 	}
