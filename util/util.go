@@ -3,10 +3,24 @@ package util
 import (
 	"bytes"
 	"html/template"
+	"log"
 	"net/http"
 	"os"
 	"strings"
 )
+
+var il = log.New(os.Stdout, "[INFO] ", log.LstdFlags)
+var el = log.New(os.Stdout, "[ERROR] ", log.LstdFlags)
+
+// Info print log as info level;
+func Info(str ...interface{}) {
+	il.Println(str)
+}
+
+// Error pring log as error level;
+func Error(str ...interface{}) {
+	el.Println(str)
+}
 
 // ErrHandle is a simple error handl function.
 // If err is an error, write 500 InernalServerError to header and write error message to response and return true.
@@ -63,11 +77,22 @@ func Render(templatePath string, w http.ResponseWriter, data interface{}) {
 	w.Write(content)
 }
 
-// MustBeOr404 check if URL path is equql to excepted.
+// MustBeOr404 check if URL path is as excepted.
 // If not equal, write 404 to header, "404 not fount" to response, and return false.
 // Else don't do anything and return true.
 func MustBeOr404(w http.ResponseWriter, r *http.Request, path string) bool {
 	if r.URL.Path != path {
+		http.NotFound(w, r)
+		return false
+	}
+	return true
+}
+
+// MustExistOr404 check if a file is exist.
+// If not, write 404 to header, "404 not fount" to response, and return false.
+// Else don't do anything and return true.
+func MustExistOr404(w http.ResponseWriter, r *http.Request, filepath string) bool {
+	if !CheckExist(filepath) {
 		http.NotFound(w, r)
 		return false
 	}

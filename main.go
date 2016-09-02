@@ -1,12 +1,12 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"net/url"
-	"os"
 	pathutil "path/filepath"
 	"strconv"
 	"time"
@@ -14,10 +14,8 @@ import (
 	"github.com/7sDream/rikka/util"
 )
 
-var password string
-var defaultDomain = "localhost"
-
-const port int = 80
+var port = flag.Int("port", 80, "server port")
+var password = flag.String("pwd", "rikka", "the password")
 
 type viewPhoto struct {
 	Filename string
@@ -25,16 +23,9 @@ type viewPhoto struct {
 }
 
 func buildURL(r *http.Request) string {
-	host := r.Host
-	if host == "" {
-		host = defaultDomain
-		if port != 80 {
-			host += ":80"
-		}
-	}
 	res := url.URL{
 		Scheme: "http",
-		Host:   host,
+		Host:   r.Host,
 		Path:   "files/" + util.GetFilenameByRequest(r),
 	}
 	return res.String()
@@ -71,9 +62,10 @@ func upload(w http.ResponseWriter, r *http.Request) {
 	}
 
 	userPassword := r.FormValue("password")
-	if userPassword != password {
+	if userPassword != *password {
 		w.WriteHeader(http.StatusUnauthorized)
 		w.Write([]byte("Error password."))
+		util.Error("Someont input a error password:", userPassword)
 		return
 	}
 
@@ -95,6 +87,8 @@ func upload(w http.ResponseWriter, r *http.Request) {
 	_, name := pathutil.Split(saveFile.Name())
 	w.Header().Set("Location", "/view/"+name)
 	w.WriteHeader(302)
+
+	util.Info("Accepted a new file:", name)
 }
 
 func view(w http.ResponseWriter, r *http.Request) {
@@ -106,9 +100,9 @@ func view(w http.ResponseWriter, r *http.Request) {
 
 	filename := util.GetFilenameByRequest(r)
 	filepath := "files/" + filename
-	if !util.CheckExist(filepath) {
-		w.WriteHeader(http.StatusNotFound)
-		w.Write([]byte("No this photo."))
+	if !util.MustExistOr404(w, r, filepath) {
+		util.Error("Someone visit a non-exist photo:", filename)
+		return
 	}
 
 	view := viewPhoto{
@@ -120,6 +114,12 @@ func view(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+
+	flag.Parse()
+
+	util.Info("Args port =", *port)
+	util.Info("Args password =", *password)
+
 	requireFiles := []string{
 		"files",
 		"templates", "templates/index.html", "templates/view.html",
@@ -128,18 +128,9 @@ func main() {
 
 	for _, file := range requireFiles {
 		if !util.CheckExist(file) {
-			fmt.Println(file, "not exist, exit.")
+			util.Error(file, "not exist, exit.")
 			return
 		}
-	}
-
-	password = os.Getenv("RIKKA_PWD")
-
-	if password == "" {
-		fmt.Println("No password proivede, use [rikka] as password.")
-		password = "rikka"
-	} else {
-		fmt.Println("Get password from env:", password)
 	}
 
 	staticFs := util.DisableListDir(http.FileServer(http.Dir("static")))
@@ -151,9 +142,9 @@ func main() {
 	http.Handle("/files/", http.StripPrefix("/files", fileFs))
 	http.Handle("/static/", http.StripPrefix("/static", staticFs))
 
-	fmt.Println("Starting rikka...")
+	util.Info("Rikka started")
 
-	err := http.ListenAndServe(":"+strconv.Itoa(port), nil)
+	err := http.ListenAndServe(":"+strconv.Itoa(*port), nil)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
