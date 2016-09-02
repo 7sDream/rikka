@@ -22,6 +22,27 @@ p {
 main {
     margin-bottom: 2em;
 }
+img.logo, img.preview {
+    margin-bottom: 2em;
+}
+form {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: flex-start;
+}
+div.line {
+    display: flex;
+    margin-bottom: 0.5em;
+    width: 20em;
+}
+div.line label, input#submitBtn {
+    width: 50%;
+    color: #66ccff;
+    border: 1px solid;
+    border-radius: 2px;
+    text-align: center;
+}
 footer {
     width: 100%;
     display: flex;

@@ -1,12 +1,3 @@
-img.logo {
-    margin-bottom: 2em;
-}
-#uploadFrom {
-    display: flex;
-    flex-flow: column nowrap;
-    align-items: center;
-    justify-content: flex-start;
-}
 input#uploadFile {
     position: absolute;
     top: 0;
@@ -17,18 +8,6 @@ input#uploadFile {
     cursor: pointer;
     opacity: 0;
     filter: alpha(opacity=0);
-}
-div.line {
-    display: flex;
-    margin-bottom: 0.5em;
-    width: 20em;
-}
-div.line label, input#submitBtn {
-    width: 50%;
-    color: #66ccff;
-    border: 1px solid;
-    border-radius: 2px;
-    text-align: center;
 }
 label#fakeUploadBtn {
     cursor: pointer;

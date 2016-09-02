@@ -2,15 +2,3 @@ img.preview {
     max-width: 300px;
     max-height: 300px;
 }
-input {
-    margin-top: 1em;
-    height: 1em;
-    width: 25em;
-}
-label.copyBtn {
-    color: #66ccff;
-    cursor: pointer;
-    border: 1px solid #66ccff;
-    border-radius: 2px;
-    line-height: 1em;
-}

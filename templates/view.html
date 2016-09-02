@@ -11,16 +11,32 @@
     </header>
     <main>
         <img class="preview" src="{{ .URL }}" />
-        <div>
-            <span>Markdown: </span>
-            <input type="text" value="![]({{ .URL }})" disabled/>
-            <label class="copyBtn">Copy</a>
-        </div>
+        <form>
+            <div class="line copyAsText">
+                <label for="src" class="copyBtn">Src</label>
+                <input name="src" value="{{ .URL }}" disabled/>
+            </div>
+            <div class="line copyAsText">
+                <label for="markdown" class="copyBtn">Markdown</label>
+                <input name="markdown" value="![]({{ .URL }})" disabled/>
+            </div>
+            <div class="line copyAsText">
+                <label for="html" class="copyBtn">HTML</label>
+                <input name="html" value="<img src=&quot;{{ .URL }}&quot; />" disabled/>
+            </div>
+            <div class="line copyAsText">
+                <label for="rst" class="copyBtn">RST</label>
+                <input name="rst" value=".. image:: {{ .URL }}" disabled/>
+            </div>
+        </form>
     </main>
     <footer>
         <p>Design with love, by <span style="color: #66ccff">7sDream</span></p>
     </footer>
+    <script src="/static/copy.js"></script>
     <script>
-
+        document.addEventListener("DOMContentLoaded", function(event) {
+            addCopyEventListener();
+        });
     </script>
 </body>
