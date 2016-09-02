@@ -1,5 +1,7 @@
 # Rikka - A simple photo share website.
 
+[中文版](https://github.com/7sDream/rikka/blob/master/README.zh.md)
+
 ## Demo
 
 I build a [Demo website](http://7sdream-rikka-demo.daoapp.io/) use rikka, it's password is `rikka`.
@@ -20,36 +22,41 @@ Then you get:
 
 Click `Src`, `Markdown`, `HTML`, `RST` button to copy the corresponding text to the clipboard, and paste to anywhere you want.
 
-But, if you close this page, you have no way to find it back except from browser history.
+But, if you close this page, you have no way to find it back except from browser history(Or you save this url to other place). 
+
+This is intentional, Because main design concept of Rikka is Simple, `Upload-Copy-Paste-Close`，then you can forget Rikka.
 
 ## Deploy
 
-### Method 1: Build your self on your VPS
+### Way 1: Build Rikka on your VPS
 
 1. `go get github.com/7sDream/rikka`
 2. `cd $GOPATH/src/github.com/7sDream/rikka`
 3. `go build github.com/7sDream/rikka`
 4. `./rikka --port 80 --pwd yourpassword`
 
+Last step may require `sudo`, because Rikka use `80` port as default.
+
 Then you can view your website and use the password you set to upload and share photo.
 
-### Method 2: Use docker
+### Way 2: Use Docker
 
 Docker image published to [DockerHub](https://hub.docker.com/r/7sdream/rikka/), just use it.
 
 1. `docker pull 7sdream/rikka`
 2. `docker run -d -P 7sdream/rikka:latest -pwd yourpassword`
-3. Visit your domain or ip address with your browser and test it.
+
+Visit your domain or ip address with your browser and test it.
 
 PS: If your stop/rm this container, your photo file will be deleted too. If you don't want this, use docker volume described bellow.
 
 #### Add volume when run rikka
 
-1. `docker volume create --name rikkafiles`
+1. Create a vloume: `docker volume create --name rikkafiles`
 2. add option `-v rikkafiles:/go/src/github.com/7sDream/rikka/files` when run rikka image
 
-### Method 3: Use free docker cloud services provider like DaoCloud
+### Way 3: Use docker cloud services provider
 
-For example, we can use DaoCloud to deploy Rikka server.
+For example, we can use DaoCloud(free qutoa) to deploy a Rikka server,
 
-See [daocloud depoly document](https://github.com/7sDream/rikka/wiki/%E5%9C%A8-DaoCloud-%E4%B8%8A%E5%85%8D%E8%B4%B9%E9%83%A8%E7%BD%B2-Rikka) for detail steps.
+See [daocloud depoly tutorial](https://github.com/7sDream/rikka/wiki/%E5%9C%A8-DaoCloud-%E4%B8%8A%E5%85%8D%E8%B4%B9%E9%83%A8%E7%BD%B2-Rikka) for detail steps.
