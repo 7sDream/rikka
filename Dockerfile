@@ -1,4 +1,4 @@
-FROM golang:1.6
+FROM golang:1.7
 
 MAINTAINER 7sDream "7seconddream@gmail.com"
 
