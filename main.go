@@ -147,9 +147,9 @@ func main() {
 
 	http.HandleFunc("/", index)
 	http.HandleFunc("/upload", upload)
-	http.HandleFunc("/view", view)
-	http.Handle("/files", http.StripPrefix("/files", fileFs))
-	http.Handle("/static", http.StripPrefix("/static", staticFs))
+	http.HandleFunc("/view/", view)
+	http.Handle("/files/", http.StripPrefix("/files", fileFs))
+	http.Handle("/static/", http.StripPrefix("/static", staticFs))
 
 	fmt.Println("Starting rikka...")
 

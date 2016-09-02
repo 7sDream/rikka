@@ -7,10 +7,10 @@ input {
     height: 1em;
     width: 25em;
 }
-label.btn {
+label.copyBtn {
     color: #66ccff;
     cursor: pointer;
     border: 1px solid #66ccff;
     border-radius: 2px;
-    height: 100%;
+    line-height: 1em;
 }
