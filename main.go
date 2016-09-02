@@ -15,7 +15,8 @@ import (
 )
 
 var port = flag.Int("port", 80, "server port")
-var password = flag.String("pwd", "rikka", "the password")
+var password = flag.String("pwd", "rikka", "The password need provided when upload")
+var maxSizeByMB = flag.Float64("size", 5, "Max file size by MB")
 
 type viewPhoto struct {
 	Filename string
@@ -56,7 +57,10 @@ func upload(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err := r.ParseMultipartForm(1024 * 5)
+	maxSize := int64(*maxSizeByMB * 1024 * 1024)
+
+	r.Body = http.MaxBytesReader(w, r.Body, maxSize)
+	err := r.ParseMultipartForm(maxSize)
 	if util.ErrHandle(w, err) {
 		return
 	}
@@ -119,6 +123,7 @@ func main() {
 
 	util.Info("Args port =", *port)
 	util.Info("Args password =", *password)
+	util.Info("Args maxFileSize =", *maxSizeByMB, "MB")
 
 	requireFiles := []string{
 		"files",
