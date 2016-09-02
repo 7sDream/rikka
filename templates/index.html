@@ -1,10 +1,38 @@
-<!doctype html>
+<!DOCTYPE html>
 <head>
-    <title>首页</title>
+    <title>Rikka - Home</title>
+    <link rel="stylesheet" href="/static/main.css" />
+    <link rel="stylesheet" href="/static/index.css" />
 </head>
 <body>
-    <form enctype="multipart/form-data" action="upload" method="post">
-        <input type="file" name="uploadFile" />
-        <input type="submit" value="upload" />
-    </form>
+    <header>
+        <h1><a href="/">RIKKA</a></h1>
+        <p><a>A <span style="color: #6cf">simplest</span> photo share web app.</a></p>
+    </header>
+    <main>
+        <img class="logo" src="static/rikka.png" />
+        <form id="uploadFrom" enctype="multipart/form-data" action="upload" method="post">
+            <div class="line">
+                <label id="fakeUploadBtn" for="uploadFile">Choose</label>
+                <input id="filename" placeholder="Choose File" disabled="disabled" />
+                <input id="uploadFile" name="uploadFile" type="file" accept="image/*" /><br>
+            </div>
+            <div class="line">
+                <label for="password">Password</label>
+                <input id="password" name="password" type="password" />
+            </div>
+            <input id="submitBtn" type="submit" value="Upload" />
+        </form>
+    </main>
+    <footer>
+        <p>Design with love, by <span style="color: #66ccff">7sDream</span></p>
+    </footer>
+    <script>
+        let filenameBox = document.querySelector("input#filename");
+        let input = document.querySelector("input#uploadFile");
+
+        input.addEventListener("change", function(){
+            filenameBox.value = input.value.split('\\').pop().split('/').pop();
+        });
+    </script>
 </body>
