@@ -8,4 +8,5 @@ RUN go build github.com/7sDream/rikka
 
 EXPOSE 80
 
-CMD $GOPATH/src/github.com/7sDream/rikka/rikka
+ENTRYPOINT $GOPATH/src/github.com/7sDream/rikka/rikka
+CMD []
