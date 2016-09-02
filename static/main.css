@@ -1,0 +1,30 @@
+body, header, main {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: center;
+}
+header {
+    margin-bottom: 2em;
+}
+h1 {
+    order: 0;
+    font-size: 2em;
+    margin: 0;
+}
+h1 a {
+    text-decoration: none;
+    color: black;
+}
+p {
+    margin: 0;
+}
+main {
+    margin-bottom: 2em;
+}
+footer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

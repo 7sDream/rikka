@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<head>
+    <title>Rikka - Home</title>
+    <link rel="stylesheet" href="/static/main.css" />
+    <link rel="stylesheet" href="/static/view.css" />
+</head>
+<body>
+    <header>
+        <h1><a href="/">RIKKA</a></h1>
+        <p>A <span style="color: #6cf">simplest</span> photo share web app.</p>
+    </header>
+    <main>
+        <img class="preview" src="{{ .URL }}" />
+        <div>
+            <span>Markdown: </span>
+            <input type="text" value="![]({{ .URL }})" disabled/>
+            <label class="btn">Copy</a>
+        </div>
+    </main>
+    <footer>
+        <p>Design with love, by <span style="color: #66ccff">7sDream</span></p>
+    </footer>
+</body>
