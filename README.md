@@ -1,10 +1,28 @@
-# RIKKA - A simple photo share website.
+# Rikka - A simple photo share website.
 
 ## Demo
 
-working on it.
+I build a [Demo website](http://7sdream-rikka-demo.daoapp.io/) use rikka, it's password is `rikka`.
 
-## Usage
+You can see the homepage:
+
+![](http://7sdream-rikka-demo.daoapp.io/files/2016-09-02-544100677)
+
+Click `Choose` button to select a file to upload.
+
+Input rikka password.
+
+Click `Upload` button and wait.
+
+Then you get:
+
+![](http://7sdream-rikka-demo.daoapp.io/files/2016-09-02-734641087)
+
+Click `Src`, `Markdown`, `HTML`, `RST` button to copy the corresponding text to the clipboard, and paste to anywhere you want.
+
+But, if you close this page, you have no way to find it back except from browser history.
+
+## Deploy
 
 ### Method 1: Build your self on your VPS
 
