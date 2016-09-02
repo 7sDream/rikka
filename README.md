@@ -47,3 +47,9 @@ PS: If your stop/rm this container, your photo file will be deleted too. If you 
 
 1. `docker volume create --name rikkafiles`
 2. add option `-v rikkafiles:/go/src/github.com/7sDream/rikka/files` when run rikka image
+
+### Method 3: Use free docker cloud services provider like DaoCloud
+
+For example, we can use DaoCloud to deploy Rikka server.
+
+See [daocloud depoly document](https://github.com/7sDream/rikka/wiki/%E5%9C%A8-DaoCloud-%E4%B8%8A%E5%85%8D%E8%B4%B9%E9%83%A8%E7%BD%B2-Rikka) for detail steps.
