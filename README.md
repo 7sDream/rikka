@@ -35,4 +35,15 @@ Then you can view your website and use the password you set to upload and share 
 
 ### Method 2: Use docker
 
-working on it.
+Docker image published to [DockerHub](https://hub.docker.com/r/7sdream/rikka/), just use it.
+
+1. `docker pull 7sdream/rikka`
+2. `docker run -d -P 7sdream/rikka:latest -pwd yourpassword`
+3. Visit your domain or ip address with your browser and test it.
+
+PS: If your stop/rm this container, your photo file will be deleted too. If you don't want this, use docker volume described bellow.
+
+#### Add volume when run rikka
+
+1. `docker volume create --name rikkafiles`
+2. add option `-v rikkafiles:/go/src/github.com/7sDream/rikka/files` when run rikka image
