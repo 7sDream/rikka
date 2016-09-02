@@ -30,7 +30,6 @@
     <script>
         let filenameBox = document.querySelector("input#filename");
         let input = document.querySelector("input#uploadFile");
-
         input.addEventListener("change", function(){
             filenameBox.value = input.value.split('\\').pop().split('/').pop();
         });

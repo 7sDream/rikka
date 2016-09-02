@@ -17,7 +17,7 @@ import (
 var password string
 var defaultDomain = "localhost"
 
-const port int = 8000
+const port int = 80
 
 type viewPhoto struct {
 	Filename string
@@ -139,7 +139,7 @@ func main() {
 		fmt.Println("No password proivede, use [rikka] as password.")
 		password = "rikka"
 	} else {
-		fmt.Println("Get password from env: ", password)
+		fmt.Println("Get password from env:", password)
 	}
 
 	staticFs := util.DisableListDir(http.FileServer(http.Dir("static")))
