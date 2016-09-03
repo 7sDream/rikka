@@ -86,7 +86,7 @@ func runtimeEnvCheck() {
 func createSignalHandler(c chan os.Signal) func() {
 	return func() {
 		for _ = range c {
-			l.Info("Rikka need go to sleep, see you tomorrow")
+			l.Info("Rikka have to go to bed, see you tomorrow")
 			os.Exit(0)
 		}
 	}
