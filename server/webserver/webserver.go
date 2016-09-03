@@ -10,47 +10,6 @@ import (
 
 var l *logger.Logger
 
-var port int
-var password string
-var maxSizeByMB float64
-
-func upload(w http.ResponseWriter, r *http.Request) {
-	defer recover()
-
-	maxSize := int64(maxSizeByMB * 1024 * 1024)
-
-	r.Body = http.MaxBytesReader(w, r.Body, maxSize)
-
-	err := r.ParseMultipartForm(maxSize)
-	if util.ErrHandle(w, err) {
-		l.Error("Error happened when parse form:", err)
-		return
-	}
-
-	userPassword := r.FormValue("password")
-	if userPassword != password {
-		w.WriteHeader(http.StatusUnauthorized)
-		w.Write([]byte("Error password."))
-		l.Error("Someone input a error password:", userPassword)
-		return
-	}
-
-	file, _, err := r.FormFile("uploadFile")
-	if util.ErrHandle(w, err) {
-		l.Error("Error happened when get form file:", err)
-		return
-	}
-
-	TaskID, err := plugins.AcceptFile(&plugins.SaveRequest{File: file})
-	if util.ErrHandle(w, err) {
-		l.Error("Error happened when plugin revieve file save request:", err)
-		return
-	}
-
-	w.Header().Set("Location", "/view/"+TaskID)
-	w.WriteHeader(302)
-}
-
 // Check needed files like html, css, js, logo, etc...
 func checkFiles() {
 	requireFiles := []string{
@@ -71,36 +30,60 @@ func checkFiles() {
 func viewHandleFunc(w http.ResponseWriter, r *http.Request) {
 	taskID := util.GetTaskIDByRequest(r)
 
+	l.Info("Get a view request of task", taskID)
+
 	pState, err := plugins.GetState(taskID)
 	if util.ErrHandle(w, err) {
+		l.Warn("Get state of task", taskID, "error:", err)
 		return
 	}
+
+	l.Info("Get state of task", taskID, "successfully")
 
 	if pState.StateCode == plugins.StateFinishCode {
+		// state is finished
+		templateFilePath := "templates/viewFinish.html"
+		l.Info("State of task", taskID, "is finished, render with", templateFilePath)
+
 		if url, err := plugins.GetURL(taskID, r, nil); err == nil {
-			err = util.RenderTemplate("templates/viewFinish.html", w, url)
-			util.ErrHandle(w, err)
-		} else {
-			util.ErrHandle(w, err)
+			// get url successfully
+			l.Info("Get url of task", taskID, "successfully:", url.URL)
+
+			err = util.RenderTemplate(templateFilePath, w, url)
+
+			if util.ErrHandle(w, err) {
+				// RenderTemplate error
+				l.Warn("Render template", templateFilePath, "error:", err)
+			} else {
+				// successfully
+				l.Info("Render template", templateFilePath, "successfully")
+			}
+			return
 		}
-		return
+		l.Info("Get url of task", taskID, "error:", err)
 	}
 
-	err = util.RenderTemplate("templates/view.html", w, struct{ TaskID string }{TaskID: taskID})
-	util.ErrHandle(w, err)
+	// state is not finished or error when process as finished
+	templateFilePath := "templates/view.html"
+	l.Info("State of task", taskID, "is not finished(or error happened), render with", templateFilePath)
+
+	err = util.RenderTemplate(templateFilePath, w, struct{ TaskID string }{TaskID: taskID})
+	if util.ErrHandle(w, err) {
+		// RenderTemplate error
+		l.Warn("Render template", templateFilePath, "error:", err)
+	} else {
+		// successfully
+		l.Info("Render template", templateFilePath, "successfully")
+	}
 }
 
 // StartRikkaWebServer start web server of rikka.
-func StartRikkaWebServer(socket string, argPassword string, argMaxSizeByMB float64, log *logger.Logger) {
+func StartRikkaWebServer(log *logger.Logger) {
 
 	l = log.SubLogger("[Web]")
 
 	l.Info("Check needed files")
 	checkFiles()
-
-	// Save two important var to package level
-	password = argPassword
-	maxSizeByMB = argMaxSizeByMB
 
 	// The static file server handle all request that ask for files under /static
 	// Only accept GET method
@@ -126,15 +109,7 @@ func StartRikkaWebServer(socket string, argPassword string, argMaxSizeByMB float
 		viewHandleFunc,
 	)
 
-	// UploadHander handle request for upload photo(/upload)
-	// Only accept POST Method
-	uploadHandler := util.RequestFilter(
-		"/upload", "POST", l,
-		upload,
-	)
-
 	http.HandleFunc("/", indexHandler)
-	http.HandleFunc("/upload", uploadHandler)
 	http.HandleFunc("/view/", viewHandler)
 	http.Handle("/static/", staticFsHandler)
 

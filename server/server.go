@@ -17,11 +17,11 @@ func StartRikka(socket string, password string, maxSizeByMB float64, plugin plug
 	l.Info("Load plugin...")
 	plugins.Load(plugin)
 
-	l.Info("Start web server...")
-	webserver.StartRikkaWebServer(socket, password, maxSizeByMB, l)
-
 	l.Info("Start API server")
-	apiserver.StartRikkaAPIServer(l)
+	apiserver.StartRikkaAPIServer(password, maxSizeByMB, l)
+
+	l.Info("Start web server...")
+	webserver.StartRikkaWebServer(l)
 
 	l.Info("Rikka is listening", socket)
 

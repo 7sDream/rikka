@@ -11,7 +11,7 @@
     </header>
     <main>
         <img class="logo" src="static/rikka.png" />
-        <form id="uploadFrom" enctype="multipart/form-data" action="upload" method="post">
+        <form id="uploadFrom" enctype="multipart/form-data" action="/api/upload" method="post">
             <div class="line">
                 <label id="fakeUploadBtn" for="uploadFile">Choose</label>
                 <input id="filename" placeholder="Choose File" disabled="disabled" />
@@ -21,6 +21,7 @@
                 <label for="password">Password</label>
                 <input id="password" name="password" type="password" />
             </div>
+            <input type="hidden" name="from" value="website" />
             <input id="submitBtn" type="submit" value="Upload" />
         </form>
     </main>

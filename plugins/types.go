@@ -11,7 +11,7 @@ type SaveRequest struct {
 }
 
 type SrcURLRequest struct {
-	HttpRequest *http.Request
+	HTTPRequest *http.Request
 	TaskID      string
 	PicOp       *PictureOperate
 }
@@ -30,8 +30,16 @@ type PictureOperate struct {
 	OtherArg string
 }
 
+type Error struct {
+	Error string
+}
+
 type URL struct {
 	URL string
+}
+
+type TaskID struct {
+	TaskID string
 }
 
 type HandlerWithPattern struct {

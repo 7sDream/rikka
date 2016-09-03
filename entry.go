@@ -22,6 +22,7 @@ var argPort *int
 var argPassword *string
 var argMaxSizeByMB *float64
 var argPluginStr *string
+var argLogLevel *int
 
 // The used plugin
 var thePlugin plugins.RikkaPlugin
@@ -40,8 +41,10 @@ func init() {
 	l.Info("Args port =", *argPort)
 	l.Info("Args password =", *argPassword)
 	l.Info("Args maxFileSize =", *argMaxSizeByMB, "MB")
+	l.Info("Args loggerLevel =", *argLogLevel)
 	l.Info("Args.plugin =", *argPluginStr)
 
+	logger.SetLevel(*argLogLevel)
 	runtimeEnvCheck()
 }
 
@@ -54,6 +57,10 @@ func initArgVars() {
 	argPort = flag.Int("port", 80, "server port")
 	argPassword = flag.String("pwd", "rikka", "The password need provided when upload")
 	argMaxSizeByMB = flag.Float64("size", 5, "Max file size by MB")
+	argLogLevel = flag.Int(
+		"level", logger.LevelInfo,
+		fmt.Sprintf("logger level, from %d to %d", logger.LevelInfo, logger.LevelError),
+	)
 
 	// Get name array of all avaliable plugins, show in `rikka -h``
 	pluginNames := make([]string, 0, len(pluginMap))

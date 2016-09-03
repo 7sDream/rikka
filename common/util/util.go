@@ -54,7 +54,7 @@ func CheckMethod(w http.ResponseWriter, r *http.Request, excepted string) bool {
 func RenderTemplate(templatePath string, w http.ResponseWriter, data interface{}) error {
 	t, err := template.ParseFiles(templatePath)
 	if ErrHandle(w, err) {
-		l.Error("Parse template file", templatePath, "error:", err)
+		l.Warn("Parse template file", templatePath, "error:", err)
 		return err
 	}
 
@@ -62,7 +62,7 @@ func RenderTemplate(templatePath string, w http.ResponseWriter, data interface{}
 
 	err = t.Execute(buff, data)
 	if ErrHandle(w, err) {
-		l.Error("Execute template", t, "with data", fmt.Sprintf("%+v", data), "error:", err)
+		l.Warn("Execute template", t, "with data", fmt.Sprintf("%+v", data), "error:", err)
 		return err
 	}
 
@@ -96,7 +96,7 @@ func MustBeOr404(w http.ResponseWriter, r *http.Request, path string) bool {
 // Else don't do anything and return true.
 func MustExistOr404(w http.ResponseWriter, r *http.Request, filepath string) bool {
 	if !CheckExist(filepath) {
-		l.Error("Someone visit a non-exist page", r.URL.Path)
+		l.Warn("Someone visit a non-exist page", r.URL.Path)
 		http.NotFound(w, r)
 		return false
 	}
@@ -108,7 +108,7 @@ func MustExistOr404(w http.ResponseWriter, r *http.Request, filepath string) boo
 func DisableListDir(h http.Handler) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if strings.HasSuffix(r.URL.Path, "/") {
-			l.Error("Someone try to list dir", r.URL.Path)
+			l.Warn("Someone try to list dir", r.URL.Path)
 			http.NotFound(w, r)
 		} else {
 			h.ServeHTTP(w, r)
@@ -132,7 +132,7 @@ func TemplateRenderHandler(templatePath string, contextCreator ContextCreator, l
 			err = RenderTemplate(templatePath, w, nil)
 		}
 		if err != nil {
-			log.Error("Render template", templatePath, "with data", nil, "error: ", err)
+			log.Warn("Render template", templatePath, "with data", nil, "error: ", err)
 		}
 	}
 }
@@ -147,14 +147,14 @@ func RequestFilter(pathMustBe string, methodMustBe string, log *logger.Logger, h
 
 		if pathMustBe != "" {
 			if !MustBeOr404(w, r, pathMustBe) {
-				log.Error("Someone visit a non-exist page", r.URL.Path, ", excepted is /")
+				log.Warn("Someone visit a non-exist page", r.URL.Path, ", excepted is /")
 				return
 			}
 		}
 
 		if methodMustBe != "" {
 			if !CheckMethod(w, r, methodMustBe) {
-				log.Error("Someone visit page", r.URL.Path, "with method", r.Method, ", only GET is allowed.")
+				log.Warn("Someone visit page", r.URL.Path, "with method", r.Method, ", only GET is allowed.")
 				return
 			}
 		}

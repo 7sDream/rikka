@@ -1,6 +1,14 @@
 package plugins
 
-import "errors"
+import (
+	"errors"
+	"sync"
+)
+
+var tasks = struct {
+	sync.RWMutex
+	m map[string]*State
+}{m: make(map[string]*State)}
 
 // CreateTask add a task to task list.
 // If taskID already exist, return an error.
@@ -36,14 +44,16 @@ func ChangeTaskState(state State) error {
 
 // GetTaskState get state of a task.
 // If task not exist, return an error.
-func GetTaskState(taskID string) (*State, error) {
+func GetTaskState(taskID string) (pState *State, err error) {
 	tasks.RLock()
 	defer tasks.RUnlock()
 
-	if _, ok := tasks.m[taskID]; ok { // key exist
-		return tasks.m[taskID], nil
+	if pState, ok := tasks.m[taskID]; ok { // key exist
+		l.Info("Key", taskID, "exist")
+		return pState, nil
 	}
 
+	l.Warn("Key", taskID, "not exist")
 	return nil, errors.New("Task not exist.")
 }
 

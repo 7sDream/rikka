@@ -78,7 +78,7 @@ func saveFile(uploadFile multipart.File, saveTo *os.File, taskID string) {
 	filepath := saveTo.Name()
 
 	if err := plugins.CreateTask(buildCopyingState(taskID)); err != nil {
-		l.Error("A error happend when add task", taskID, ":", err)
+		l.Warn("A error happend when add task", taskID, ":", err)
 		saveTo.Close()
 		uploadFile.Close()
 		deleteFile(filepath)
@@ -102,7 +102,7 @@ func saveFile(uploadFile multipart.File, saveTo *os.File, taskID string) {
 	} else {
 		// copy file failed
 		deleteFile(filepath)
-		l.Error("A error happened when copy file", taskID, ":", err)
+		l.Warn("A error happened when copy file", taskID, ":", err)
 
 		if err := plugins.ChangeTaskState(plugins.BuildErrorState(taskID, err.Error())); err == nil {
 			l.Info("Turn task", taskID, "state to error")
@@ -120,7 +120,7 @@ func (fsp fsPlugin) SaveRequestHandle(q *plugins.SaveRequest) (taskID string, er
 	if err == nil {
 		l.Info("Create file on fs successfully:", saveTo.Name())
 	} else {
-		l.Error("Create file on fs error:", err)
+		l.Warn("Create file on fs error:", err)
 		return "", err
 	}
 
@@ -131,8 +131,8 @@ func (fsp fsPlugin) SaveRequestHandle(q *plugins.SaveRequest) (taskID string, er
 	return taskID, nil
 }
 
-func (fsp fsPlugin) StateRequestHandle(taskID string) (state *plugins.State, err error) {
-	if pState, err := plugins.GetTaskState(taskID); err == nil {
+func (fsp fsPlugin) StateRequestHandle(taskID string) (pState *plugins.State, err error) {
+	if pState, err = plugins.GetTaskState(taskID); err == nil {
 		return pState, nil
 	}
 	if util.CheckExist(pathutil.Join(tempDir, taskID)) {
@@ -153,7 +153,7 @@ func buildURL(r *http.Request, taskID string) string {
 
 func (fsp fsPlugin) GetSrcURL(q *plugins.SrcURLRequest) (url *plugins.URL, err error) {
 	taskID := q.TaskID
-	r := q.HttpRequest
+	r := q.HTTPRequest
 	if util.CheckExist(pathutil.Join(tempDir, taskID)) {
 		url := buildURL(r, taskID)
 		return &plugins.URL{URL: url}, nil

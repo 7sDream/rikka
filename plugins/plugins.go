@@ -2,16 +2,11 @@ package plugins
 
 import (
 	"net/http"
-	"sync"
 
 	"github.com/7sDream/rikka/common/logger"
 )
 
 var l = logger.NewLogger("[Plugins]")
-var tasks = struct {
-	sync.RWMutex
-	m map[string]*State
-}{m: make(map[string]*State)}
 
 var currentPlugin RikkaPlugin
 
@@ -40,7 +35,7 @@ func GetState(taskID string) (r *State, err error) {
 
 func GetURL(taskID string, r *http.Request, picOp *PictureOperate) (url *URL, err error) {
 	return currentPlugin.GetSrcURL(&SrcURLRequest{
-		HttpRequest: r,
+		HTTPRequest: r,
 		TaskID:      taskID,
 		PicOp:       picOp,
 	})
