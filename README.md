@@ -1,62 +1,90 @@
-# Rikka - A simple photo share website.
+# Rikka - 极简图床
 
-[中文版](https://github.com/7sDream/rikka/blob/master/README.zh.md)
+[English version](https://github.com/7sDream/rikka)
+
+## 特点
+
+1. 极简，不保存上传历史
+2. 支持将图片链接复制成多种格式
+3. 文件储存部分插件化，虽然目前只有一个插件是将文件储存到本机，但是慢慢我会加一些比如七牛云 CDN 的插件
+4. **只对最新版 Chrome 保持兼容**（没错这是优点）
+5. 首页标志很可爱
+
+## 启动参数
+
+`-bind` 指定监听的 IP 地址，默认不填的话是监听所有 IP。
+
+`-port` 是端口，默认 80，不用多说了。
+
+`-plugin` 设置文件储存的后端插件，现在只有一个插件 `fs`，表示直接储存在机器中。
+
+`-dir` 参数是 `fs` 插件的参数，指定文件存放位置。如果你在 Docler 云服务上部署的话，可以设置成 `/data` 之类便于挂载的位置。
+
+`-pwd` 参数指定上传文件时的密码。
+
+`-size` 指定允许上传的最大文件大小，以 MB 为单位，可以有小数。
 
 ## Demo
 
-I build a [Demo website](http://7sdream-rikka-demo.daoapp.io/) use rikka, it's password is `rikka`.
+这里有一个使用 Rikka 建立的[网站 Demo](http://7sdream-rikka-demo.daoapp.io/)，密码是 `rikka`。
 
-You can see the homepage:
+主页大概长这样:
 
 ![](http://7sdream-rikka-demo.daoapp.io/files/2016-09-02-544100677)
 
-Click `Choose` button to select a file to upload.
+点击 `Choose` 按钮选一张图片。
 
-Input rikka password.
+输入密码 `rikka`。
 
-Click `Upload` button and wait.
+点击上传按钮。
 
-Then you get:
+上传完成后你将转到查看页面:
 
 ![](http://7sdream-rikka-demo.daoapp.io/files/2016-09-02-734641087)
 
-Click `Src`, `Markdown`, `HTML`, `RST` button to copy the corresponding text to the clipboard, and paste to anywhere you want.
+点击 `Src`, `Markdown`, `HTML`, `RST` 按钮可以复制对应格式的文本，然后你可以把它粘贴到其他地方。
 
-But, if you close this page, you have no way to find it back except from browser history(Or you save this url to other place). 
+但是注意：如果你关闭了这个页面，除了浏览器的历史记录（或者你保存了这个网址），网站并没有提供其他让你找到以前上传的图片的方法。
 
-This is intentional, Because main design concept of Rikka is Simple, `Upload-Copy-Paste-Close`，then you can forget Rikka.
+这是有意为之的，因为 Rikka 的主要设计的理念就是简单， `上传-复制-粘贴-关闭`，之后就再也不用管了。
 
-## Deploy
+## 部署
 
-### Way 1: Build Rikka on your VPS
+### 方式 1: 在你的 VPS 上编译
 
 1. `go get github.com/7sDream/rikka`
 2. `cd $GOPATH/src/github.com/7sDream/rikka`
 3. `go build github.com/7sDream/rikka`
 4. `./rikka --port 80 --pwd yourpassword`
 
-Last step may require `sudo`, because Rikka use `80` port as default.
+最后一步具体的命令可查看 `./rikka -h` 之后根据自己需要设置。因为要使用 80 端口，所以可能需要 `sudo`。
 
-Then you can view your website and use the password you set to upload and share photo.
+之后你就可以用浏览器打开看看效果了。
 
-### Way 2: Use Docker
+### 方式 2: 使用 Docker
 
-Docker image published to [DockerHub](https://hub.docker.com/r/7sdream/rikka/), just use it.
+Rikka 的镜像已经发布到了 [DockerHub](https://hub.docker.com/r/7sdream/rikka/), 直接开始用吧。
 
 1. `docker pull 7sdream/rikka`
 2. `docker run -d -P 7sdream/rikka:latest -pwd yourpassword`
 
-Visit your domain or ip address with your browser and test it.
+同样可以根据需要设定参数。
 
-PS: If your stop/rm this container, your photo file will be deleted too. If you don't want this, use docker volume described bellow.
+打开浏览器访问你的 IP 或域名试用看看吧。
 
-#### Add volume when run rikka
+PS: 如果你停止/删除了 Rikka 容器，你上传的照片也会一起被删除。如果你不想这样，请参考下一节：使用数据卷。
 
-1. Create a vloume: `docker volume create --name rikkafiles`
-2. add option `-v rikkafiles:/go/src/github.com/7sDream/rikka/files` when run rikka image
+#### 使用数据卷
 
-### Way 3: Use docker cloud services provider
+Docker 提供了数据卷的功能，这样就不用爬和 Rikka 无关我们上传的图片在应用关闭之后丢失了。
 
-For example, we can use DaoCloud(free qutoa) to deploy a Rikka server,
+使用方法：
 
-See [daocloud depoly tutorial](https://github.com/7sDream/rikka/wiki/%E5%9C%A8-DaoCloud-%E4%B8%8A%E5%85%8D%E8%B4%B9%E9%83%A8%E7%BD%B2-Rikka) for detail steps.
+1. 创建数据卷：`docker volume create --name rikkafiles`
+2. 在启动 Rikka 容器时加上如下参数：`-v rikkafiles:/go/src/github.com/7sDream/rikka/files`
+
+### 方式 3: 使用 Docker 云服务提供商
+
+比如，我们可以用 DaoCloud 的免费配额来部署一个 Rikka 服务。
+
+详细步骤请看 [DaoCloud 部署教程](https://github.com/7sDream/rikka/wiki/%E5%9C%A8-DaoCloud-%E4%B8%8A%E5%85%8D%E8%B4%B9%E9%83%A8%E7%BD%B2-Rikka)。
