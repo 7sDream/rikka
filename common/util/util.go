@@ -2,6 +2,7 @@ package util
 
 import (
 	"bytes"
+	"fmt"
 	"html/template"
 	"net/http"
 	"os"
@@ -24,7 +25,7 @@ func ErrHandle(w http.ResponseWriter, err error) bool {
 }
 
 // GetFilenameByRequest gets last part of url path as a filename and return it.
-func GetFilenameByRequest(r *http.Request) string {
+func GetTaskIDByRequest(r *http.Request) string {
 	splitedPath := strings.Split(r.URL.Path, "/")
 	filename := splitedPath[len(splitedPath)-1]
 	return filename
@@ -50,7 +51,7 @@ func CheckMethod(w http.ResponseWriter, r *http.Request, excepted string) bool {
 }
 
 // Render is a shortcut function to render template to response.
-func Render(templatePath string, w http.ResponseWriter, data interface{}) error {
+func RenderTemplate(templatePath string, w http.ResponseWriter, data interface{}) error {
 	t, err := template.ParseFiles(templatePath)
 	if ErrHandle(w, err) {
 		l.Error("Parse template file", templatePath, "error:", err)
@@ -61,7 +62,7 @@ func Render(templatePath string, w http.ResponseWriter, data interface{}) error 
 
 	err = t.Execute(buff, data)
 	if ErrHandle(w, err) {
-		l.Error("Execute template", t, "with data", data, "error:", err)
+		l.Error("Execute template", t, "with data", fmt.Sprintf("%+v", data), "error:", err)
 		return err
 	}
 
@@ -70,6 +71,13 @@ func Render(templatePath string, w http.ResponseWriter, data interface{}) error 
 	w.Write(content)
 
 	return nil
+}
+
+// RenderJSON is a shortcut function to write JSON data to response, and set the header Content-type
+func RenderJSON(w http.ResponseWriter, data []byte) (err error) {
+	w.Header().Set("Content-Type", "application/json")
+	_, err = w.Write(data)
+	return err
 }
 
 // MustBeOr404 check if URL path is as excepted.
@@ -119,12 +127,12 @@ func TemplateRenderHandler(templatePath string, contextCreator ContextCreator, l
 
 		var err error
 		if contextCreator != nil {
-			err = Render(templatePath, w, contextCreator(r))
+			err = RenderTemplate(templatePath, w, contextCreator(r))
 		} else {
-			err = Render(templatePath, w, nil)
+			err = RenderTemplate(templatePath, w, nil)
 		}
 		if err != nil {
-			l.Info("Render template", templatePath, "with data", nil, "error: ", err)
+			log.Error("Render template", templatePath, "with data", nil, "error: ", err)
 		}
 	}
 }

@@ -31,9 +31,17 @@ func Load(plugin RikkaPlugin) {
 
 // AcceptFile whill be called when you recieve a file upload request, the SaveRequest struct contains the file.
 func AcceptFile(q *SaveRequest) (fileID string, err error) {
-	res, err := currentPlugin.SaveRequestHandle(q)
-	if err == nil {
-		return res.TaskID, nil
-	}
-	return "", err
+	return currentPlugin.SaveRequestHandle(q)
+}
+
+func GetState(taskID string) (r *State, err error) {
+	return currentPlugin.StateRequestHandle(taskID)
+}
+
+func GetURL(taskID string, r *http.Request, picOp *PictureOperate) (url *URL, err error) {
+	return currentPlugin.GetSrcURL(&SrcURLRequest{
+		HttpRequest: r,
+		TaskID:      taskID,
+		PicOp:       picOp,
+	})
 }

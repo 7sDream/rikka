@@ -10,9 +10,10 @@ type SaveRequest struct {
 	File multipart.File
 }
 
-// SaveResponse isa response of SaveRequest.
-type SaveResponse struct {
-	TaskID string
+type SrcURLRequest struct {
+	HttpRequest *http.Request
+	TaskID      string
+	PicOp       *PictureOperate
 }
 
 type State struct {
@@ -22,16 +23,6 @@ type State struct {
 	Description string
 }
 
-// StateRequest is a request to get state of a task.
-type StateRequest struct {
-	TaskID string
-}
-
-// StateResponse is response of StateRequest.
-type StateResponse struct {
-	State State
-}
-
 type PictureOperate struct {
 	Width    int
 	Height   int
@@ -39,10 +30,8 @@ type PictureOperate struct {
 	OtherArg string
 }
 
-type SrcURLRequest struct {
-	HttpRequest *http.Request
-	TaskID      string
-	Operate     PictureOperate
+type URL struct {
+	URL string
 }
 
 type HandlerWithPattern struct {
@@ -52,8 +41,8 @@ type HandlerWithPattern struct {
 
 type RikkaPlugin interface {
 	Init()
-	SaveRequestHandle(q *SaveRequest) (response *SaveResponse, err error)
-	StateRequestHandle(q *StateRequest) (response *StateResponse, err error)
-	GetSrcURL(q *SrcURLRequest) (url string, err error)
+	SaveRequestHandle(*SaveRequest) (string, error)
+	StateRequestHandle(string) (*State, error)
+	GetSrcURL(q *SrcURLRequest) (*URL, error)
 	ExtraHandlers() []HandlerWithPattern
 }

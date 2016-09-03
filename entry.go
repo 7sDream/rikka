@@ -13,23 +13,23 @@ import (
 	"github.com/7sDream/rikka/server"
 )
 
-// plugin name to Plugin object map
+// Map from plugin name to object
 var pluginMap = make(map[string]plugins.RikkaPlugin)
 
-// command line arguments
+// Command line arguments var
 var argBindIPAddress *string
 var argPort *int
 var argPassword *string
 var argMaxSizeByMB *float64
 var argPluginStr *string
 
-// the plugin
+// The used plugin
 var thePlugin plugins.RikkaPlugin
 
-// logger
-var l = logger.NewLogger("[Main]")
+// Logger of this package
+var l = logger.NewLogger("[Entry]")
 
-// --- init functions ---
+// --- Init and check functions ---
 
 func init() {
 	initPluginList()
@@ -42,7 +42,7 @@ func init() {
 	l.Info("Args maxFileSize =", *argMaxSizeByMB, "MB")
 	l.Info("Args.plugin =", *argPluginStr)
 
-	runtimeCheck()
+	runtimeEnvCheck()
 }
 
 func initPluginList() {
@@ -55,6 +55,7 @@ func initArgVars() {
 	argPassword = flag.String("pwd", "rikka", "The password need provided when upload")
 	argMaxSizeByMB = flag.Float64("size", 5, "Max file size by MB")
 
+	// Get name array of all avaliable plugins, show in `rikka -h``
 	pluginNames := make([]string, 0, len(pluginMap))
 	for k := range pluginMap {
 		pluginNames = append(pluginNames, k)
@@ -66,10 +67,12 @@ func initArgVars() {
 
 }
 
-func runtimeCheck() {
+func runtimeEnvCheck() {
 	l.Info("Check runtime environment")
 
 	l.Info("Try to find plugin", *argPluginStr)
+
+	// Make sure plugin be selected exist
 	if plugin, ok := pluginMap[*argPluginStr]; ok {
 		thePlugin = plugin
 		l.Info("Plugin", *argPluginStr, "found")
@@ -80,9 +83,7 @@ func runtimeCheck() {
 	l.Info("All runtime environment check passed")
 }
 
-// main enterypoint
-
-func SignalHandler(c chan os.Signal) func() {
+func createSignalHandler(c chan os.Signal) func() {
 	return func() {
 		for _ = range c {
 			l.Info("Rikka need go to sleep, see you tomorrow")
@@ -91,13 +92,17 @@ func SignalHandler(c chan os.Signal) func() {
 	}
 }
 
+// Main enterypoint
+
 func main() {
 
 	// handler Ctrl + C
 	signalChain := make(chan os.Signal, 1)
 	signal.Notify(signalChain, os.Interrupt)
-	go SignalHandler(signalChain)()
+	signalHandler := createSignalHandler(signalChain)
+	go signalHandler()
 
+	// concat socket from ip address and port
 	var socket string
 
 	if *argBindIPAddress == ":" {
@@ -106,6 +111,7 @@ func main() {
 		socket = *argBindIPAddress + ":" + strconv.Itoa(*argPort)
 	}
 
+	// print launch args
 	l.Info(
 		"Try start rikka at", socket,
 		", with password", *argPassword,
@@ -113,5 +119,6 @@ func main() {
 		", plugin", *argPluginStr,
 	)
 
-	server.StartRikkaServer(socket, *argPassword, *argMaxSizeByMB, thePlugin)
+	// start Rikka server (this call is Sync)
+	server.StartRikka(socket, *argPassword, *argMaxSizeByMB, thePlugin)
 }

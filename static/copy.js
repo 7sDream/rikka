@@ -1,8 +1,14 @@
-function addCopyEventListener(){
+function addCopyEventListener(url){
     let divs = document.querySelectorAll("div.copyAsText");
     for (let div of divs) {
         let input = div.querySelector("input");
         let btn = div.querySelector("label");
+        
+        if (url !== "") {
+            let template = input.getAttribute("data-template");
+            input.value = template.replace("${url}", url)
+        }
+        
         btn.addEventListener("click", function(){
             if (btn.disabled) {
                 return

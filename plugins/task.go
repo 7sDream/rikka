@@ -4,32 +4,30 @@ import "errors"
 
 // CreateTask add a task to task list.
 // If taskID already exist, return an error.
-func CreateTask(taskID string, stateCode int, state string, desc string) error {
+func CreateTask(state State) error {
 	tasks.Lock()
 	defer tasks.Unlock()
 
-	if _, ok := tasks.m[taskID]; ok { // key exist
+	if _, ok := tasks.m[state.TaskID]; ok { // key exist
 		return errors.New("Task already exist")
 	}
 
-	stateStuct := &State{
-		TaskID: taskID, StateCode: stateCode, State: state, Description: desc,
-	}
-	tasks.m[taskID] = stateStuct
+	copyState := state
+	tasks.m[state.TaskID] = &copyState
 	return nil
 }
 
 // ChangeTaskState change the state of a task.
 // If taskID not exist, return an error.
-func ChangeTaskState(taskID string, stateCode int, state string, desc string) error {
+func ChangeTaskState(state State) error {
 	tasks.Lock()
 	defer tasks.Unlock()
 
-	if _, ok := tasks.m[taskID]; ok { // key exist
-		pState := tasks.m[taskID]
-		pState.StateCode = stateCode
-		pState.State = state
-		pState.Description = desc
+	if _, ok := tasks.m[state.TaskID]; ok { // key exist
+		pState := tasks.m[state.TaskID]
+		pState.StateCode = state.StateCode
+		pState.State = state.State
+		pState.Description = state.Description
 		return nil
 	}
 
@@ -49,9 +47,9 @@ func GetTaskState(taskID string) (*State, error) {
 	return nil, errors.New("Task not exist.")
 }
 
-// FinishTask finish a task and delete it from task list.
+// DeleteTask delete a task from task list.
 // If taskID not exist, return an error.
-func FinishTask(taskID string) error {
+func DeleteTask(taskID string) error {
 	tasks.Lock()
 	defer tasks.Unlock()
 
@@ -61,4 +59,22 @@ func FinishTask(taskID string) error {
 	}
 
 	return errors.New("Task not exist")
+}
+
+func BuildFinishState(taskID string) State {
+	return State{
+		TaskID:      taskID,
+		State:       StateFinish,
+		StateCode:   StateFinishCode,
+		Description: StateFinishDescription,
+	}
+}
+
+func BuildErrorState(taskID string, description string) State {
+	return State{
+		TaskID:      taskID,
+		State:       StateError,
+		StateCode:   StateErrorCode,
+		Description: description,
+	}
 }
