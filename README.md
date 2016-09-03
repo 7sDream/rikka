@@ -1,7 +1,5 @@
 # Rikka - 极简图床
 
-[English version](https://github.com/7sDream/rikka)
-
 ## 特点
 
 1. 极简，不保存上传历史
