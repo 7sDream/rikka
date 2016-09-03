@@ -3,75 +3,40 @@ package main
 import (
 	"flag"
 	"fmt"
-	"net/http"
+	"os"
+	"os/signal"
 	"strconv"
 
 	"github.com/7sDream/rikka/common/logger"
-	"github.com/7sDream/rikka/common/util"
 	"github.com/7sDream/rikka/plugins"
 	"github.com/7sDream/rikka/plugins/fs"
+	"github.com/7sDream/rikka/server"
 )
 
+// plugin name to Plugin object map
 var pluginMap = make(map[string]plugins.RikkaPlugin)
 
-var argPluginStr *string
+// command line arguments
+var argBindIPAddress *string
 var argPort *int
 var argPassword *string
 var argMaxSizeByMB *float64
+var argPluginStr *string
 
+// the plugin
+var thePlugin plugins.RikkaPlugin
+
+// logger
 var l = logger.NewLogger("[Main]")
 
-func initPluginList() {
-	pluginMap["fs"] = fs.FsPlugin
-}
-
-func initArgVars() {
-	pluginNames := make([]string, 0, len(pluginMap))
-	for k := range pluginMap {
-		pluginNames = append(pluginNames, k)
-	}
-
-	argPluginStr = flag.String(
-		"plugin", "fs",
-		"what plugin use to save file, selected from "+fmt.Sprintf("%v", pluginNames),
-	)
-
-	argPort = flag.Int("port", 80, "server port")
-	argPassword = flag.String("pwd", "rikka", "The password need provided when upload")
-	argMaxSizeByMB = flag.Float64("size", 5, "Max file size by MB")
-}
-
-func runtimeCheck() {
-	l.Info("Check runtime environment")
-
-	requireFiles := []string{
-		"templates", "templates/index.html", "templates/view.html",
-		"static", "static/main.css", "static/index.css", "static/view.css", "static/rikka.png",
-	}
-
-	for _, file := range requireFiles {
-		if util.CheckExist(file) {
-			l.Info("Needed", file, "exist, check passed")
-		} else {
-			l.Fatal(file, "not exist, check failed, exit")
-		}
-	}
-
-	l.Info("Try to find plugin", *argPluginStr)
-	if _, ok := pluginMap[*argPluginStr]; ok {
-		l.Info("Plugin", *argPluginStr, "found")
-	} else {
-		l.Fatal("Plugin", *argPluginStr, "not exist")
-	}
-
-	l.Info("All runtime environment check passed")
-}
+// --- init functions ---
 
 func init() {
 	initPluginList()
 
 	initArgVars()
 	flag.Parse()
+	l.Info("Args bindIP =", *argBindIPAddress)
 	l.Info("Args port =", *argPort)
 	l.Info("Args password =", *argPassword)
 	l.Info("Args maxFileSize =", *argMaxSizeByMB, "MB")
@@ -80,20 +45,73 @@ func init() {
 	runtimeCheck()
 }
 
-func main() {
-	staticFs := util.DisableListDir(http.FileServer(http.Dir("static")))
+func initPluginList() {
+	pluginMap["fs"] = fs.FsPlugin
+}
 
-	http.HandleFunc("/", index)
-	http.HandleFunc("/upload", upload)
-	http.HandleFunc("/view/", view)
-	http.Handle("/static/", http.StripPrefix("/static", staticFs))
+func initArgVars() {
+	argBindIPAddress = flag.String("bind", ":", "bind ip address, use : for all address")
+	argPort = flag.Int("port", 80, "server port")
+	argPassword = flag.String("pwd", "rikka", "The password need provided when upload")
+	argMaxSizeByMB = flag.Float64("size", 5, "Max file size by MB")
 
-	l.Info("Rikka main part started successfully")
-	l.Info("Loading plugin", *argPluginStr)
-	plugins.Load(pluginMap[*argPluginStr])
-
-	err := http.ListenAndServe(":"+strconv.Itoa(*argPort), nil)
-	if err != nil {
-		l.Fatal(err.Error())
+	pluginNames := make([]string, 0, len(pluginMap))
+	for k := range pluginMap {
+		pluginNames = append(pluginNames, k)
 	}
+	argPluginStr = flag.String(
+		"plugin", "fs",
+		"what plugin use to save file, selected from "+fmt.Sprintf("%v", pluginNames),
+	)
+
+}
+
+func runtimeCheck() {
+	l.Info("Check runtime environment")
+
+	l.Info("Try to find plugin", *argPluginStr)
+	if plugin, ok := pluginMap[*argPluginStr]; ok {
+		thePlugin = plugin
+		l.Info("Plugin", *argPluginStr, "found")
+	} else {
+		l.Fatal("Plugin", *argPluginStr, "not exist")
+	}
+
+	l.Info("All runtime environment check passed")
+}
+
+// main enterypoint
+
+func SignalHandler(c chan os.Signal) func() {
+	return func() {
+		for _ = range c {
+			l.Info("Rikka need go to sleep, see you tomorrow")
+			os.Exit(0)
+		}
+	}
+}
+
+func main() {
+
+	// handler Ctrl + C
+	signalChain := make(chan os.Signal, 1)
+	signal.Notify(signalChain, os.Interrupt)
+	go SignalHandler(signalChain)()
+
+	var socket string
+
+	if *argBindIPAddress == ":" {
+		socket = *argBindIPAddress + strconv.Itoa(*argPort)
+	} else {
+		socket = *argBindIPAddress + ":" + strconv.Itoa(*argPort)
+	}
+
+	l.Info(
+		"Try start rikka at", socket,
+		", with password", *argPassword,
+		", max file size", *argMaxSizeByMB, "MB",
+		", plugin", *argPluginStr,
+	)
+
+	server.StartRikkaServer(socket, *argPassword, *argMaxSizeByMB, thePlugin)
 }

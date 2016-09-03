@@ -32,8 +32,6 @@ type fsPlugin struct{}
 var FsPlugin fsPlugin = fsPlugin{}
 
 func (fsp fsPlugin) Init() {
-	l.Info("Try to start fs plugin")
-
 	l.Info("Get Photo dir from arguments:", *filesDir)
 	absFilesDir, err := pathutil.Abs(*filesDir)
 	if err == nil {
@@ -104,7 +102,7 @@ func (fsp fsPlugin) SaveRequestHandle(q *plugins.SaveRequest) (response *plugins
 
 	go saveFile(q.File, saveTo, name)
 
-	return &plugins.SaveResponse{FileID: name}, nil
+	return &plugins.SaveResponse{TaskID: name}, nil
 }
 
 func (fsp fsPlugin) StateRequestHandle(q *plugins.StateRequest) (response *plugins.StateResponse, err error) {

@@ -12,7 +12,7 @@ type SaveRequest struct {
 
 // SaveResponse isa response of SaveRequest.
 type SaveResponse struct {
-	FileID string
+	TaskID string
 }
 
 type State struct {

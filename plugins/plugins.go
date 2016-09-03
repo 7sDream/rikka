@@ -33,7 +33,7 @@ func Load(plugin RikkaPlugin) {
 func AcceptFile(q *SaveRequest) (fileID string, err error) {
 	res, err := currentPlugin.SaveRequestHandle(q)
 	if err == nil {
-		return res.FileID, nil
+		return res.TaskID, nil
 	}
 	return "", err
 }

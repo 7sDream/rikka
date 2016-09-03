@@ -10,14 +10,13 @@ import (
 	"github.com/7sDream/rikka/common/logger"
 )
 
-var l = logger.NewLogger("[util]")
+var l = logger.NewLogger("[Util]")
 
 // ErrHandle is a simple error handl function.
 // If err is an error, write 500 InernalServerError to header and write error message to response and return true.
 // Else (err is nil), don't do anything and return false.
 func ErrHandle(w http.ResponseWriter, err error) bool {
 	if err != nil {
-		l.Error(err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return true
 	}
@@ -44,7 +43,6 @@ func CheckExist(filepath string) bool {
 // Else don't do anything and return true.
 func CheckMethod(w http.ResponseWriter, r *http.Request, excepted string) bool {
 	if r.Method != excepted {
-		l.Error("Someone visit page", r.URL.Path, "with method", r.Method, ", only", excepted, "is allowed.")
 		http.Error(w, "Method Not Allowed.", http.StatusMethodNotAllowed)
 		return false
 	}
@@ -52,21 +50,26 @@ func CheckMethod(w http.ResponseWriter, r *http.Request, excepted string) bool {
 }
 
 // Render is a shortcut function to render template to response.
-func Render(templatePath string, w http.ResponseWriter, data interface{}) {
+func Render(templatePath string, w http.ResponseWriter, data interface{}) error {
 	t, err := template.ParseFiles(templatePath)
 	if ErrHandle(w, err) {
-		return
+		l.Error("Parse template file", templatePath, "error:", err)
+		return err
 	}
 
 	buff := bytes.NewBuffer([]byte{})
 
 	err = t.Execute(buff, data)
 	if ErrHandle(w, err) {
-		return
+		l.Error("Execute template", t, "with data", data, "error:", err)
+		return err
 	}
+
 	content := make([]byte, buff.Len())
 	buff.Read(content)
 	w.Write(content)
+
+	return nil
 }
 
 // MustBeOr404 check if URL path is as excepted.
@@ -74,7 +77,6 @@ func Render(templatePath string, w http.ResponseWriter, data interface{}) {
 // Else don't do anything and return true.
 func MustBeOr404(w http.ResponseWriter, r *http.Request, path string) bool {
 	if r.URL.Path != path {
-		l.Error("Someone visit a non-exist page", r.URL.Path, ", excepted is", path)
 		http.NotFound(w, r)
 		return false
 	}
@@ -103,5 +105,52 @@ func DisableListDir(h http.Handler) http.HandlerFunc {
 		} else {
 			h.ServeHTTP(w, r)
 		}
+	}
+}
+
+type ContextCreator func(r *http.Request) interface{}
+
+func TemplateRenderHandler(templatePath string, contextCreator ContextCreator, log *logger.Logger) http.HandlerFunc {
+	if log == nil {
+		log = l
+	}
+	return func(w http.ResponseWriter, r *http.Request) {
+		defer recover()
+
+		var err error
+		if contextCreator != nil {
+			err = Render(templatePath, w, contextCreator(r))
+		} else {
+			err = Render(templatePath, w, nil)
+		}
+		if err != nil {
+			l.Info("Render template", templatePath, "with data", nil, "error: ", err)
+		}
+	}
+}
+
+func RequestFilter(pathMustBe string, methodMustBe string, log *logger.Logger, handlerFunc http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		defer recover()
+
+		if log == nil {
+			log = l
+		}
+
+		if pathMustBe != "" {
+			if !MustBeOr404(w, r, pathMustBe) {
+				log.Error("Someone visit a non-exist page", r.URL.Path, ", excepted is /")
+				return
+			}
+		}
+
+		if methodMustBe != "" {
+			if !CheckMethod(w, r, methodMustBe) {
+				log.Error("Someone visit page", r.URL.Path, "with method", r.Method, ", only GET is allowed.")
+				return
+			}
+		}
+
+		handlerFunc(w, r)
 	}
 }
