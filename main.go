@@ -2,132 +2,47 @@ package main
 
 import (
 	"flag"
-	"io"
-	"io/ioutil"
+	"fmt"
 	"net/http"
-	"net/url"
-	"os"
-	pathutil "path/filepath"
 	"strconv"
-	"time"
 
-	"github.com/7sDream/rikka/util"
+	"github.com/7sDream/rikka/common/logger"
+	"github.com/7sDream/rikka/common/util"
+	"github.com/7sDream/rikka/plugins"
+	"github.com/7sDream/rikka/plugins/fs"
 )
 
-var port = flag.Int("port", 80, "server port")
-var password = flag.String("pwd", "rikka", "The password need provided when upload")
-var maxSizeByMB = flag.Float64("size", 5, "Max file size by MB")
+var pluginMap = make(map[string]plugins.RikkaPlugin)
 
-type viewPhoto struct {
-	Filename string
-	URL      string
+var argPluginStr *string
+var argPort *int
+var argPassword *string
+var argMaxSizeByMB *float64
+
+var l = logger.NewLogger("[Main]")
+
+func initPluginList() {
+	pluginMap["fs"] = fs.FsPlugin
 }
 
-func buildURL(r *http.Request) string {
-	res := url.URL{
-		Scheme: "http",
-		Host:   r.Host,
-		Path:   "files/" + util.GetFilenameByRequest(r),
+func initArgVars() {
+	pluginNames := make([]string, 0, len(pluginMap))
+	for k := range pluginMap {
+		pluginNames = append(pluginNames, k)
 	}
-	return res.String()
+
+	argPluginStr = flag.String(
+		"plugin", "fs",
+		"what plugin use to save file, selected from "+fmt.Sprintf("%v", pluginNames),
+	)
+
+	argPort = flag.Int("port", 80, "server port")
+	argPassword = flag.String("pwd", "rikka", "The password need provided when upload")
+	argMaxSizeByMB = flag.Float64("size", 5, "Max file size by MB")
 }
 
-func index(w http.ResponseWriter, r *http.Request) {
-	defer recover()
-
-	if !util.MustBeOr404(w, r, "/") {
-		return
-	}
-
-	if !util.CheckMethod(w, r, "GET") {
-		return
-	}
-
-	util.Render("templates/index.html", w, nil)
-}
-
-func upload(w http.ResponseWriter, r *http.Request) {
-	defer recover()
-
-	if !util.MustBeOr404(w, r, "/upload") {
-		return
-	}
-
-	if !util.CheckMethod(w, r, "POST") {
-		return
-	}
-
-	maxSize := int64(*maxSizeByMB * 1024 * 1024)
-
-	r.Body = http.MaxBytesReader(w, r.Body, maxSize)
-	err := r.ParseMultipartForm(maxSize)
-	if util.ErrHandle(w, err) {
-		return
-	}
-
-	userPassword := r.FormValue("password")
-	if userPassword != *password {
-		w.WriteHeader(http.StatusUnauthorized)
-		w.Write([]byte("Error password."))
-		util.Error("Someone input a error password:", userPassword)
-		return
-	}
-
-	file, _, err := r.FormFile("uploadFile")
-	if util.ErrHandle(w, err) {
-		return
-	}
-	defer file.Close()
-
-	now := time.Now().UTC()
-	saveFile, err := ioutil.TempFile("files", now.Format("2006-01-02-"))
-	if util.ErrHandle(w, err) {
-		return
-	}
-	defer saveFile.Close()
-
-	io.Copy(saveFile, file)
-
-	_, name := pathutil.Split(saveFile.Name())
-	w.Header().Set("Location", "/view/"+name)
-	w.WriteHeader(302)
-
-	util.Info("Accepted a new file:", name)
-}
-
-func view(w http.ResponseWriter, r *http.Request) {
-	defer recover()
-
-	if !util.CheckMethod(w, r, "GET") {
-		return
-	}
-
-	filename := util.GetFilenameByRequest(r)
-	filepath := "files/" + filename
-	if !util.MustExistOr404(w, r, filepath) {
-		util.Error("Someone visit a non-exist photo:", filename)
-		return
-	}
-
-	view := viewPhoto{
-		Filename: filename,
-		URL:      buildURL(r),
-	}
-
-	util.Render("templates/view.html", w, view)
-}
-
-func main() {
-
-	flag.Parse()
-
-	util.Info("Args port =", *port)
-	util.Info("Args password =", *password)
-	util.Info("Args maxFileSize =", *maxSizeByMB, "MB")
-
-	if !util.CheckExist("files") {
-		os.MkdirAll("files", 0755)
-	}
+func runtimeCheck() {
+	l.Info("Check runtime environment")
 
 	requireFiles := []string{
 		"templates", "templates/index.html", "templates/view.html",
@@ -135,25 +50,50 @@ func main() {
 	}
 
 	for _, file := range requireFiles {
-		if !util.CheckExist(file) {
-			util.Error(file, "not exist, exit")
-			return
+		if util.CheckExist(file) {
+			l.Info("Needed", file, "exist, check passed")
+		} else {
+			l.Fatal(file, "not exist, check failed, exit")
 		}
 	}
 
+	l.Info("Try to find plugin", *argPluginStr)
+	if _, ok := pluginMap[*argPluginStr]; ok {
+		l.Info("Plugin", *argPluginStr, "found")
+	} else {
+		l.Fatal("Plugin", *argPluginStr, "not exist")
+	}
+
+	l.Info("All runtime environment check passed")
+}
+
+func init() {
+	initPluginList()
+
+	initArgVars()
+	flag.Parse()
+	l.Info("Args port =", *argPort)
+	l.Info("Args password =", *argPassword)
+	l.Info("Args maxFileSize =", *argMaxSizeByMB, "MB")
+	l.Info("Args.plugin =", *argPluginStr)
+
+	runtimeCheck()
+}
+
+func main() {
 	staticFs := util.DisableListDir(http.FileServer(http.Dir("static")))
-	fileFs := util.DisableListDir(http.FileServer(http.Dir("files")))
 
 	http.HandleFunc("/", index)
 	http.HandleFunc("/upload", upload)
 	http.HandleFunc("/view/", view)
-	http.Handle("/files/", http.StripPrefix("/files", fileFs))
 	http.Handle("/static/", http.StripPrefix("/static", staticFs))
 
-	util.Info("Rikka started")
+	l.Info("Rikka main part started successfully")
+	l.Info("Loading plugin", *argPluginStr)
+	plugins.Load(pluginMap[*argPluginStr])
 
-	err := http.ListenAndServe(":"+strconv.Itoa(*port), nil)
+	err := http.ListenAndServe(":"+strconv.Itoa(*argPort), nil)
 	if err != nil {
-		util.Error(err.Error())
+		l.Fatal(err.Error())
 	}
 }

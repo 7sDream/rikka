@@ -3,30 +3,21 @@ package util
 import (
 	"bytes"
 	"html/template"
-	"log"
 	"net/http"
 	"os"
 	"strings"
+
+	"github.com/7sDream/rikka/common/logger"
 )
 
-var il = log.New(os.Stdout, "[INFO] ", log.LstdFlags)
-var el = log.New(os.Stdout, "[ERROR] ", log.LstdFlags)
-
-// Info print log as info level;
-func Info(str ...interface{}) {
-	il.Println(str)
-}
-
-// Error pring log as error level;
-func Error(str ...interface{}) {
-	el.Println(str)
-}
+var l = logger.NewLogger("[util]")
 
 // ErrHandle is a simple error handl function.
 // If err is an error, write 500 InernalServerError to header and write error message to response and return true.
 // Else (err is nil), don't do anything and return false.
 func ErrHandle(w http.ResponseWriter, err error) bool {
 	if err != nil {
+		l.Error(err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return true
 	}
@@ -53,6 +44,7 @@ func CheckExist(filepath string) bool {
 // Else don't do anything and return true.
 func CheckMethod(w http.ResponseWriter, r *http.Request, excepted string) bool {
 	if r.Method != excepted {
+		l.Error("Someone visit page", r.URL.Path, "with method", r.Method, ", only", excepted, "is allowed.")
 		http.Error(w, "Method Not Allowed.", http.StatusMethodNotAllowed)
 		return false
 	}
@@ -82,6 +74,7 @@ func Render(templatePath string, w http.ResponseWriter, data interface{}) {
 // Else don't do anything and return true.
 func MustBeOr404(w http.ResponseWriter, r *http.Request, path string) bool {
 	if r.URL.Path != path {
+		l.Error("Someone visit a non-exist page", r.URL.Path, ", excepted is", path)
 		http.NotFound(w, r)
 		return false
 	}
@@ -93,6 +86,7 @@ func MustBeOr404(w http.ResponseWriter, r *http.Request, path string) bool {
 // Else don't do anything and return true.
 func MustExistOr404(w http.ResponseWriter, r *http.Request, filepath string) bool {
 	if !CheckExist(filepath) {
+		l.Error("Someone visit a non-exist page", r.URL.Path)
 		http.NotFound(w, r)
 		return false
 	}
@@ -104,6 +98,7 @@ func MustExistOr404(w http.ResponseWriter, r *http.Request, filepath string) boo
 func DisableListDir(h http.Handler) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if strings.HasSuffix(r.URL.Path, "/") {
+			l.Error("Someone try to list dir", r.URL.Path)
 			http.NotFound(w, r)
 		} else {
 			h.ServeHTTP(w, r)
