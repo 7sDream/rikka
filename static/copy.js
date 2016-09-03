@@ -7,15 +7,17 @@ function addCopyEventListener(){
             if (btn.disabled) {
                 return
             }
-            input.disable = false;
-            let range = document.createRange();
-            let section = window.getSelection();
-            section.removeAllRanges();
-            range.selectNode(input);
-            section.addRange(range);
-            let res = document.execCommand("copy");
-            section.removeAllRanges();
-            input.disable = true;
+            let res = false;
+            try {
+                input.disable = false;
+                let section = window.getSelection();
+                section.removeAllRanges();
+                input.setSelectionRange(0, input.value.length)
+                res = document.execCommand("copy");
+                input.disable = true;
+            } catch(e) {
+                res = false;
+            }
             if (res) {
                 let origin = btn.textContent
                 while (btn.firstChild) {

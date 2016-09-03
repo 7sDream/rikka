@@ -10,7 +10,7 @@
         <p>A <span style="color: #6cf">simple</span> photo share web app.</p>
     </header>
     <main>
-        <img class="preview" src="{{ .URL }}" />
+        <img class="preview" src="{{ .URL }}" >
         <form>
             <div class="line copyAsText">
                 <label for="src" class="copyBtn">Src</label>
@@ -22,11 +22,15 @@
             </div>
             <div class="line copyAsText">
                 <label for="html" class="copyBtn">HTML</label>
-                <input name="html" value="<img src=&quot;{{ .URL }}&quot; />" disabled/>
+                <input name="html" value="<img src=&quot;{{ .URL }}&quot; >" disabled/>
             </div>
             <div class="line copyAsText">
                 <label for="rst" class="copyBtn">RST</label>
                 <input name="rst" value=".. image:: {{ .URL }}" disabled/>
+            </div>
+            <div class="line copyAsText">
+                <label for="bbcode" class="copyBtn">BBCode</label>
+                <input name="bbcode" value="[img]{{ .URL }}[/img]" disabled/>
             </div>
         </form>
     </main>
