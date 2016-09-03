@@ -8,4 +8,4 @@ RUN go build github.com/7sDream/rikka
 
 EXPOSE 80
 
-ENTRYPOINT ["/go/src/github.com/7sDream/rikka/rikka"]
+ENTRYPOINT ["./rikka"]
