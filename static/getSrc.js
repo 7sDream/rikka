@@ -37,8 +37,8 @@ function getPhotoState(taskID) {
         } else if (state == 0) {    // Successful state
             return json;
         } else {    // Other state
-            stateElement.textContent = "State:" + json['Description'];
-            setTimeout(getPhotoStatetaskID, 1000, taskID);
+            stateElement.textContent = "State:" + json['Description'] + ", please wait...";
+            setTimeout(getPhotoState, 1000, taskID);
             return new Promise(() => {})
         }
     }).then(function(json){

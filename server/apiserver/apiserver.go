@@ -21,10 +21,10 @@ var l *logger.Logger
 func jsonEncode(obj interface{}) ([]byte, error) {
 	jsonData, err := json.Marshal(obj)
 	if err == nil {
-		l.Debug("Encode data", obj, "to json", jsonData, "successfully")
+		l.Debug("Encode data", fmt.Sprint(obj), "to json", string(jsonData), "successfully")
 		return jsonData, nil
 	}
-	l.Error("Error happened when encoding", fmt.Sprintf("%+v", obj), "to json :", err)
+	l.Error("Error happened when encoding", fmt.Sprint(obj), "to json :", err)
 	return nil, err
 }
 
@@ -102,9 +102,9 @@ func renderJSONOrError(w http.ResponseWriter, taskID string, jsonData []byte, er
 
 	// render json failed
 	if util.ErrHandle(w, err) {
-		l.Error("Error happened when render json", jsonData, "of task", taskID, ":", err)
+		l.Error("Error happened when render json", fmt.Sprint(jsonData), "of task", taskID, ":", err)
 	} else {
-		l.Debug("Render json", jsonData, "of task", taskID, "successfully")
+		l.Debug("Render json", string(jsonData), "of task", taskID, "successfully")
 	}
 }
 
