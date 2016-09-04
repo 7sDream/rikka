@@ -2,7 +2,7 @@
 
 Rikka 的镜像已经发布到了 [DockerHub](https://hub.docker.com/r/7sdream/rikka/), 直接开始用吧。
 
-目前 Docker Image latest tag 版本：0.1.0
+目前 Docker Image latest tag 版本：0.1.2
 
 ## 特点
 
