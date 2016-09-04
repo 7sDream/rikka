@@ -62,11 +62,13 @@ Rikka 的镜像已经发布到了 [DockerHub](https://hub.docker.com/r/7sdream/r
 
 ## API
 
-请看 [Rikka API 文档](https://github.com/7sDream/rikka/blob/master/server/apiserver/README.md)
+请看 [Rikka API 文档](https://github.com/7sDream/rikka/tree/master/server/apiserver)。
 
 ## rikkac - 命令行工具
 
-请看 [Rikka CLI 文档](https://github.com/7sDream/rikka/tree/master/cli)
+rikkac 是基于 Rikka 的 API 写的命令行工具。
+
+编译、配置和使用方法请看 [Rikka CLI 文档](https://github.com/7sDream/rikka/tree/master/cli)。
 
 ## 部署
 
