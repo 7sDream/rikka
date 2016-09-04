@@ -1,5 +1,9 @@
 # Rikka - 极简图床
 
+Rikka 的镜像已经发布到了 [DockerHub](https://hub.docker.com/r/7sdream/rikka/), 直接开始用吧。
+
+目前 Docker Image latest tag 版本：0.1.0
+
 ## 特点
 
 1. 极简，不保存上传历史
@@ -65,8 +69,6 @@
 之后你就可以用浏览器打开看看效果了。
 
 ### 方式 2: 使用 Docker
-
-Rikka 的镜像已经发布到了 [DockerHub](https://hub.docker.com/r/7sdream/rikka/), 直接开始用吧。
 
 1. `docker pull 7sdream/rikka`
 2. `docker run -d -P 7sdream/rikka:latest -pwd yourpassword`
