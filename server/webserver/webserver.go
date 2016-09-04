@@ -15,7 +15,7 @@ var context = struct {
 	TaskID  string
 	URL     string
 }{
-	Version: "0.1.0",
+	Version: "0.1.1",
 	TaskID:  "",
 	URL:     "",
 }
