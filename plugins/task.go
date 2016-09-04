@@ -52,8 +52,6 @@ func GetTaskState(taskID string) (pState *State, err error) {
 		l.Info("Key", taskID, "exist")
 		return pState, nil
 	}
-
-	l.Warn("Key", taskID, "not exist")
 	return nil, errors.New("Task not exist.")
 }
 

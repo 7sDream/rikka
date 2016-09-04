@@ -25,7 +25,7 @@ func StartRikka(socket string, password string, maxSizeByMB float64, plugin plug
 
 	l.Info("Rikka is listening", socket)
 
-	// truly http server function call
+	// real http server function call
 	err := http.ListenAndServe(socket, nil)
 
 	if err != nil {
