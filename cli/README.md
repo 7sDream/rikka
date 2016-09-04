@@ -1,6 +1,6 @@
 # rikkac - Rikka 的命令行工具
 
-需要和 [Rikka](https://github.com/7sDream/rikka) 配合使用。
+需要和 [Rikka server][rikka] 配合使用。
 
 ## 使用方式
 
@@ -12,7 +12,7 @@
 - `b`: BBCode 格式
 - `r` reStructuredText 格式
 
-默认是源地址格式，优先级如上表，从低到高。（也就是说下面的会覆盖上面的，`-m -b` 等同于 `-b`）
+默认是源地址格式，优先级如上表，从低到高。也就是说下面的会覆盖上面的，`-m -b` 等同于 `-b`。其实也没那么复杂，你只要不同时提供两个就不用记优先级。
 
 ## 编译
 
@@ -26,8 +26,11 @@
 
 ## 使用
 
-![](http://7sdream-rikka-demo.daoapp.io/files/2016-09-04-221897650)
+![][usage-preview]
 
 基本上就是 `rikkac -m filepath` 就好。
 
-如果出错了可以用 `-vv` 参数输出详细日志用于排错。
+如果出错了可以用 `-v` 或者 `-vv` 参数输出详细日志用于排错。
+
+[rikka]: https://github.com/7sDream/rikka
+[usage-preview]: http://7sdream-rikka-demo.daoapp.io/files/2016-09-04-22189765

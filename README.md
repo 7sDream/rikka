@@ -131,5 +131,5 @@ PS：你可以使用 Rikka 的 `-dir` 参数指定文件储存位置，比如这
 [home]: http://7sdream-rikka-demo.daoapp.io/files/2016-09-04-097924191
 [view]: http://7sdream-rikka-demo.daoapp.io/files/2016-09-04-017113138
 
-[api-doc]: https://github.com/7sDream/rikka/tree/master/server/apiserver
+[api-doc]: https://github.com/7sDream/rikka/tree/master/api
 [cli-doc]: https://github.com/7sDream/rikka/tree/master/cli
