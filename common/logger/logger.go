@@ -21,7 +21,7 @@ type Logger struct {
 
 // Logger level consts
 const (
-	LevelDebug = iota
+	LevelDebug int = iota
 	LevelInfo
 	LevelWarn
 	LevelError
@@ -29,7 +29,7 @@ const (
 
 var l = NewLogger("[Logger]")
 
-var currentLevel = LevelInfo
+var currentLevel = LevelDebug
 
 // NewLogger create a new top level logger based on prefix
 func NewLogger(prefix string) *Logger {
@@ -48,7 +48,7 @@ func NewLogger(prefix string) *Logger {
 // if you set log level higher than LevelDebug, no message will be print.
 func (logger *Logger) Debug(data ...interface{}) {
 	if currentLevel <= LevelDebug {
-		logger.il.Println(data)
+		logger.dl.Println(data)
 	}
 }
 
@@ -95,7 +95,8 @@ func (logger *Logger) SubLogger(prefix string) (subLogger *Logger) {
 
 // SetLevel set the minimum level that message will be print out
 func SetLevel(level int) {
-	if LevelInfo <= level && level < LevelError {
+	if LevelDebug <= level && level < LevelError {
+		l.Info("Log level from", currentLevel, "change to", level)
 		currentLevel = level
 	} else {
 		l.Error("Set logger level", level, "failed, accepted range is", LevelInfo, "to", LevelError)

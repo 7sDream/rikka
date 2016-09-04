@@ -49,7 +49,6 @@ func GetTaskState(taskID string) (pState *State, err error) {
 	defer tasks.RUnlock()
 
 	if pState, ok := tasks.m[taskID]; ok { // key exist
-		l.Info("Key", taskID, "exist")
 		return pState, nil
 	}
 	return nil, errors.New("Task not exist.")

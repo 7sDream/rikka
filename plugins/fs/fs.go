@@ -23,7 +23,7 @@ var l = plugins.SubLogger("[FS]")
 const (
 	stateCopying     = "copying"
 	stateCopyingCode = 1
-	stateCopyingDesc = "Photo is being copied to rikka file system"
+	stateCopyingDesc = "Image is being copied to rikka file system"
 )
 
 type fsPlugin struct{}
@@ -34,24 +34,26 @@ var FsPlugin = fsPlugin{}
 // Init is the plugin init function, will be called when plugin be load.
 func (fsp fsPlugin) Init() {
 	// where to store file
+	l.Info("Start plugin fs")
 	l.Info("Args dir =", *filesDir)
+
 	absFilesDir, err := pathutil.Abs(*filesDir)
 	if err == nil {
-		l.Info("Abs path of photo file dir:", absFilesDir)
+		l.Debug("Abs path of image file dir:", absFilesDir)
 		tempDir = absFilesDir
 	} else {
-		l.Fatal("A error happened when change photo dir to absolute path:", err)
+		l.Fatal("A error happened when change image dir to absolute path:", err)
 	}
 	// if target dir not exist, create it
 	if util.CheckExist(absFilesDir) {
-		l.Info("Photo file dir already exist")
+		l.Debug("Image file dir already exist")
 	} else {
-		l.Info("Photo dir not eixst, try to create it")
+		l.Debug("Image file dir not eixst, try to create it")
 		err = os.MkdirAll(absFilesDir, 0755)
 		if err == nil {
-			l.Info("Create dir", absFilesDir, "successfully")
+			l.Debug("Create dir", absFilesDir, "successfully")
 		} else {
-			l.Fatal("A error happened when try to create photo dir:", err)
+			l.Fatal("A error happened when try to create image dir:", err)
 		}
 	}
 
@@ -78,18 +80,20 @@ func buildCopyingState(taskID string) plugins.State {
 
 // background operate, save file to disk
 func saveFile(uploadFile multipart.File, saveTo *os.File, taskID string) {
-	l.Info("Starting task", taskID)
-
 	filepath := saveTo.Name()
 
 	// If error happend when create task, delete file
 	if err := plugins.CreateTask(buildCopyingState(taskID)); err != nil {
-		l.Warn("A error happend when add task", taskID, ":", err)
+		l.Error("Error happend when add task", taskID, ":", err)
 		saveTo.Close()
 		uploadFile.Close()
 		deleteFile(filepath)
 		return
 	}
+
+	l.Debug("Create task", taskID, "in task list successfully")
+
+	l.Debug("Start copy file of task", taskID)
 
 	// copy file to disk, then close
 	_, err := io.Copy(saveTo, uploadFile)
@@ -98,10 +102,10 @@ func saveFile(uploadFile multipart.File, saveTo *os.File, taskID string) {
 
 	if err == nil {
 		// copy file successfully
-		l.Info("File copy on task", taskID, "successfully")
+		l.Debug("File copy on task", taskID, "finished")
 
 		if err := plugins.DeleteTask(taskID); err == nil {
-			l.Info("Task", taskID, "finished")
+			l.Debug("Task", taskID, "finished, deleted it from task list")
 		} else {
 			// delete task failed, delete file and exit
 			deleteFile(filepath)
@@ -109,11 +113,11 @@ func saveFile(uploadFile multipart.File, saveTo *os.File, taskID string) {
 		}
 	} else {
 		// copy file failed, delete file and turn state to error
+		l.Warn("Error happened when copy file of task", taskID, ":", err)
 		deleteFile(filepath)
-		l.Warn("A error happened when copy file", taskID, ":", err)
 
 		if err := plugins.ChangeTaskState(plugins.BuildErrorState(taskID, err.Error())); err == nil {
-			l.Info("Turn task", taskID, "state to error")
+			l.Warn("Change task", taskID, "state to error")
 		} else {
 			// change task state error, exit.
 			l.Fatal("A error happend when change task", taskID, "to error state:", err)
@@ -123,16 +127,16 @@ func saveFile(uploadFile multipart.File, saveTo *os.File, taskID string) {
 
 // SaveRequestHandle Will be called when recieve a file save request.
 func (fsp fsPlugin) SaveRequestHandle(q *plugins.SaveRequest) (taskID string, err error) {
-	l.Info("Recieved a file save request")
+	l.Debug("Recieve a file save request")
 
 	// Task ID use time prefix and a number follow it(produce by TempFile)
 	now := time.Now().UTC()
 	saveTo, err := ioutil.TempFile(tempDir, now.Format("2006-01-02-"))
 
 	if err == nil {
-		l.Info("Create file on fs successfully:", saveTo.Name())
+		l.Debug("Create file on fs successfully:", saveTo.Name())
 	} else {
-		l.Error("Create file on fs error:", err)
+		l.Warn("Error happened when try create file:", err)
 		return "", err
 	}
 
@@ -141,21 +145,31 @@ func (fsp fsPlugin) SaveRequestHandle(q *plugins.SaveRequest) (taskID string, er
 	// start background copy operate
 	go saveFile(q.File, saveTo, taskID)
 
+	l.Debug("Background task started, return task ID:", taskID)
 	return taskID, nil
 }
 
 // StateRequestHandle Will be called when recieve a get state request.
 func (fsp fsPlugin) StateRequestHandle(taskID string) (pState *plugins.State, err error) {
+
+	l.Debug("Recieve a state request of taskID", taskID)
+
 	// taskID exist on task list, just return it
 	if pState, err = plugins.GetTaskState(taskID); err == nil {
+		l.Debug("State of task", taskID, "found", *pState)
 		return pState, nil
 	}
+
+	l.Debug("State of task", taskID, "not found, check if file exist")
 	// TaskID not exist or error when get it, check if image file already exist
 	if util.CheckExist(pathutil.Join(tempDir, taskID)) {
 		// file exist as a finished state
 		finishState := plugins.BuildFinishState(taskID)
+		l.Debug("File of task", taskID, "exist, return finished state", finishState)
 		return &finishState, nil
 	}
+
+	l.Warn("File of task", taskID, "not exist, get state error:", err)
 	// get state error
 	return nil, err
 }
@@ -174,11 +188,16 @@ func buildURL(r *http.Request, taskID string) string {
 func (fsp fsPlugin) URLRequestHandle(q *plugins.URLRequest) (url *plugins.URLJSON, err error) {
 	taskID := q.TaskID
 	r := q.HTTPRequest
+
+	l.Debug("Recieve an url request of task", taskID)
+	l.Debug("Check if file exist of task", taskID)
 	// If file exist, return url
 	if util.CheckExist(pathutil.Join(tempDir, taskID)) {
 		url := buildURL(r, taskID)
+		l.Debug("File of task", taskID, "exist, return url", url)
 		return &plugins.URLJSON{URL: url}, nil
 	}
+	l.Error("File of task", taskID, "not exist, return error")
 	return nil, errors.New("File not exist.")
 }
 

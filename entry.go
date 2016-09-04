@@ -58,8 +58,8 @@ func initArgVars() {
 	argPassword = flag.String("pwd", "rikka", "The password need provided when upload")
 	argMaxSizeByMB = flag.Float64("size", 5, "Max file size by MB")
 	argLogLevel = flag.Int(
-		"level", logger.LevelInfo,
-		fmt.Sprintf("logger level, from %d to %d", logger.LevelInfo, logger.LevelError),
+		"level", logger.LevelDebug,
+		fmt.Sprintf("logger level, from %d to %d", logger.LevelDebug, logger.LevelError),
 	)
 
 	// Get name array of all avaliable plugins, show in `rikka -h``
@@ -77,12 +77,12 @@ func initArgVars() {
 func runtimeEnvCheck() {
 	l.Info("Check runtime environment")
 
-	l.Info("Try to find plugin", *argPluginStr)
+	l.Debug("Try to find plugin", *argPluginStr)
 
 	// Make sure plugin be selected exist
 	if plugin, ok := pluginMap[*argPluginStr]; ok {
 		thePlugin = plugin
-		l.Info("Plugin", *argPluginStr, "found")
+		l.Debug("Plugin", *argPluginStr, "found")
 	} else {
 		l.Fatal("Plugin", *argPluginStr, "not exist")
 	}
@@ -93,8 +93,7 @@ func runtimeEnvCheck() {
 func createSignalHandler(c chan os.Signal) func() {
 	return func() {
 		for _ = range c {
-			l.Info("Rikka have to go to bed, see you tomorrow")
-			os.Exit(0)
+			l.Fatal("Rikka have to go to bed, see you tomorrow")
 		}
 	}
 }
@@ -120,7 +119,7 @@ func main() {
 
 	// print launch args
 	l.Info(
-		"Try start rikka at", socket,
+		"Start rikka at", socket,
 		", with password", *argPassword,
 		", max file size", *argMaxSizeByMB, "MB",
 		", plugin", *argPluginStr,

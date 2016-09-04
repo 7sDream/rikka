@@ -21,9 +21,10 @@ var l *logger.Logger
 func jsonEncode(obj interface{}) ([]byte, error) {
 	jsonData, err := json.Marshal(obj)
 	if err == nil {
+		l.Debug("Encode data", obj, "to json", jsonData, "successfully")
 		return jsonData, nil
 	}
-	l.Warn("Error happened when encoding", fmt.Sprintf("%+v", obj), "to json :", err)
+	l.Error("Error happened when encoding", fmt.Sprintf("%+v", obj), "to json :", err)
 	return nil, err
 }
 
@@ -46,22 +47,26 @@ func getTaskIDJSON(taskID string) ([]byte, error) {
 // getStateJSON get state json bytes.
 // Will call plgins.GetState
 func getStateJSON(taskID string) ([]byte, error) {
+	l.Debug("Send state request of task", taskID, "to plugin")
 	state, err := plugins.GetState(taskID)
 	if err != nil {
-		l.Error("Error happened when get state of task", taskID, ":", err)
+		l.Warn("Error happened when get state of task", taskID, ":", err)
 		return nil, err
 	}
+	l.Debug("Get state of task", taskID, "successfully")
 	return jsonEncode(state)
 }
 
 // getURLJSON get url json bytes like {"URL": "http://127.0.0.1/files/filename"}
 // Will call plgins.GetURL
 func getURLJSON(taskID string, r *http.Request, picOp *plugins.ImageOperate) ([]byte, error) {
+	l.Debug("Send url request of task", taskID, "to plugin")
 	url, err := plugins.GetURL(taskID, r, picOp)
 	if err != nil {
-		l.Warn("Error happened when get url of task", taskID, ":", err)
+		l.Error("Error happened when get url of task", taskID, ":", err)
 		return nil, err
 	}
+	l.Debug("Get url of task", taskID, "successfully")
 	return jsonEncode(url)
 }
 
@@ -75,14 +80,14 @@ func renderErrorJSON(w http.ResponseWriter, taskID string, err error) {
 	}
 
 	// build error json successfully
-	l.Info("Build error json successfully of task", taskID)
+	l.Debug("Build error json successfully of task", taskID)
 	err = util.RenderJSON(w, errorJSONData)
 
 	if util.ErrHandle(w, err) {
 		// rander error json failed
 		l.Error("Error happened when render error json", errorJSONData, "of task", taskID, ":", err)
 	} else {
-		l.Info("Render error json successfully")
+		l.Debug("Render error json successfully")
 	}
 }
 
@@ -99,7 +104,7 @@ func renderJSONOrError(w http.ResponseWriter, taskID string, jsonData []byte, er
 	if util.ErrHandle(w, err) {
 		l.Error("Error happened when render json", jsonData, "of task", taskID, ":", err)
 	} else {
-		l.Info("Render json", jsonData, "of task", taskID, "successfully")
+		l.Debug("Render json", jsonData, "of task", taskID, "successfully")
 	}
 }
 
@@ -109,13 +114,14 @@ func stateHandleFunc(w http.ResponseWriter, r *http.Request) {
 
 	taskID := util.GetTaskIDByRequest(r)
 
+	l.Debug("Recieve a state request of task", taskID)
+
 	var jsonData []byte
 	var err error
-
 	if jsonData, err = getStateJSON(taskID); err != nil {
-		l.Error("Error happened when get state json of task", taskID, ":", err)
+		l.Warn("Error happened when get state json of task", taskID, ":", err)
 	} else {
-		l.Info("Get state json of task", taskID, "successfully")
+		l.Debug("Get state json of task", taskID, "successfully")
 	}
 
 	renderJSONOrError(w, taskID, jsonData, err)
@@ -125,6 +131,8 @@ func urlHandleFunc(w http.ResponseWriter, r *http.Request) {
 	defer recover()
 
 	taskID := util.GetTaskIDByRequest(r)
+
+	l.Debug("Recieve a url request of task", taskID)
 
 	var jsonData []byte
 	var err error
@@ -138,6 +146,8 @@ func urlHandleFunc(w http.ResponseWriter, r *http.Request) {
 	renderJSONOrError(w, taskID, jsonData, err)
 }
 
+// ---- upload handle aux functions --
+
 func checkFromArg(w http.ResponseWriter, r *http.Request) (string, bool) {
 	from := r.FormValue("from")
 	if from != "website" && from != "api" {
@@ -146,7 +156,7 @@ func checkFromArg(w http.ResponseWriter, r *http.Request) (string, bool) {
 		w.Write([]byte("from argument can only be website or api."))
 		return "", false
 	}
-	l.Info("Get from arg:", from)
+	l.Debug("Request from:", from)
 	return from, true
 }
 
@@ -165,7 +175,7 @@ func checkPassowrd(w http.ResponseWriter, r *http.Request, from string) bool {
 		renderErrorJSON(w, "[upload task]", errors.New("Error password"))
 		return false
 	}
-	l.Info("Password check successfully")
+	l.Debug("Password check successfully")
 	return true
 }
 
@@ -184,7 +194,7 @@ func getUploadedFile(w http.ResponseWriter, r *http.Request, from string) (multi
 		renderErrorJSON(w, "[upload task]", err)
 		return file, false
 	}
-	l.Info("Get uploaded file successfully")
+	l.Debug("Get uploaded file successfully")
 	return file, true
 }
 
@@ -192,11 +202,11 @@ func redirectToView(w http.ResponseWriter, taskID string) {
 	viewPage := "/view/" + taskID
 	w.Header().Set("Location", viewPage)
 	w.WriteHeader(302)
-	l.Info("Redirect user to view page", viewPage)
+	l.Debug("Redirect user to view page", viewPage)
 }
 
 func sendSaveRequestToPlugin(w http.ResponseWriter, file multipart.File, from string) (string, bool) {
-	l.Info("Send file save request to plugin")
+	l.Debug("Send file save request to plugin")
 	taskID, err := plugins.AcceptFile(&plugins.SaveRequest{File: file})
 
 	if err != nil {
@@ -209,7 +219,7 @@ func sendSaveRequestToPlugin(w http.ResponseWriter, file multipart.File, from st
 		return taskID, false
 	}
 
-	l.Info("Get taskID:", taskID)
+	l.Debug("Revieve task ID from plugin:", taskID)
 
 	return taskID, true
 }
@@ -223,16 +233,18 @@ func sendUploadResultToClient(w http.ResponseWriter, taskID string, from string)
 		if taskIDJSON, err = getTaskIDJSON(taskID); err != nil {
 			l.Error("Error happened when build task ID json of task", taskID, ":", err)
 		} else {
-			l.Info("Build task ID json", taskIDJSON, "of task", taskID, "successfully")
+			l.Debug("Build task ID json", taskIDJSON, "of task", taskID, "successfully")
 		}
 		renderJSONOrError(w, taskID, taskIDJSON, err)
 	}
 }
 
+// ---- end of upload handle aux functions --
+
 func uploadHandleFunc(w http.ResponseWriter, r *http.Request) {
 	defer recover()
 
-	l.Info("Recieve file upload request")
+	l.Debug("Recieve file upload request")
 
 	maxSize := int64(maxSizeByMB * 1024 * 1024)
 	r.Body = http.MaxBytesReader(w, r.Body, maxSize)

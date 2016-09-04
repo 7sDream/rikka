@@ -55,7 +55,7 @@ func CheckMethod(w http.ResponseWriter, r *http.Request, excepted string) bool {
 func RenderTemplate(templatePath string, w http.ResponseWriter, data interface{}) error {
 	t, err := template.ParseFiles(templatePath)
 	if ErrHandle(w, err) {
-		l.Warn("Parse template file", templatePath, "error:", err)
+		l.Error("Error happened when parse template file", templatePath, ":", err)
 		return err
 	}
 
@@ -66,7 +66,7 @@ func RenderTemplate(templatePath string, w http.ResponseWriter, data interface{}
 
 	// error happened, write a generic error message to response
 	if err != nil {
-		l.Warn("Execute template", t, "with data", fmt.Sprintf("%+v", data), "error:", err)
+		l.Error("Error happened when execute template", t, "with data", fmt.Sprintf("%+v", data), ":", err)
 		ErrHandle(w, errors.New("error when render template"))
 		return err
 	}
