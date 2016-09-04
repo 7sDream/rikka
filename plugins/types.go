@@ -3,6 +3,8 @@ package plugins
 import (
 	"mime/multipart"
 	"net/http"
+
+	"github.com/7sDream/rikka/api"
 )
 
 // SaveRequest is a request that want to 'save'(acctuly upload) a file.
@@ -19,35 +21,12 @@ type URLRequest struct {
 	PicOp       *ImageOperate
 }
 
-// State shows a state of task.
-type State struct {
-	TaskID      string
-	StateCode   int
-	State       string
-	Description string
-}
-
 // ImageOperate stand for some operate of src imgage, not used now.
 type ImageOperate struct {
 	Width    int
 	Height   int
 	Rotate   int
 	OtherArg string
-}
-
-// ErrorJSON struct used to build json from eror string.
-type ErrorJSON struct {
-	Error string
-}
-
-// URLJSON struct used to build json from eror URL.
-type URLJSON struct {
-	URL string
-}
-
-// TaskIDJSON struct used to build json from taskID.
-type TaskIDJSON struct {
-	TaskID string
 }
 
 // HandlerWithPattern is a struct combine a http.Handler with the pattern is will server.
@@ -62,11 +41,11 @@ type RikkaPlugin interface {
 	// Init will be called when load plugin.
 	Init()
 	// AcceptFile will call this.
-	SaveRequestHandle(*SaveRequest) (string, error)
+	SaveRequestHandle(*SaveRequest) (*api.TaskID, error)
 	// GetState will call this.
-	StateRequestHandle(string) (*State, error)
+	StateRequestHandle(string) (*api.State, error)
 	// GetURL will call this.
-	URLRequestHandle(q *URLRequest) (*URLJSON, error)
+	URLRequestHandle(q *URLRequest) (*api.URL, error)
 	// Will be added into http handler list.
 	ExtraHandlers() []HandlerWithPattern
 }

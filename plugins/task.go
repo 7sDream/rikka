@@ -3,12 +3,14 @@ package plugins
 import (
 	"errors"
 	"sync"
+
+	"github.com/7sDream/rikka/api"
 )
 
 var tasks = struct {
 	sync.RWMutex
-	m map[string]*State
-}{m: make(map[string]*State)}
+	m map[string]*api.State
+}{m: make(map[string]*api.State)}
 
 // CreateTask add a task to task list.
 // If taskID already exist, return an error.
@@ -20,22 +22,20 @@ func CreateTask(taskID string) error {
 		return errors.New("Task already exist")
 	}
 
-	createState := BuildCreateState(taskID)
-	tasks.m[taskID] = &createState
+	tasks.m[taskID] = api.BuildCreateState(taskID)
 	return nil
 }
 
 // ChangeTaskState change the state of a task.
 // If taskID not exist, return an error.
-func ChangeTaskState(state State) error {
+func ChangeTaskState(pProvidedState *api.State) error {
 	tasks.Lock()
 	defer tasks.Unlock()
 
-	if _, ok := tasks.m[state.TaskID]; ok { // key exist
-		pState := tasks.m[state.TaskID]
-		pState.StateCode = state.StateCode
-		pState.State = state.State
-		pState.Description = state.Description
+	if pState, ok := tasks.m[pProvidedState.TaskID]; ok { // key exist
+		pState.StateCode = pProvidedState.StateCode
+		pState.State = pProvidedState.State
+		pState.Description = pProvidedState.Description
 		return nil
 	}
 
@@ -44,7 +44,7 @@ func ChangeTaskState(state State) error {
 
 // GetTaskState get state of a task.
 // If task not exist, return an error.
-func GetTaskState(taskID string) (pState *State, err error) {
+func GetTaskState(taskID string) (*api.State, error) {
 	tasks.RLock()
 	defer tasks.RUnlock()
 
@@ -66,34 +66,4 @@ func DeleteTask(taskID string) error {
 	}
 
 	return errors.New("Task not exist")
-}
-
-// BuildCreateState build a standard just-create state from taskID.
-func BuildCreateState(taskID string) State {
-	return State{
-		TaskID:      taskID,
-		State:       StateCreate,
-		StateCode:   StateCreateCode,
-		Description: StateCreateDescription,
-	}
-}
-
-// BuildFinishState build a standard finished state from taskID.
-func BuildFinishState(taskID string) State {
-	return State{
-		TaskID:      taskID,
-		State:       StateFinish,
-		StateCode:   StateFinishCode,
-		Description: StateFinishDescription,
-	}
-}
-
-// BuildErrorState build a standard error state from taskID and description.
-func BuildErrorState(taskID string, description string) State {
-	return State{
-		TaskID:      taskID,
-		State:       StateError,
-		StateCode:   StateErrorCode,
-		Description: description,
-	}
 }

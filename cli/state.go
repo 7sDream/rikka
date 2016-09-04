@@ -5,12 +5,12 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/7sDream/rikka/plugins"
+	"github.com/7sDream/rikka/api"
 )
 
 const stateAPIPath = "/api/state/"
 
-func getState(host string, taskID string) *plugins.State {
+func getState(host string, taskID string) *api.State {
 
 	url := host + stateAPIPath + taskID
 	l.Debug("Build state request url:", url)
@@ -23,11 +23,11 @@ func getState(host string, taskID string) *plugins.State {
 
 	resContent := checkRes(url, res)
 
-	stateJSON := &plugins.State{}
-	if err = json.Unmarshal(resContent, stateJSON); err == nil {
-		if stateJSON.TaskID != "" {
+	pError := &api.State{}
+	if err = json.Unmarshal(resContent, pError); err == nil {
+		if pError.TaskID != "" {
 			l.Debug("Decode response to state json")
-			return stateJSON
+			return pError
 		}
 	}
 	l.Debug("Decode response to state json failed, try to decode to error message")
@@ -41,11 +41,11 @@ func waitFinish(host string, taskID string) {
 	for {
 		state := getState(host, taskID)
 
-		if state.StateCode == plugins.StateErrorCode {
+		if state.StateCode == api.StateErrorCode {
 			l.Fatal("Task state error:", state.Description)
 		}
 
-		if state.StateCode == plugins.StateFinishCode {
+		if state.StateCode == api.StateFinishCode {
 			return
 		}
 

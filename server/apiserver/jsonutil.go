@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/7sDream/rikka/api"
 	"github.com/7sDream/rikka/common/util"
 	"github.com/7sDream/rikka/plugins"
 )
@@ -22,7 +23,7 @@ func jsonEncode(obj interface{}) ([]byte, error) {
 
 // getErrorJSON get error json bytes like {"Error": "error message"}
 func getErrorJSON(err error) ([]byte, error) {
-	obj := plugins.ErrorJSON{
+	obj := api.Error{
 		Error: err.Error(),
 	}
 	return jsonEncode(obj)
@@ -30,7 +31,7 @@ func getErrorJSON(err error) ([]byte, error) {
 
 // getErrorJSON get error json bytes like {"TaskID": "12312398374237"}
 func getTaskIDJSON(taskID string) ([]byte, error) {
-	obj := plugins.TaskIDJSON{
+	obj := api.TaskID{
 		TaskID: taskID,
 	}
 	return jsonEncode(obj)

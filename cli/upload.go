@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"path/filepath"
 
-	"github.com/7sDream/rikka/plugins"
+	"github.com/7sDream/rikka/api"
 )
 
 const uploadAPIPath = "/api/upload"
@@ -73,12 +73,12 @@ func upload(host string, path string, content []byte, params map[string]string) 
 
 	resContent := checkRes(url, res)
 
-	taskJSON := &plugins.TaskIDJSON{}
+	pTaskID := &api.TaskID{}
 
-	if err := json.Unmarshal(resContent, taskJSON); err == nil {
-		if taskJSON.TaskID != "" {
+	if err := json.Unmarshal(resContent, pTaskID); err == nil {
+		if pTaskID.TaskID != "" {
 			l.Debug("Decode response to taskID json")
-			return taskJSON.TaskID
+			return pTaskID.TaskID
 		}
 	}
 	l.Debug("Decode response to taskID json failed, try to decode to error message")

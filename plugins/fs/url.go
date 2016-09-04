@@ -6,6 +6,7 @@ import (
 	"net/url"
 	pathutil "path/filepath"
 
+	"github.com/7sDream/rikka/api"
 	"github.com/7sDream/rikka/common/util"
 	"github.com/7sDream/rikka/plugins"
 )
@@ -21,7 +22,7 @@ func buildURL(r *http.Request, taskID string) string {
 }
 
 // URLRequestHandle will be called when recieve a get image url by taskID request
-func (fsp fsPlugin) URLRequestHandle(q *plugins.URLRequest) (url *plugins.URLJSON, err error) {
+func (fsp fsPlugin) URLRequestHandle(q *plugins.URLRequest) (pURL *api.URL, err error) {
 	taskID := q.TaskID
 	r := q.HTTPRequest
 
@@ -31,7 +32,7 @@ func (fsp fsPlugin) URLRequestHandle(q *plugins.URLRequest) (url *plugins.URLJSO
 	if util.CheckExist(pathutil.Join(imageDir, taskID)) {
 		url := buildURL(r, taskID)
 		l.Debug("File of task", taskID, "exist, return url", url)
-		return &plugins.URLJSON{URL: url}, nil
+		return &api.URL{URL: url}, nil
 	}
 	l.Error("File of task", taskID, "not exist, return error")
 	return nil, errors.New("File not exist.")

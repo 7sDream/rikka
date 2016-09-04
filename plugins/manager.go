@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/7sDream/rikka/api"
 	"github.com/7sDream/rikka/common/logger"
 )
 
@@ -27,7 +28,7 @@ func Load(plugin RikkaPlugin) {
 }
 
 // AcceptFile whill be called when you recieve a file upload request, the SaveRequest struct contains the file.
-func AcceptFile(q *SaveRequest) (fileID string, err error) {
+func AcceptFile(q *SaveRequest) (fileID *api.TaskID, err error) {
 	return currentPlugin.SaveRequestHandle(q)
 }
 
@@ -35,21 +36,21 @@ func AcceptFile(q *SaveRequest) (fileID string, err error) {
 // Also be called when web server recieve a view request,
 // web server decide response a finished view html or a self-renewal html based on
 // the return state is finished state.
-func GetState(taskID string) (r *State, err error) {
+func GetState(taskID string) (r *api.State, err error) {
 	return currentPlugin.StateRequestHandle(taskID)
 }
 
 // GetURL will be called when API server recieve a url request.
 // Also be called when web server recieve a view request and GetState return a finished state.
 // web server use the return url value to render a finished view html.
-func GetURL(taskID string, r *http.Request, picOp *ImageOperate) (url *URLJSON, err error) {
+func GetURL(taskID string, r *http.Request, picOp *ImageOperate) (pURL *api.URL, err error) {
 	l.Debug("Send state request to plugin before get url of task", taskID)
-	var pState *State
+	var pState *api.State
 
 	// check state successfully
 	if pState, err = GetState(taskID); err == nil {
 		// not finished
-		if pState.StateCode != StateFinishCode {
+		if pState.StateCode != api.StateFinishCode {
 			l.Warn("Task", taskID, "not finished, can't get url")
 			return nil, errors.New("Task not finished")
 		}

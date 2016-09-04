@@ -5,15 +5,15 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/7sDream/rikka/plugins"
+	"github.com/7sDream/rikka/api"
 )
 
 func mustBeErrorJSON(content []byte) {
-	errorJSON := &plugins.ErrorJSON{}
-	if err := json.Unmarshal(content, &errorJSON); err == nil {
-		if errorJSON.Error != "" {
+	pError := &api.Error{}
+	if err := json.Unmarshal(content, pError); err == nil {
+		if pError.Error != "" {
 			l.Debug("Decode response to error json")
-			l.Fatal("Rikka server return a error message:", errorJSON.Error)
+			l.Fatal("Rikka server return a error message:", pError.Error)
 		}
 	}
 	l.Fatal("Unable to decode Rikka server response", string(content))

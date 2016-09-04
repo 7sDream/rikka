@@ -4,12 +4,12 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/7sDream/rikka/plugins"
+	"github.com/7sDream/rikka/api"
 )
 
 const urlAPIPath = "/api/url/"
 
-func getURL(host string, taskID string) *plugins.URLJSON {
+func getURL(host string, taskID string) *api.URL {
 
 	url := host + urlAPIPath + taskID
 	l.Debug("Build url request url:", url)
@@ -22,12 +22,12 @@ func getURL(host string, taskID string) *plugins.URLJSON {
 
 	resContent := checkRes(url, res)
 
-	urlJSON := &plugins.URLJSON{}
+	pURL := &api.URL{}
 
-	if err := json.Unmarshal(resContent, &urlJSON); err == nil {
-		if urlJSON.URL != "" {
+	if err := json.Unmarshal(resContent, pURL); err == nil {
+		if pURL.URL != "" {
 			l.Debug("Decode response to url json")
-			return urlJSON
+			return pURL
 		}
 	}
 	l.Debug("Decode response to url json failed, try to decode to error message")

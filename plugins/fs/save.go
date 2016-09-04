@@ -8,6 +8,7 @@ import (
 	pathutil "path/filepath"
 	"time"
 
+	"github.com/7sDream/rikka/api"
 	"github.com/7sDream/rikka/common/util"
 	"github.com/7sDream/rikka/plugins"
 )
@@ -64,7 +65,7 @@ func saveFile(uploadFile multipart.File, saveTo *os.File, taskID string) {
 		l.Warn("Error happened when copy file of task", taskID, ":", err)
 		deleteFile(filepath)
 
-		if err := plugins.ChangeTaskState(plugins.BuildErrorState(taskID, err.Error())); err == nil {
+		if err := plugins.ChangeTaskState(api.BuildErrorState(taskID, err.Error())); err == nil {
 			l.Warn("Change task", taskID, "state to error")
 		} else {
 			// change task state error, exit.
@@ -74,7 +75,7 @@ func saveFile(uploadFile multipart.File, saveTo *os.File, taskID string) {
 }
 
 // SaveRequestHandle Will be called when recieve a file save request.
-func (fsp fsPlugin) SaveRequestHandle(q *plugins.SaveRequest) (taskID string, err error) {
+func (fsp fsPlugin) SaveRequestHandle(q *plugins.SaveRequest) (*api.TaskID, error) {
 	l.Debug("Recieve a file save request")
 
 	// Task ID use time prefix and a number follow it(produce by TempFile)
@@ -85,10 +86,10 @@ func (fsp fsPlugin) SaveRequestHandle(q *plugins.SaveRequest) (taskID string, er
 		l.Debug("Create file on fs successfully:", saveTo.Name())
 	} else {
 		l.Warn("Error happened when try create file:", err)
-		return "", err
+		return nil, err
 	}
 
-	_, taskID = pathutil.Split(saveTo.Name())
+	_, taskID := pathutil.Split(saveTo.Name())
 
 	// create task
 	if plugins.CreateTask(taskID) != nil {
@@ -99,5 +100,5 @@ func (fsp fsPlugin) SaveRequestHandle(q *plugins.SaveRequest) (taskID string, er
 	go saveFile(q.File, saveTo, taskID)
 
 	l.Debug("Background task started, return task ID:", taskID)
-	return taskID, nil
+	return &api.TaskID{TaskID: taskID}, nil
 }

@@ -3,6 +3,7 @@ package fs
 import (
 	pathutil "path/filepath"
 
+	"github.com/7sDream/rikka/api"
 	"github.com/7sDream/rikka/common/util"
 	"github.com/7sDream/rikka/plugins"
 )
@@ -14,8 +15,8 @@ const (
 )
 
 // A shortcut funtion to build state we need.
-func buildCopyingState(taskID string) plugins.State {
-	return plugins.State{
+func buildCopyingState(taskID string) *api.State {
+	return &api.State{
 		TaskID:      taskID,
 		StateCode:   stateCopyingCode,
 		State:       stateCopying,
@@ -24,7 +25,7 @@ func buildCopyingState(taskID string) plugins.State {
 }
 
 // StateRequestHandle Will be called when recieve a get state request.
-func (fsp fsPlugin) StateRequestHandle(taskID string) (pState *plugins.State, err error) {
+func (fsp fsPlugin) StateRequestHandle(taskID string) (pState *api.State, err error) {
 
 	l.Debug("Recieve a state request of taskID", taskID)
 
@@ -38,9 +39,9 @@ func (fsp fsPlugin) StateRequestHandle(taskID string) (pState *plugins.State, er
 	// TaskID not exist or error when get it, check if image file already exist
 	if util.CheckExist(pathutil.Join(imageDir, taskID)) {
 		// file exist as a finished state
-		finishState := plugins.BuildFinishState(taskID)
-		l.Debug("File of task", taskID, "exist, return finished state", finishState)
-		return &finishState, nil
+		pFinishState := api.BuildFinishState(taskID)
+		l.Debug("File of task", taskID, "exist, return finished state", *pFinishState)
+		return pFinishState, nil
 	}
 
 	l.Warn("File of task", taskID, "not exist, get state error:", err)

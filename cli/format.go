@@ -5,7 +5,7 @@ import (
 	"flag"
 	"text/template"
 
-	"github.com/7sDream/rikka/plugins"
+	"github.com/7sDream/rikka/api"
 )
 
 var formatList = []*bool{
@@ -24,7 +24,7 @@ var formatMap = []string{
 	"{{ .URL }}",
 }
 
-func format(url *plugins.URLJSON) string {
+func format(url *api.URL) string {
 
 	var templateStr string
 

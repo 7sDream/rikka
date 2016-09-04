@@ -9,6 +9,8 @@ import (
 	"github.com/7sDream/rikka/plugins"
 )
 
+var TaskIDUploading = "[uploading]"
+
 // ---- upload handle aux functions --
 
 func checkFromArg(w http.ResponseWriter, r *http.Request) (string, bool) {
@@ -35,7 +37,7 @@ func checkPassowrd(w http.ResponseWriter, r *http.Request, from string) bool {
 		}
 
 		// from == "api"
-		renderErrorJSON(w, "[upload task]", errors.New("Error password"), http.StatusUnauthorized)
+		renderErrorJSON(w, TaskIDUploading, errors.New("Error password"), http.StatusUnauthorized)
 		return false
 	}
 	l.Debug("Password check successfully")
@@ -54,7 +56,7 @@ func getUploadedFile(w http.ResponseWriter, r *http.Request, from string) (multi
 		}
 
 		// from == "api"
-		renderErrorJSON(w, "[upload task]", err, http.StatusBadRequest)
+		renderErrorJSON(w, TaskIDUploading, err, http.StatusBadRequest)
 		return file, false
 	}
 	l.Debug("Get uploaded file successfully")
@@ -70,18 +72,20 @@ func redirectToView(w http.ResponseWriter, taskID string) {
 
 func sendSaveRequestToPlugin(w http.ResponseWriter, file multipart.File, from string) (string, bool) {
 	l.Debug("Send file save request to plugin manager")
-	taskID, err := plugins.AcceptFile(&plugins.SaveRequest{File: file})
+
+	pTaskID, err := plugins.AcceptFile(&plugins.SaveRequest{File: file})
 
 	if err != nil {
 		l.Error("Error happened when plugin manager process file save request:", err)
 		if from == "website" {
 			util.ErrHandle(w, err)
 		} else {
-			renderErrorJSON(w, taskID, err, http.StatusInternalServerError)
+			renderErrorJSON(w, TaskIDUploading, err, http.StatusInternalServerError)
 		}
-		return taskID, false
+		return "", false
 	}
 
+	taskID := pTaskID.TaskID
 	l.Debug("Recieve task ID from plugin manager:", taskID)
 
 	return taskID, true

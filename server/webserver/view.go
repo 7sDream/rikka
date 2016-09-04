@@ -3,6 +3,7 @@ package webserver
 import (
 	"net/http"
 
+	"github.com/7sDream/rikka/api"
 	"github.com/7sDream/rikka/common/util"
 	"github.com/7sDream/rikka/plugins"
 )
@@ -13,7 +14,7 @@ func viewHandleFunc(w http.ResponseWriter, r *http.Request) {
 	l.Debug("Recieve a view request of task", taskID)
 	l.Debug("Send a url request of task", taskID, "to plugin manager")
 
-	var pURL *plugins.URLJSON
+	var pURL *api.URL
 	var err error
 	if pURL, err = plugins.GetURL(taskID, r, nil); err != nil {
 		// state is not finished or error when get url, use view.html
