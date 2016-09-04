@@ -37,8 +37,9 @@ function getPhotoState(taskID) {
         } else if (state == 0) {    // Successful state
             return json;
         } else {    // Other state
-            setTimeout(() => getPhotoState(taskID), 1000);
-            throw new Error(json['Description']);
+            stateElement.textContent = "State:" + json['Description'];
+            setTimeout(getPhotoStatetaskID, 1000, taskID);
+            return new Promise(() => {})
         }
     }).then(function(json){
         return json["TaskID"];
@@ -55,7 +56,7 @@ function getPhotoState(taskID) {
         show(formElement);
         addCopyEventListener(url);
     }).catch(function(err){
-        stateElement.textContent = err;
+        stateElement.textContent = "Error: " + err.message + ", please close page";
         show(stateElement);
         hide(imageElement);
         hide(formElement);
