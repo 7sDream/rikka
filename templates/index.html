@@ -6,12 +6,12 @@
 </head>
 <body>
     <header>
-        <h1><a href="/">RIKKA</a></h1>
+        <h1><a href="{{ .RootPath }}">RIKKA</a></h1>
         <p><a>A <span style="color: #6cf">simple</span> photo share website</a></p>
     </header>
     <main>
-        <img class="logo" src="static/rikka.png" />
-        <form id="uploadFrom" enctype="multipart/form-data" action="/api/upload" method="post">
+        <img class="logo" src="{{ .StaticPath }}rikka.png" />
+        <form id="uploadFrom" enctype="multipart/form-data" action="{{ .UploadPath }}" method="post">
             <div class="line">
                 <label id="fakeUploadBtn" for="uploadFile">Choose</label>
                 <input id="filename" placeholder="Choose File" disabled="disabled" />

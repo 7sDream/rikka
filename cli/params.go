@@ -8,12 +8,16 @@ import (
 	"strings"
 )
 
-const uploadFileKey = "uploadFile"
-const envHostKey = "RIKKA_HOST"
-const envPwdKey = "RIKKA_PWD"
+const (
+	uploadFileKey = "uploadFile"
+	envHostKey    = "RIKKA_HOST"
+	envPwdKey     = "RIKKA_PWD"
+)
 
-var argHost = flag.String("t", "", "rikka host, will override env variable if not empty")
-var argPwd = flag.String("p", "", "rikka password, will override env variable if not empty")
+var (
+	argHost = flag.String("t", "", "rikka host, will override env variable if not empty")
+	argPwd  = flag.String("p", "", "rikka password, will override env variable if not empty")
+)
 
 func getHost() string {
 

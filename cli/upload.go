@@ -10,8 +10,6 @@ import (
 	"github.com/7sDream/rikka/api"
 )
 
-const uploadAPIPath = "/api/upload"
-
 func createUploadRequest(url string, params map[string]string, paramName string, path string, content []byte) *http.Request {
 	body := &bytes.Buffer{}
 	writer := multipart.NewWriter(body)
@@ -58,7 +56,7 @@ func createUploadRequest(url string, params map[string]string, paramName string,
 func upload(host string, path string, content []byte, params map[string]string) string {
 	client := &http.Client{}
 
-	url := host + uploadAPIPath
+	url := host + api.UploadPath
 
 	l.Debug("Build upload url:", url)
 

@@ -2,14 +2,20 @@ package apiserver
 
 import (
 	"errors"
+	"io/ioutil"
 	"mime/multipart"
 	"net/http"
+	"strings"
 
+	"github.com/7sDream/rikka/api"
 	"github.com/7sDream/rikka/common/util"
 	"github.com/7sDream/rikka/plugins"
+	"github.com/7sDream/rikka/server/webserver"
 )
 
-var TaskIDUploading = "[uploading]"
+var (
+	taskIDUploading = "[uploading]"
+)
 
 // ---- upload handle aux functions --
 
@@ -33,14 +39,61 @@ func checkPassowrd(w http.ResponseWriter, r *http.Request, from string) bool {
 
 		if from == "website" {
 			http.Error(w, "Error password", http.StatusUnauthorized)
-			return false
+		} else {
+			// from == "api"
+			renderErrorJSON(w, taskIDUploading, errors.New(api.ErrPwdErrMsg), http.StatusUnauthorized)
 		}
 
-		// from == "api"
-		renderErrorJSON(w, TaskIDUploading, errors.New("Error password"), http.StatusUnauthorized)
 		return false
 	}
 	l.Debug("Password check successfully")
+	return true
+}
+
+func checkUploadedFile(w http.ResponseWriter, file multipart.File, from string) bool {
+	fileContent, err := ioutil.ReadAll(file)
+	if err != nil {
+		l.Error("Error happened when get form file content:", err)
+
+		if from == "website" {
+			util.ErrHandle(w, err)
+		} else {
+			// from == "api"
+			renderErrorJSON(w, taskIDUploading, err, http.StatusInternalServerError)
+		}
+
+		return false
+	}
+	l.Debug("Get form file content successfully")
+
+	filetype := http.DetectContentType(fileContent)
+	if !strings.HasPrefix(filetype, "image") {
+		l.Error("Form file is not a image, it is a", filetype)
+
+		if from == "website" {
+			util.ErrHandle(w, errors.New(api.NotAImgFileErrMsg))
+		} else {
+			// from == "api"
+			renderErrorJSON(w, taskIDUploading, errors.New(api.NotAImgFileErrMsg), http.StatusInternalServerError)
+		}
+
+		return false
+	}
+	l.Debug("Check form file type, passed:", filetype)
+
+	if _, err = file.Seek(0, 0); err != nil {
+		l.Error("Error when try to seek form file to start:", err)
+
+		if from == "website" {
+			util.ErrHandle(w, err)
+		} else {
+			// from == "api"
+			renderErrorJSON(w, taskIDUploading, err, http.StatusInternalServerError)
+		}
+
+		return false
+	}
+
 	return true
 }
 
@@ -52,19 +105,24 @@ func getUploadedFile(w http.ResponseWriter, r *http.Request, from string) (multi
 
 		if from == "website" {
 			util.ErrHandle(w, err)
-			return file, false
+		} else {
+			// from == "api"
+			renderErrorJSON(w, taskIDUploading, err, http.StatusBadRequest)
 		}
 
-		// from == "api"
-		renderErrorJSON(w, TaskIDUploading, err, http.StatusBadRequest)
 		return file, false
 	}
 	l.Debug("Get uploaded file successfully")
+
+	if !checkUploadedFile(w, file, from) {
+		return nil, false
+	}
+
 	return file, true
 }
 
 func redirectToView(w http.ResponseWriter, taskID string) {
-	viewPage := "/view/" + taskID
+	viewPage := webserver.ViewPath + taskID
 	w.Header().Set("Location", viewPage)
 	w.WriteHeader(302)
 	l.Debug("Redirect user to view page", viewPage)
@@ -80,7 +138,7 @@ func sendSaveRequestToPlugin(w http.ResponseWriter, file multipart.File, from st
 		if from == "website" {
 			util.ErrHandle(w, err)
 		} else {
-			renderErrorJSON(w, TaskIDUploading, err, http.StatusInternalServerError)
+			renderErrorJSON(w, taskIDUploading, err, http.StatusInternalServerError)
 		}
 		return "", false
 	}

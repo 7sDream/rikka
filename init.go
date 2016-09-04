@@ -12,39 +12,49 @@ import (
 	"github.com/7sDream/rikka/plugins/fs"
 )
 
-// Map from plugin name to object
-var pluginMap = make(map[string]plugins.RikkaPlugin)
+var (
+	// Map from plugin name to object
+	pluginMap = make(map[string]plugins.RikkaPlugin)
 
-// Command line arguments var
-var argBindIPAddress *string
-var argPort *int
-var argPassword *string
-var argMaxSizeByMB *float64
-var argPluginStr *string
-var argLogLevel *int
+	// Command line arguments var
+	argBindIPAddress *string
+	argPort          *int
+	argPassword      *string
+	argMaxSizeByMB   *float64
+	argPluginStr     *string
+	argLogLevel      *int
 
-// concat socket from ip address and port
-var socket string
+	// concat socket from ip address and port
+	socket string
 
-// The used plugin
-var thePlugin plugins.RikkaPlugin
+	// The used plugin
+	thePlugin plugins.RikkaPlugin
+)
 
 // --- Init and check functions ---
 
-func createSignalHandler(c chan os.Signal) func() {
+func createSignalHandler(handlerFunc func()) (func(), chan os.Signal) {
+	signalChain := make(chan os.Signal, 1)
+
 	return func() {
-		for _ = range c {
-			l.Fatal("Rikka have to go to bed, see you tomorrow")
+		for _ = range signalChain {
+			handlerFunc()
 		}
-	}
+	}, signalChain
+}
+
+// registerSignalHandler register a handler for process Ctrl + C
+func registerSignalHandler(handlerFunc func()) {
+	signalHandler, channel := createSignalHandler(handlerFunc)
+	signal.Notify(channel, os.Interrupt)
+	go signalHandler()
 }
 
 func init() {
-	// handler Ctrl + C
-	signalChain := make(chan os.Signal, 1)
-	signal.Notify(signalChain, os.Interrupt)
-	signalHandler := createSignalHandler(signalChain)
-	go signalHandler()
+
+	registerSignalHandler(func() {
+		l.Fatal("Rikka have to go to sleep, see you tomorrow")
+	})
 
 	initPluginList()
 

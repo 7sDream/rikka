@@ -9,7 +9,9 @@ import (
 	"github.com/7sDream/rikka/server/webserver"
 )
 
-var l = logger.NewLogger("[Server]")
+var (
+	l = logger.NewLogger("[Server]")
+)
 
 // StartRikka start all part of rikka. Include File process plugin, web Server and API server.
 func StartRikka(socket string, password string, maxSizeByMB float64, plugin plugins.RikkaPlugin) {

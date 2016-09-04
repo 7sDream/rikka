@@ -9,9 +9,11 @@ import (
 	"github.com/7sDream/rikka/common/logger"
 )
 
-var l = logger.NewLogger("[Plugins]")
+var (
+	l = logger.NewLogger("[Plugins]")
 
-var currentPlugin RikkaPlugin
+	currentPlugin RikkaPlugin
+)
 
 // SubLogger return a new sub logger from plugins logger.
 func SubLogger(prefix string) *logger.Logger {

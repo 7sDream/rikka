@@ -7,12 +7,16 @@ import (
 	"github.com/7sDream/rikka/plugins"
 )
 
+const (
+	fileURLPath = "/files/"
+)
+
 // ExtraHandlers return value will be add to http handle list.
 // In fs plugin, we start a static file server to serve image file we accped in /files/taskID path.
 func (fsp fsPlugin) ExtraHandlers() (handlers []plugins.HandlerWithPattern) {
 	// get a base file server
 	fileServer := http.StripPrefix(
-		"/files",
+		fileURLPath[:len(fileURLPath)-1],
 		// Disable list dir
 		util.DisableListDir(
 			http.FileServer(http.Dir(imageDir)),
@@ -28,7 +32,7 @@ func (fsp fsPlugin) ExtraHandlers() (handlers []plugins.HandlerWithPattern) {
 
 	handlers = []plugins.HandlerWithPattern{
 		plugins.HandlerWithPattern{
-			Pattern: "/files/", Handler: requestFilterFileServer,
+			Pattern: fileURLPath, Handler: requestFilterFileServer,
 		},
 	}
 

@@ -3,14 +3,17 @@ package apiserver
 import (
 	"net/http"
 
+	"github.com/7sDream/rikka/api"
 	"github.com/7sDream/rikka/common/logger"
 	"github.com/7sDream/rikka/common/util"
 )
 
-var password string
-var maxSizeByMB float64
+var (
+	password    string
+	maxSizeByMB float64
 
-var l *logger.Logger
+	l *logger.Logger
+)
 
 // StartRikkaAPIServer start API server of Rikka
 func StartRikkaAPIServer(argPassword string, argMaxSizeByMb float64, log *logger.Logger) {
@@ -31,13 +34,13 @@ func StartRikkaAPIServer(argPassword string, argMaxSizeByMb float64, log *logger
 	)
 
 	uploadHandler := util.RequestFilter(
-		"/api/upload", "POST", l,
+		api.UploadPath, "POST", l,
 		uploadHandleFunc,
 	)
 
-	http.HandleFunc("/api/state/", stateHandler)
-	http.HandleFunc("/api/url/", urlHandler)
-	http.HandleFunc("/api/upload", uploadHandler)
+	http.HandleFunc(api.StatePath, stateHandler)
+	http.HandleFunc(api.URLPath, urlHandler)
+	http.HandleFunc(api.UploadPath, uploadHandler)
 
 	l.Info("API server start successfully")
 

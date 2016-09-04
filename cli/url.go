@@ -7,11 +7,9 @@ import (
 	"github.com/7sDream/rikka/api"
 )
 
-const urlAPIPath = "/api/url/"
-
 func getURL(host string, taskID string) *api.URL {
 
-	url := host + urlAPIPath + taskID
+	url := host + api.URLPath + taskID
 	l.Debug("Build url request url:", url)
 
 	res, err := http.Get(url)

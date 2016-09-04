@@ -7,10 +7,14 @@ import (
 	"github.com/7sDream/rikka/api"
 )
 
-var tasks = struct {
-	sync.RWMutex
-	m map[string]*api.State
-}{m: make(map[string]*api.State)}
+var (
+	tasks = struct {
+		sync.RWMutex
+		m map[string]*api.State
+	}{
+		m: make(map[string]*api.State),
+	}
+)
 
 // CreateTask add a task to task list.
 // If taskID already exist, return an error.

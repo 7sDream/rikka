@@ -6,7 +6,9 @@ import (
 	"github.com/7sDream/rikka/common/logger"
 )
 
-var l *logger.Logger
+var (
+	l *logger.Logger
+)
 
 // StartRikkaWebServer start web server of rikka.
 func StartRikkaWebServer(log *logger.Logger) {
@@ -15,9 +17,9 @@ func StartRikkaWebServer(log *logger.Logger) {
 
 	checkFiles()
 
-	http.HandleFunc("/", indexHandler)
-	http.HandleFunc("/view/", viewHandler)
-	http.Handle("/static/", staticFsHandler)
+	http.HandleFunc(RootPath, indexHandler)
+	http.HandleFunc(ViewPath, viewHandler)
+	http.Handle(StaticPath, staticFsHandler)
 
 	l.Info("Rikka web server start successfully")
 }

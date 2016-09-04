@@ -12,7 +12,9 @@ import (
 	"github.com/7sDream/rikka/common/logger"
 )
 
-var l = logger.NewLogger("[Util]")
+var (
+	l = logger.NewLogger("[Util]")
+)
 
 // ErrHandle is a simple error handl function.
 // If err is an error, write 500 InernalServerError to header and write error message to response and return true.
@@ -45,7 +47,7 @@ func CheckExist(filepath string) bool {
 // Else don't do anything and return true.
 func CheckMethod(w http.ResponseWriter, r *http.Request, excepted string) bool {
 	if r.Method != excepted {
-		http.Error(w, "Method Not Allowed.", http.StatusMethodNotAllowed)
+		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
 		return false
 	}
 	return true
@@ -181,7 +183,7 @@ func RequestFilter(pathMustBe string, methodMustBe string, log *logger.Logger, h
 
 		if methodMustBe != "" {
 			if !CheckMethod(w, r, methodMustBe) {
-				log.Warn("Someone visit page", r.URL.Path, "with method", r.Method, ", only GET is allowed.")
+				log.Warn("Someone visit page", r.URL.Path, "with method", r.Method, ", only", methodMustBe, "is allowed.")
 				return
 			}
 		}

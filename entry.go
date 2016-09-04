@@ -6,7 +6,9 @@ import (
 )
 
 // Logger of this package
-var l = logger.NewLogger("[Entry]")
+var (
+	l = logger.NewLogger("[Entry]")
+)
 
 // Main enterypoint
 func main() {

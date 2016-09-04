@@ -8,29 +8,31 @@ import (
 	"github.com/7sDream/rikka/api"
 )
 
-var formatList = []*bool{
-	flag.Bool("r", false, "reStructuredText format"),
-	flag.Bool("b", false, "BBCode format"),
-	flag.Bool("h", false, "HTML format"),
-	flag.Bool("m", false, "markdown format"),
-	flag.Bool("s", true, "src address format"),
-}
+var (
+	templateArgs = []*bool{
+		flag.Bool("r", false, "reStructuredText format"),
+		flag.Bool("b", false, "BBCode format"),
+		flag.Bool("h", false, "HTML format"),
+		flag.Bool("m", false, "markdown format"),
+		flag.Bool("s", true, "src address format"),
+	}
 
-var formatMap = []string{
-	".. image:: {{ .URL }}",
-	"[img]{{ .rURL }}[/img]",
-	"<img src=\"{{ .URL }}\" >",
-	"![]({{ .URL }})",
-	"{{ .URL }}",
-}
+	templateStrings = []string{
+		".. image:: {{ .URL }}",
+		"[img]{{ .rURL }}[/img]",
+		"<img src=\"{{ .URL }}\" >",
+		"![]({{ .URL }})",
+		"{{ .URL }}",
+	}
+)
 
 func format(url *api.URL) string {
 
 	var templateStr string
 
-	for i, v := range formatList {
+	for i, v := range templateArgs {
 		if *v {
-			templateStr = formatMap[i]
+			templateStr = templateStrings[i]
 			break
 		}
 	}

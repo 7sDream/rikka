@@ -27,9 +27,11 @@ const (
 	LevelError
 )
 
-var l = NewLogger("[Logger]")
+var (
+	l = NewLogger("[Logger]")
 
-var currentLevel = LevelDebug
+	currentLevel = LevelDebug
+)
 
 // NewLogger create a new top level logger based on prefix
 func NewLogger(prefix string) *Logger {

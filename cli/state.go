@@ -8,11 +8,9 @@ import (
 	"github.com/7sDream/rikka/api"
 )
 
-const stateAPIPath = "/api/state/"
-
 func getState(host string, taskID string) *api.State {
 
-	url := host + stateAPIPath + taskID
+	url := host + api.StatePath + taskID
 	l.Debug("Build state request url:", url)
 
 	res, err := http.Get(url)
@@ -41,6 +39,8 @@ func waitFinish(host string, taskID string) {
 	for {
 		state := getState(host, taskID)
 
+		l.Info("State of task", taskID, "is:", state.Description)
+
 		if state.StateCode == api.StateErrorCode {
 			l.Fatal("Task state error:", state.Description)
 		}
@@ -49,7 +49,7 @@ func waitFinish(host string, taskID string) {
 			return
 		}
 
-		l.Info("State if task is:", state.Description)
+		l.Warn("State is not finished, will retry after 1 second...")
 
 		time.Sleep(1 * time.Second)
 	}
