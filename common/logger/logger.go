@@ -96,7 +96,6 @@ func (logger *Logger) SubLogger(prefix string) (subLogger *Logger) {
 // SetLevel set the minimum level that message will be print out
 func SetLevel(level int) {
 	if LevelDebug <= level && level < LevelError {
-		l.Info("Log level from", currentLevel, "change to", level)
 		currentLevel = level
 	} else {
 		l.Error("Set logger level", level, "failed, accepted range is", LevelInfo, "to", LevelError)

@@ -70,7 +70,7 @@ func getURLJSON(taskID string, r *http.Request, picOp *plugins.ImageOperate) ([]
 	return jsonEncode(url)
 }
 
-func renderErrorJSON(w http.ResponseWriter, taskID string, err error) {
+func renderErrorJSON(w http.ResponseWriter, taskID string, err error, errorCode int) {
 	errorJSONData, err := getErrorJSON(err)
 
 	if util.ErrHandle(w, err) {
@@ -81,7 +81,7 @@ func renderErrorJSON(w http.ResponseWriter, taskID string, err error) {
 
 	// build error json successfully
 	l.Debug("Build error json successfully of task", taskID)
-	err = util.RenderJSON(w, errorJSONData)
+	err = util.RenderJSON(w, errorJSONData, errorCode)
 
 	if util.ErrHandle(w, err) {
 		// rander error json failed
@@ -91,14 +91,14 @@ func renderErrorJSON(w http.ResponseWriter, taskID string, err error) {
 	}
 }
 
-func renderJSONOrError(w http.ResponseWriter, taskID string, jsonData []byte, err error) {
+func renderJSONOrError(w http.ResponseWriter, taskID string, jsonData []byte, err error, errorCode int) {
 	// has error
 	if err != nil {
-		renderErrorJSON(w, taskID, err)
+		renderErrorJSON(w, taskID, err, errorCode)
 	}
 
 	// no error, render json
-	err = util.RenderJSON(w, jsonData)
+	err = util.RenderJSON(w, jsonData, http.StatusOK)
 
 	// render json failed
 	if util.ErrHandle(w, err) {
@@ -124,7 +124,7 @@ func stateHandleFunc(w http.ResponseWriter, r *http.Request) {
 		l.Debug("Get state json of task", taskID, "successfully")
 	}
 
-	renderJSONOrError(w, taskID, jsonData, err)
+	renderJSONOrError(w, taskID, jsonData, err, http.StatusInternalServerError)
 }
 
 func urlHandleFunc(w http.ResponseWriter, r *http.Request) {
@@ -143,7 +143,7 @@ func urlHandleFunc(w http.ResponseWriter, r *http.Request) {
 		l.Info("Get url json of task", taskID, "successfully")
 	}
 
-	renderJSONOrError(w, taskID, jsonData, err)
+	renderJSONOrError(w, taskID, jsonData, err, http.StatusInternalServerError)
 }
 
 // ---- upload handle aux functions --
@@ -172,7 +172,7 @@ func checkPassowrd(w http.ResponseWriter, r *http.Request, from string) bool {
 		}
 
 		// from == "api"
-		renderErrorJSON(w, "[upload task]", errors.New("Error password"))
+		renderErrorJSON(w, "[upload task]", errors.New("Error password"), http.StatusUnauthorized)
 		return false
 	}
 	l.Debug("Password check successfully")
@@ -191,7 +191,7 @@ func getUploadedFile(w http.ResponseWriter, r *http.Request, from string) (multi
 		}
 
 		// from == "api"
-		renderErrorJSON(w, "[upload task]", err)
+		renderErrorJSON(w, "[upload task]", err, http.StatusBadRequest)
 		return file, false
 	}
 	l.Debug("Get uploaded file successfully")
@@ -214,7 +214,7 @@ func sendSaveRequestToPlugin(w http.ResponseWriter, file multipart.File, from st
 		if from == "website" {
 			util.ErrHandle(w, err)
 		} else {
-			renderErrorJSON(w, taskID, err)
+			renderErrorJSON(w, taskID, err, http.StatusInternalServerError)
 		}
 		return taskID, false
 	}
@@ -235,7 +235,7 @@ func sendUploadResultToClient(w http.ResponseWriter, taskID string, from string)
 		} else {
 			l.Debug("Build task ID json", taskIDJSON, "of task", taskID, "successfully")
 		}
-		renderJSONOrError(w, taskID, taskIDJSON, err)
+		renderJSONOrError(w, taskID, taskIDJSON, err, http.StatusInternalServerError)
 	}
 }
 
@@ -288,12 +288,12 @@ func StartRikkaAPIServer(argPassword string, argMaxSizeByMb float64, log *logger
 
 	stateHandler := util.RequestFilter(
 		"", "GET", l,
-		stateHandleFunc,
+		util.DisableListDirFunc(stateHandleFunc),
 	)
 
 	urlHandler := util.RequestFilter(
 		"", "GET", l,
-		urlHandleFunc,
+		util.DisableListDirFunc(urlHandleFunc),
 	)
 
 	uploadHandler := util.RequestFilter(

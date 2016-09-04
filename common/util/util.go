@@ -80,7 +80,8 @@ func RenderTemplate(templatePath string, w http.ResponseWriter, data interface{}
 }
 
 // RenderJSON is a shortcut function to write JSON data to response, and set the header Content-Type.
-func RenderJSON(w http.ResponseWriter, data []byte) (err error) {
+func RenderJSON(w http.ResponseWriter, data []byte, code int) (err error) {
+	w.WriteHeader(code)
 	w.Header().Set("Content-Type", "application/json")
 	_, err = w.Write(data)
 	return err
@@ -116,6 +117,18 @@ func DisableListDir(h http.Handler) http.HandlerFunc {
 			http.NotFound(w, r)
 		} else {
 			h.ServeHTTP(w, r)
+		}
+	}
+}
+
+// DisableListDirFunc accept a handle func and return a handle that not allow list dir.
+func DisableListDirFunc(h http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		if strings.HasSuffix(r.URL.Path, "/") {
+			l.Warn("Someone try to list dir", r.URL.Path)
+			http.NotFound(w, r)
+		} else {
+			h(w, r)
 		}
 	}
 }

@@ -106,4 +106,4 @@ PS：你可以使用 Rikka 的 `-dir` 参数指定文件储存位置，比如这
 
 ## API
 
-请看 [Rikka API 文档](https://github.com/7sDream/rikka/blob/master/API.md)
+请看 [Rikka API 文档](https://github.com/7sDream/rikka/blob/master/server/apiserver/README.md)

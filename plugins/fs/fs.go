@@ -23,7 +23,7 @@ var l = plugins.SubLogger("[FS]")
 
 const (
 	stateCopying     = "copying"
-	stateCopyingCode = 1
+	stateCopyingCode = 2
 	stateCopyingDesc = "Image is being copied to rikka file system"
 )
 
