@@ -58,16 +58,17 @@ func viewHandleFunc(w http.ResponseWriter, r *http.Request) {
 		err = util.RenderTemplate(templateFilePath, w, context)
 		if util.ErrHandle(w, err) {
 			// RenderTemplate error
-			l.Error("Render template", templateFilePath, "error:", err)
+			l.Error("Erro when render template", templateFilePath, ":", err)
 		} else {
 			// successfully
 			l.Debug("Render template", templateFilePath, "successfully")
 		}
+		return
 	}
 
 	// state is finished, use viewFinish.html
-	templateFilePath := "templates/viewFinish.html"
 	l.Debug("Recieve url of task", taskID, ":", pURL.URL)
+	templateFilePath := "templates/viewFinish.html"
 	context.URL = pURL.URL
 	err = util.RenderTemplate(templateFilePath, w, context)
 	if util.ErrHandle(w, err) {
@@ -77,7 +78,6 @@ func viewHandleFunc(w http.ResponseWriter, r *http.Request) {
 		// successfully
 		l.Debug("Render template", templateFilePath, "successfully")
 	}
-	return
 }
 
 // StartRikkaWebServer start web server of rikka.
