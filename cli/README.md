@@ -1,4 +1,4 @@
-# Rikka-CLI - Rikka 的命令行工具
+# rikkac - Rikka 的命令行工具
 
 需要和 [Rikka](https://github.com/7sDream/rikka) 配合使用。
 

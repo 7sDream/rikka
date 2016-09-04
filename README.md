@@ -7,10 +7,11 @@ Rikka 的镜像已经发布到了 [DockerHub](https://hub.docker.com/r/7sdream/r
 ## 特点
 
 1. 极简，不保存上传历史
-2. 支持将图片链接复制成多种格式
+2. 支持将图片链接复制成多种格式（已完成）
 3. 文件储存部分插件化。虽然目前只有一个插件是将文件储存到本机，但是慢慢我会加一些比如七牛云 CDN 的插件（计划中
-4. Web 服务和 RESTful API 服务模块化 
-5. CLI 工具（计划中
+4. 提供 API（已完成）
+4. Web 服务和 RESTful API 服务模块化 （已完成）
+5. CLI 工具（已完成）
 6. **只对最新版 Chrome 保持兼容**（没错这是优点）
 7. 首页标志很可爱
 8. 维护者很活跃（貌似……
@@ -59,6 +60,14 @@ Rikka 的镜像已经发布到了 [DockerHub](https://hub.docker.com/r/7sdream/r
 
 这是有意为之的，因为 Rikka 的主要设计的理念就是简单， `上传-复制-粘贴-关闭`，之后就再也不用管了。
 
+## API
+
+请看 [Rikka API 文档](https://github.com/7sDream/rikka/blob/master/server/apiserver/README.md)
+
+## rikkac - 命令行工具
+
+请看 [Rikka CLI 文档](https://github.com/7sDream/rikka/tree/master/cli)
+
 ## 部署
 
 ### 方式 1: 在你的 VPS 上编译
@@ -103,7 +112,3 @@ PS：你可以使用 Rikka 的 `-dir` 参数指定文件储存位置，比如这
 比如，我们可以用 DaoCloud 的免费配额来部署一个 Rikka 服务。
 
 详细步骤请看 [DaoCloud 部署教程](https://github.com/7sDream/rikka/wiki/%E5%9C%A8-DaoCloud-%E4%B8%8A%E5%85%8D%E8%B4%B9%E9%83%A8%E7%BD%B2-Rikka)。
-
-## API
-
-请看 [Rikka API 文档](https://github.com/7sDream/rikka/blob/master/server/apiserver/README.md)
