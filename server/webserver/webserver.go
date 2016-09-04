@@ -35,53 +35,38 @@ func viewHandleFunc(w http.ResponseWriter, r *http.Request) {
 	taskID := util.GetTaskIDByRequest(r)
 
 	l.Debug("Recieve a view request of task", taskID)
-	l.Debug("Send a state request of task", taskID, "to plugin")
+	l.Debug("Send a url request of task", taskID, "to plugin manager")
 
-	pState, err := plugins.GetState(taskID)
-	if util.ErrHandle(w, err) {
-		l.Warn("Get state of task", taskID, "error:", err)
-		return
-	}
+	var pURL *plugins.URLJSON
+	var err error
+	if pURL, err = plugins.GetURL(taskID, r, nil); err != nil {
+		// state is not finished or error when get url, use view.html
+		templateFilePath := "templates/view.html"
+		l.Warn("Error happened when get url of task", taskID, ":", err)
+		l.Warn("State of task", taskID, "is not finished(or error happened), render with", templateFilePath)
 
-	l.Debug("Get state of task", taskID, "successfully")
-
-	if pState.StateCode == plugins.StateFinishCode {
-		// state is finished
-		templateFilePath := "templates/viewFinish.html"
-		l.Debug("State of task", taskID, "is finished, render with", templateFilePath)
-		l.Debug("Send an url request of task", taskID, "to plugin")
-		if url, err := plugins.GetURL(taskID, r, nil); err == nil {
-			// get url successfully
-			l.Debug("Get url of task", taskID, "successfully:", url.URL)
-
-			err = util.RenderTemplate(templateFilePath, w, url)
-
-			if util.ErrHandle(w, err) {
-				// RenderTemplate error
-				l.Error("Error happened when render template", templateFilePath, ":", err)
-			} else {
-				// successfully
-				l.Debug("Render template", templateFilePath, "successfully")
-			}
-			return
+		err = util.RenderTemplate(templateFilePath, w, struct{ TaskID string }{TaskID: taskID})
+		if util.ErrHandle(w, err) {
+			// RenderTemplate error
+			l.Error("Render template", templateFilePath, "error:", err)
+		} else {
+			// successfully
+			l.Debug("Render template", templateFilePath, "successfully")
 		}
-		l.Error("Error happened when get url of task", taskID, ":", err)
-		util.ErrHandle(w, err)
-		return
 	}
 
-	// state is not finished
-	templateFilePath := "templates/view.html"
-	l.Warn("State of task", taskID, "is not finished(or error happened), render with", templateFilePath)
-
-	err = util.RenderTemplate(templateFilePath, w, struct{ TaskID string }{TaskID: taskID})
+	// state is finished, use viewFinish.html
+	templateFilePath := "templates/viewFinish.html"
+	l.Debug("Recieve url of task", taskID, ":", pURL.URL)
+	err = util.RenderTemplate(templateFilePath, w, pURL)
 	if util.ErrHandle(w, err) {
 		// RenderTemplate error
-		l.Error("Render template", templateFilePath, "error:", err)
+		l.Error("Error happened when render template", templateFilePath, ":", err)
 	} else {
 		// successfully
 		l.Debug("Render template", templateFilePath, "successfully")
 	}
+	return
 }
 
 // StartRikkaWebServer start web server of rikka.

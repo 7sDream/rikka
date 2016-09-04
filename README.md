@@ -5,10 +5,11 @@
 1. 极简，不保存上传历史
 2. 支持将图片链接复制成多种格式
 3. 文件储存部分插件化。虽然目前只有一个插件是将文件储存到本机，但是慢慢我会加一些比如七牛云 CDN 的插件（计划中
-4. RESTful API （计划中
-5. CLI 工具
+4. Web 服务和 RESTful API 服务模块化 
+5. CLI 工具（计划中
 6. **只对最新版 Chrome 保持兼容**（没错这是优点）
 7. 首页标志很可爱
+8. 维护者很活跃（貌似……
 
 ## 启动参数
 
@@ -23,6 +24,8 @@
 `-pwd` 参数指定上传文件时的密码。
 
 `-size` 指定允许上传的最大文件大小，以 MB 为单位，可以有小数。
+
+`-level` 设置日志级别
 
 ## Demo
 
@@ -88,3 +91,7 @@ Docker 提供了数据卷的功能，这样就不用爬和 Rikka 无关我们上
 比如，我们可以用 DaoCloud 的免费配额来部署一个 Rikka 服务。
 
 详细步骤请看 [DaoCloud 部署教程](https://github.com/7sDream/rikka/wiki/%E5%9C%A8-DaoCloud-%E4%B8%8A%E5%85%8D%E8%B4%B9%E9%83%A8%E7%BD%B2-Rikka)。
+
+## API
+
+请看 [Rikka API 文档](https://github.com/7sDream/rikka/blob/master/API.md)

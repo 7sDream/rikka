@@ -1,6 +1,8 @@
 package plugins
 
 import (
+	"errors"
+	"fmt"
 	"net/http"
 
 	"github.com/7sDream/rikka/common/logger"
@@ -41,9 +43,27 @@ func GetState(taskID string) (r *State, err error) {
 // Also be called when web server recieve a view request and GetState return a finished state.
 // web server use the return url value to render a finished view html.
 func GetURL(taskID string, r *http.Request, picOp *ImageOperate) (url *URLJSON, err error) {
-	return currentPlugin.URLRequestHandle(&URLRequest{
-		HTTPRequest: r,
-		TaskID:      taskID,
-		PicOp:       picOp,
-	})
+	l.Debug("Send state request to plugin before get url of task", taskID)
+	var pState *State
+
+	// check state successfully
+	if pState, err = GetState(taskID); err == nil {
+		// not finished
+		if pState.StateCode != StateFinishCode {
+			l.Warn("Task", taskID, "not finished, can't get url")
+			return nil, errors.New("Task not finished")
+		}
+		// finished
+		l.Debug("Task", taskID, "is finished, send url request to the plugin")
+		return currentPlugin.URLRequestHandle(&URLRequest{
+			HTTPRequest: r,
+			TaskID:      taskID,
+			PicOp:       picOp,
+		})
+	}
+
+	// check state error
+	errorMsg := fmt.Sprint("Error happened when get state of task", taskID, ":", err)
+	l.Error(errorMsg)
+	return nil, errors.New(errorMsg)
 }

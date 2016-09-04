@@ -47,7 +47,7 @@ func getTaskIDJSON(taskID string) ([]byte, error) {
 // getStateJSON get state json bytes.
 // Will call plgins.GetState
 func getStateJSON(taskID string) ([]byte, error) {
-	l.Debug("Send state request of task", taskID, "to plugin")
+	l.Debug("Send state request of task", taskID, "to plugin manager")
 	state, err := plugins.GetState(taskID)
 	if err != nil {
 		l.Warn("Error happened when get state of task", taskID, ":", err)
@@ -60,7 +60,7 @@ func getStateJSON(taskID string) ([]byte, error) {
 // getURLJSON get url json bytes like {"URL": "http://127.0.0.1/files/filename"}
 // Will call plgins.GetURL
 func getURLJSON(taskID string, r *http.Request, picOp *plugins.ImageOperate) ([]byte, error) {
-	l.Debug("Send url request of task", taskID, "to plugin")
+	l.Debug("Send url request of task", taskID, "to plugin manager")
 	url, err := plugins.GetURL(taskID, r, picOp)
 	if err != nil {
 		l.Error("Error happened when get url of task", taskID, ":", err)
@@ -206,11 +206,11 @@ func redirectToView(w http.ResponseWriter, taskID string) {
 }
 
 func sendSaveRequestToPlugin(w http.ResponseWriter, file multipart.File, from string) (string, bool) {
-	l.Debug("Send file save request to plugin")
+	l.Debug("Send file save request to plugin manager")
 	taskID, err := plugins.AcceptFile(&plugins.SaveRequest{File: file})
 
 	if err != nil {
-		l.Error("Error happened when plugin process file save request:", err)
+		l.Error("Error happened when plugin manager process file save request:", err)
 		if from == "website" {
 			util.ErrHandle(w, err)
 		} else {
@@ -219,7 +219,7 @@ func sendSaveRequestToPlugin(w http.ResponseWriter, file multipart.File, from st
 		return taskID, false
 	}
 
-	l.Debug("Revieve task ID from plugin:", taskID)
+	l.Debug("Recieve task ID from plugin manager:", taskID)
 
 	return taskID, true
 }
