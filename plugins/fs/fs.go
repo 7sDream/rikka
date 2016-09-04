@@ -28,9 +28,12 @@ const (
 
 type fsPlugin struct{}
 
-var FsPlugin fsPlugin = fsPlugin{}
+// FsPlugin is the main plugin instance.
+var FsPlugin = fsPlugin{}
 
+// Init is the plugin init function, will be called when plugin be load.
 func (fsp fsPlugin) Init() {
+	// where to store file
 	l.Info("Args dir =", *filesDir)
 	absFilesDir, err := pathutil.Abs(*filesDir)
 	if err == nil {
@@ -39,7 +42,7 @@ func (fsp fsPlugin) Init() {
 	} else {
 		l.Fatal("A error happened when change photo dir to absolute path:", err)
 	}
-
+	// if target dir not exist, create it
 	if util.CheckExist(absFilesDir) {
 		l.Info("Photo file dir already exist")
 	} else {
@@ -63,6 +66,7 @@ func deleteFile(filepath string) {
 	}
 }
 
+// A shortcut funtion to build state we need.
 func buildCopyingState(taskID string) plugins.State {
 	return plugins.State{
 		TaskID:      taskID,
@@ -72,11 +76,13 @@ func buildCopyingState(taskID string) plugins.State {
 	}
 }
 
+// background operate, save file to disk
 func saveFile(uploadFile multipart.File, saveTo *os.File, taskID string) {
 	l.Info("Starting task", taskID)
 
 	filepath := saveTo.Name()
 
+	// If error happend when create task, delete file
 	if err := plugins.CreateTask(buildCopyingState(taskID)); err != nil {
 		l.Warn("A error happend when add task", taskID, ":", err)
 		saveTo.Close()
@@ -85,6 +91,7 @@ func saveFile(uploadFile multipart.File, saveTo *os.File, taskID string) {
 		return
 	}
 
+	// copy file to disk, then close
 	_, err := io.Copy(saveTo, uploadFile)
 	saveTo.Close()
 	uploadFile.Close()
@@ -96,52 +103,64 @@ func saveFile(uploadFile multipart.File, saveTo *os.File, taskID string) {
 		if err := plugins.DeleteTask(taskID); err == nil {
 			l.Info("Task", taskID, "finished")
 		} else {
+			// delete task failed, delete file and exit
 			deleteFile(filepath)
 			l.Fatal("A error happened when delete task", taskID, ":", err)
 		}
 	} else {
-		// copy file failed
+		// copy file failed, delete file and turn state to error
 		deleteFile(filepath)
 		l.Warn("A error happened when copy file", taskID, ":", err)
 
 		if err := plugins.ChangeTaskState(plugins.BuildErrorState(taskID, err.Error())); err == nil {
 			l.Info("Turn task", taskID, "state to error")
 		} else {
+			// change task state error, exit.
 			l.Fatal("A error happend when change task", taskID, "to error state:", err)
 		}
 	}
 }
 
+// SaveRequestHandle Will be called when recieve a file save request.
 func (fsp fsPlugin) SaveRequestHandle(q *plugins.SaveRequest) (taskID string, err error) {
 	l.Info("Recieved a file save request")
+
+	// Task ID use time prefix and a number follow it(produce by TempFile)
 	now := time.Now().UTC()
 	saveTo, err := ioutil.TempFile(tempDir, now.Format("2006-01-02-"))
 
 	if err == nil {
 		l.Info("Create file on fs successfully:", saveTo.Name())
 	} else {
-		l.Warn("Create file on fs error:", err)
+		l.Error("Create file on fs error:", err)
 		return "", err
 	}
 
 	_, taskID = pathutil.Split(saveTo.Name())
 
+	// start background copy operate
 	go saveFile(q.File, saveTo, taskID)
 
 	return taskID, nil
 }
 
+// StateRequestHandle Will be called when recieve a get state request.
 func (fsp fsPlugin) StateRequestHandle(taskID string) (pState *plugins.State, err error) {
+	// taskID exist on task list, just return it
 	if pState, err = plugins.GetTaskState(taskID); err == nil {
 		return pState, nil
 	}
+	// TaskID not exist or error when get it, check if image file already exist
 	if util.CheckExist(pathutil.Join(tempDir, taskID)) {
+		// file exist as a finished state
 		finishState := plugins.BuildFinishState(taskID)
 		return &finishState, nil
 	}
+	// get state error
 	return nil, err
 }
 
+// buildURL build complete url from request's Host header and task ID
 func buildURL(r *http.Request, taskID string) string {
 	res := url.URL{
 		Scheme: "http",
@@ -151,9 +170,11 @@ func buildURL(r *http.Request, taskID string) string {
 	return res.String()
 }
 
+// URLRequestHandle will be called when recieve a get image url by taskID request
 func (fsp fsPlugin) URLRequestHandle(q *plugins.URLRequest) (url *plugins.URLJSON, err error) {
 	taskID := q.TaskID
 	r := q.HTTPRequest
+	// If file exist, return url
 	if util.CheckExist(pathutil.Join(tempDir, taskID)) {
 		url := buildURL(r, taskID)
 		return &plugins.URLJSON{URL: url}, nil
@@ -161,16 +182,28 @@ func (fsp fsPlugin) URLRequestHandle(q *plugins.URLRequest) (url *plugins.URLJSO
 	return nil, errors.New("File not exist.")
 }
 
+// ExtraHandlers return value will be add to http handle list.
+// In fs plugin, we start a static file server to serve image file we accped in /files/taskID path.
 func (fsp fsPlugin) ExtraHandlers() (handlers []plugins.HandlerWithPattern) {
-	fileFs := http.StripPrefix(
+	// get a base file server
+	fileServer := http.StripPrefix(
 		"/files",
+		// Disable list dir
 		util.DisableListDir(
 			http.FileServer(http.Dir(tempDir)),
 		),
 	)
+	// only accped GET request
+	requestFilterFileServer := util.RequestFilter(
+		"", "GET", l,
+		func(w http.ResponseWriter, q *http.Request) {
+			fileServer.ServeHTTP(w, q)
+		},
+	)
+
 	handlers = []plugins.HandlerWithPattern{
 		plugins.HandlerWithPattern{
-			Pattern: "/files/", Handler: fileFs,
+			Pattern: "/files/", Handler: requestFilterFileServer,
 		},
 	}
 
