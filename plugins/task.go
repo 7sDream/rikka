@@ -12,16 +12,16 @@ var tasks = struct {
 
 // CreateTask add a task to task list.
 // If taskID already exist, return an error.
-func CreateTask(state State) error {
+func CreateTask(taskID string) error {
 	tasks.Lock()
 	defer tasks.Unlock()
 
-	if _, ok := tasks.m[state.TaskID]; ok { // key exist
+	if _, ok := tasks.m[taskID]; ok { // key exist
 		return errors.New("Task already exist")
 	}
 
-	copyState := state
-	tasks.m[state.TaskID] = &copyState
+	createState := BuildCreateState(taskID)
+	tasks.m[taskID] = &createState
 	return nil
 }
 
@@ -66,6 +66,16 @@ func DeleteTask(taskID string) error {
 	}
 
 	return errors.New("Task not exist")
+}
+
+// BuildCreateState build a standard just-create state from taskID.
+func BuildCreateState(taskID string) State {
+	return State{
+		TaskID:      taskID,
+		State:       StateCreate,
+		StateCode:   StateCreateCode,
+		Description: StateCreateDescription,
+	}
 }
 
 // BuildFinishState build a standard finished state from taskID.

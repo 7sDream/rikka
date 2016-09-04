@@ -23,7 +23,9 @@ function show(elem) {
     elem.classList.remove("hide")
 }
 
-function getPhotoState(taskID) {
+function getPhotoState(taskID, times) {
+    times = times || 0
+
     let stateElement = document.querySelector("p#state");
     let imageElement = document.querySelector("img.preview")
     let formElement = document.querySelector("form");
@@ -37,8 +39,8 @@ function getPhotoState(taskID) {
         } else if (state == 0) {    // Successful state
             return json;
         } else {    // Other state
-            stateElement.textContent = "State:" + json['Description'] + ", please wait...";
-            setTimeout(getPhotoState, 1000, taskID);
+            stateElement.textContent = "Request " + times.toString() + ", upload state: " + json['Description'] + ", please wait...";
+            setTimeout(getPhotoState, 1000, taskID, times + 1);
             return new Promise(() => {})
         }
     }).then(function(json){
