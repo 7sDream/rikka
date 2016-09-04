@@ -31,6 +31,8 @@ Rikka 的镜像已经发布到了 [DockerHub](https://hub.docker.com/r/7sdream/r
 
 `-level` 设置日志级别
 
+`-fsDebugSleep` 一般用不到，是让 fs 插件在复制文件前暂停一段时间，模拟耗时操作，测试 javascript AJAX 的。单位是 ms。
+
 ## Demo
 
 这里有一个使用 Rikka 建立的[网站 Demo](http://7sdream-rikka-demo.daoapp.io/)，密码是 `rikka`。
@@ -49,7 +51,9 @@ Rikka 的镜像已经发布到了 [DockerHub](https://hub.docker.com/r/7sdream/r
 
 ![](http://7sdream-rikka-demo.daoapp.io/files/2016-09-02-734641087)
 
-点击 `Src`, `Markdown`, `HTML`, `RST` 按钮可以复制对应格式的文本，然后你可以把它粘贴到其他地方。
+如果文件过大，还没有保存完毕的话会看到等待提示，等一下就好。
+
+等地址出现后，点击 `Src`, `Markdown`, `HTML`, `RST` 按钮可以复制对应格式的文本，然后你可以把它粘贴到其他地方。
 
 但是注意：如果你关闭了这个页面，除了浏览器的历史记录（或者你保存了这个网址），网站并没有提供其他让你找到以前上传的图片的方法。
 
