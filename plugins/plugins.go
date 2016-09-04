@@ -10,7 +10,7 @@ var l = logger.NewLogger("[Plugins]")
 
 var currentPlugin RikkaPlugin
 
-// SubLogger return a new sub logger belongs to plugins logger.
+// SubLogger return a new sub logger from plugins logger.
 func SubLogger(prefix string) *logger.Logger {
 	return l.SubLogger(prefix)
 }
@@ -29,12 +29,19 @@ func AcceptFile(q *SaveRequest) (fileID string, err error) {
 	return currentPlugin.SaveRequestHandle(q)
 }
 
+// GetState will be called when API server recieve a state request.
+// Also be called when web server recieve a view request,
+// web server decide response a finished view html or a self-renewal html based on
+// the return state is finished state.
 func GetState(taskID string) (r *State, err error) {
 	return currentPlugin.StateRequestHandle(taskID)
 }
 
-func GetURL(taskID string, r *http.Request, picOp *PictureOperate) (url *URL, err error) {
-	return currentPlugin.GetSrcURL(&SrcURLRequest{
+// GetURL will be called when API server recieve a url request.
+// Also be called when web server recieve a view request and GetState return a finished state.
+// web server use the return url value to render a finished view html.
+func GetURL(taskID string, r *http.Request, picOp *ImageOperate) (url *URLJSON, err error) {
+	return currentPlugin.URLRequestHandle(&URLRequest{
 		HTTPRequest: r,
 		TaskID:      taskID,
 		PicOp:       picOp,

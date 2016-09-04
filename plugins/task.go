@@ -71,6 +71,7 @@ func DeleteTask(taskID string) error {
 	return errors.New("Task not exist")
 }
 
+// BuildFinishState build a standard finished state from taskID.
 func BuildFinishState(taskID string) State {
 	return State{
 		TaskID:      taskID,
@@ -80,6 +81,7 @@ func BuildFinishState(taskID string) State {
 	}
 }
 
+// BuildErrorState build a standard error state from taskID and description.
 func BuildErrorState(taskID string, description string) State {
 	return State{
 		TaskID:      taskID,

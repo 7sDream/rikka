@@ -26,14 +26,14 @@ func jsonEncode(obj interface{}) ([]byte, error) {
 }
 
 func getErrorJSON(taskID string, err error) ([]byte, error) {
-	obj := plugins.Error{
+	obj := plugins.ErrorJSON{
 		Error: err.Error(),
 	}
 	return jsonEncode(obj)
 }
 
 func getTaskIDJSON(taskID string) ([]byte, error) {
-	obj := plugins.TaskID{
+	obj := plugins.TaskIDJSON{
 		TaskID: taskID,
 	}
 	return jsonEncode(obj)
@@ -48,7 +48,7 @@ func getStateJSON(taskID string) ([]byte, error) {
 	return jsonEncode(state)
 }
 
-func getURLJSON(taskID string, r *http.Request, picOp *plugins.PictureOperate) ([]byte, error) {
+func getURLJSON(taskID string, r *http.Request, picOp *plugins.ImageOperate) ([]byte, error) {
 	url, err := plugins.GetURL(taskID, r, picOp)
 	if err != nil {
 		l.Warn("Error happened when get url of task", taskID, ":", err)

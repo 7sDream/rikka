@@ -151,12 +151,12 @@ func buildURL(r *http.Request, taskID string) string {
 	return res.String()
 }
 
-func (fsp fsPlugin) GetSrcURL(q *plugins.SrcURLRequest) (url *plugins.URL, err error) {
+func (fsp fsPlugin) URLRequestHandle(q *plugins.URLRequest) (url *plugins.URLJSON, err error) {
 	taskID := q.TaskID
 	r := q.HTTPRequest
 	if util.CheckExist(pathutil.Join(tempDir, taskID)) {
 		url := buildURL(r, taskID)
-		return &plugins.URL{URL: url}, nil
+		return &plugins.URLJSON{URL: url}, nil
 	}
 	return nil, errors.New("File not exist.")
 }
