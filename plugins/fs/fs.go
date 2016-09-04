@@ -16,7 +16,8 @@ import (
 	"github.com/7sDream/rikka/plugins"
 )
 
-var filesDir = flag.String("dir", "files", "Where files will be save when use fs plugin.")
+var argFilesDir = flag.String("dir", "files", "Where files will be save when use fs plugin.")
+var argFsDebugSleep = flag.Int("fsDebugSleep", 0, "Debug: sleep some ms before copy file to fs, used to test javascripta ajax")
 var tempDir string
 var l = plugins.SubLogger("[FS]")
 
@@ -35,9 +36,10 @@ var FsPlugin = fsPlugin{}
 func (fsp fsPlugin) Init() {
 	// where to store file
 	l.Info("Start plugin fs")
-	l.Info("Args dir =", *filesDir)
+	l.Info("Args dir =", *argFilesDir)
+	l.Info("Args fsDebugSleep =", *argFsDebugSleep)
 
-	absFilesDir, err := pathutil.Abs(*filesDir)
+	absFilesDir, err := pathutil.Abs(*argFilesDir)
 	if err == nil {
 		l.Debug("Abs path of image file dir:", absFilesDir)
 		tempDir = absFilesDir
@@ -92,6 +94,11 @@ func saveFile(uploadFile multipart.File, saveTo *os.File, taskID string) {
 	}
 
 	l.Debug("Create task", taskID, "in task list successfully")
+
+	if *argFsDebugSleep > 0 {
+		l.Debug("Sleep", *argFsDebugSleep, "ms for debug")
+		time.Sleep(time.Duration(*argFsDebugSleep) * time.Millisecond)
+	}
 
 	l.Debug("Start copy file of task", taskID)
 
