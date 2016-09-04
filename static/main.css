@@ -55,6 +55,7 @@ div.line input {
     width: 60%;
     outline: none;
     border: 1px solid #6cf;
+    border-radius: 2px;
 }
 footer {
     width: 100%;
