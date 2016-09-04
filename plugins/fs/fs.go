@@ -84,17 +84,18 @@ func buildCopyingState(taskID string) plugins.State {
 func saveFile(uploadFile multipart.File, saveTo *os.File, taskID string) {
 	filepath := saveTo.Name()
 
-	// If error happend when create task, delete file
-	if err := plugins.CreateTask(buildCopyingState(taskID)); err != nil {
-		l.Error("Error happend when add task", taskID, ":", err)
+	// If error happend when change task state, delete file
+	if err := plugins.ChangeTaskState(buildCopyingState(taskID)); err != nil {
+		l.Error("Error happend when change state of task", taskID, "to copying:", err)
 		saveTo.Close()
 		uploadFile.Close()
 		deleteFile(filepath)
 		return
 	}
 
-	l.Debug("Create task", taskID, "in task list successfully")
+	l.Debug("Change task", taskID, "state to copy successfully")
 
+	// sleep for debug javascripta
 	if *argFsDebugSleep > 0 {
 		l.Debug("Sleep", *argFsDebugSleep, "ms for debug")
 		time.Sleep(time.Duration(*argFsDebugSleep) * time.Millisecond)
@@ -148,6 +149,11 @@ func (fsp fsPlugin) SaveRequestHandle(q *plugins.SaveRequest) (taskID string, er
 	}
 
 	_, taskID = pathutil.Split(saveTo.Name())
+
+	// create task
+	if plugins.CreateTask(taskID) != nil {
+		l.Fatal("Error happened when create new task!")
+	}
 
 	// start background copy operate
 	go saveFile(q.File, saveTo, taskID)
