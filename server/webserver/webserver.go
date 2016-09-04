@@ -10,6 +10,16 @@ import (
 
 var l *logger.Logger
 
+var context = struct {
+	Version string
+	TaskID  string
+	URL     string
+}{
+	Version: "0.1.0",
+	TaskID:  "",
+	URL:     "",
+}
+
 // Check needed files like html, css, js, logo, etc...
 func checkFiles() {
 	l.Info("Check needed files")
@@ -44,8 +54,8 @@ func viewHandleFunc(w http.ResponseWriter, r *http.Request) {
 		templateFilePath := "templates/view.html"
 		l.Warn("Error happened when get url of task", taskID, ":", err)
 		l.Warn("State of task", taskID, "is not finished(or error happened), render with", templateFilePath)
-
-		err = util.RenderTemplate(templateFilePath, w, struct{ TaskID string }{TaskID: taskID})
+		context.TaskID = taskID
+		err = util.RenderTemplate(templateFilePath, w, context)
 		if util.ErrHandle(w, err) {
 			// RenderTemplate error
 			l.Error("Render template", templateFilePath, "error:", err)
@@ -58,7 +68,8 @@ func viewHandleFunc(w http.ResponseWriter, r *http.Request) {
 	// state is finished, use viewFinish.html
 	templateFilePath := "templates/viewFinish.html"
 	l.Debug("Recieve url of task", taskID, ":", pURL.URL)
-	err = util.RenderTemplate(templateFilePath, w, pURL)
+	context.URL = pURL.URL
+	err = util.RenderTemplate(templateFilePath, w, context)
 	if util.ErrHandle(w, err) {
 		// RenderTemplate error
 		l.Error("Error happened when render template", templateFilePath, ":", err)
@@ -90,7 +101,10 @@ func StartRikkaWebServer(log *logger.Logger) {
 	// Only accept GET method.
 	indexHandler := util.RequestFilter(
 		"/", "GET", l,
-		util.TemplateRenderHandler("templates/index.html", nil, l),
+		util.TemplateRenderHandler(
+			"templates/index.html",
+			func(r *http.Request) interface{} { return context }, l,
+		),
 	)
 
 	// ViewHandler handle requset ask for photo view page(/view/TaskID), use templates/view.html
