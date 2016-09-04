@@ -90,7 +90,7 @@ Docker 提供了数据卷的功能，这样就不用爬和 Rikka 无关我们上
 
 PS：你可以使用 Rikka 的 `-dir` 参数指定文件储存位置，比如这样：
 
-`docker run -d -P -v rikkafiles:/data --name rikka 7sdream/rikka:latest -pwd 12345 -d /data`
+`docker run -d -P -v rikkafiles:/data --name rikka 7sdream/rikka:latest -pwd 12345 -dir /data`
 
 这样就不用把挂载路径设的太长了。
 
