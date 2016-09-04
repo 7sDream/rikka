@@ -30,11 +30,11 @@ Rikka 的镜像已经发布到了 [DockerHub](https://hub.docker.com/r/7sdream/r
 
 ## Demo
 
-这里有一个使用 Rikka 建立的[网站 Demo](http://7sdream-rikka-demo.daoapp.io/)，密码是 `rikka`。
+这里有一个使用 Rikka 建立的[网站 Demo][demo]，密码是 `rikka`。
 
 主页大概长这样:
 
-![](http://7sdream-rikka-demo.daoapp.io/files/2016-09-02-544100677)
+![homepage][home]
 
 点击 `Choose` 按钮选一张图片。
 
@@ -44,7 +44,7 @@ Rikka 的镜像已经发布到了 [DockerHub](https://hub.docker.com/r/7sdream/r
 
 上传完成后你将转到查看页面:
 
-![](http://7sdream-rikka-demo.daoapp.io/files/2016-09-02-734641087)
+![viewpage][view]
 
 如果文件过大，还没有保存完毕的话会看到等待提示，等一下就好。
 
@@ -74,13 +74,13 @@ Rikka 的真实储存后端使用插件形式编写。可通过 `-plugin` 参数
 
 ## API
 
-请看 [Rikka API 文档](https://github.com/7sDream/rikka/tree/master/server/apiserver)。
+请看 [Rikka API 文档][api-doc]。
 
 ## rikkac - 命令行工具
 
 rikkac 是基于 Rikka 的 API 写的命令行工具。
 
-编译、配置和使用方法请看 [Rikka CLI 文档](https://github.com/7sDream/rikka/tree/master/cli)。
+编译、配置和使用方法请看 [Rikka CLI 文档][cli-doc]。
 
 ## 部署
 
@@ -126,3 +126,10 @@ PS：你可以使用 Rikka 的 `-dir` 参数指定文件储存位置，比如这
 比如，我们可以用 DaoCloud 的免费配额来部署一个 Rikka 服务。
 
 详细步骤请看 [DaoCloud 部署教程](https://github.com/7sDream/rikka/wiki/%E5%9C%A8-DaoCloud-%E4%B8%8A%E5%85%8D%E8%B4%B9%E9%83%A8%E7%BD%B2-Rikka)。
+
+[demo]: http://7sdream-rikka-demo.daoapp.io/
+[home]: http://7sdream-rikka-demo.daoapp.io/files/2016-09-04-097924191
+[view]: http://7sdream-rikka-demo.daoapp.io/files/2016-09-04-017113138
+
+[api-doc]: https://github.com/7sDream/rikka/tree/master/server/apiserver
+[cli-doc]: https://github.com/7sDream/rikka/tree/master/cli
