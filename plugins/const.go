@@ -9,4 +9,8 @@ const (
 	StateFinish            = "finish"
 	StateFinishCode        = 0
 	StateFinishDescription = "file upload task finish"
+
+	StateCreate            = "just created"
+	StateCreateCode        = 1
+	StateCreateDescription = "the task is created just now, waiting for next operate"
 )
