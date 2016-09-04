@@ -2,6 +2,7 @@ package util
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
 	"html/template"
 	"net/http"
@@ -24,14 +25,14 @@ func ErrHandle(w http.ResponseWriter, err error) bool {
 	return false
 }
 
-// GetFilenameByRequest gets last part of url path as a filename and return it.
+// GetTaskIDByRequest gets last part of url path as a taskID and return it.
 func GetTaskIDByRequest(r *http.Request) string {
 	splitedPath := strings.Split(r.URL.Path, "/")
 	filename := splitedPath[len(splitedPath)-1]
 	return filename
 }
 
-// CheckExist chekc a file or dir is Exist.
+// CheckExist chekc if a file or dir is Exist.
 func CheckExist(filepath string) bool {
 	if _, err := os.Stat(filepath); os.IsNotExist(err) {
 		return false
@@ -50,7 +51,7 @@ func CheckMethod(w http.ResponseWriter, r *http.Request, excepted string) bool {
 	return true
 }
 
-// Render is a shortcut function to render template to response.
+// RenderTemplate is a shortcut function to render template to response.
 func RenderTemplate(templatePath string, w http.ResponseWriter, data interface{}) error {
 	t, err := template.ParseFiles(templatePath)
 	if ErrHandle(w, err) {
@@ -58,22 +59,27 @@ func RenderTemplate(templatePath string, w http.ResponseWriter, data interface{}
 		return err
 	}
 
+	// a buff that ues in execute, if error happened,
+	// error message will not be write to truly response
 	buff := bytes.NewBuffer([]byte{})
-
 	err = t.Execute(buff, data)
-	if ErrHandle(w, err) {
+
+	// error happened, write a generic error message to response
+	if err != nil {
 		l.Warn("Execute template", t, "with data", fmt.Sprintf("%+v", data), "error:", err)
+		ErrHandle(w, errors.New("error when render template"))
 		return err
 	}
 
+	// no error happened, write to response
 	content := make([]byte, buff.Len())
 	buff.Read(content)
-	w.Write(content)
+	_, err = w.Write(content)
 
-	return nil
+	return err
 }
 
-// RenderJSON is a shortcut function to write JSON data to response, and set the header Content-type
+// RenderJSON is a shortcut function to write JSON data to response, and set the header Content-Type.
 func RenderJSON(w http.ResponseWriter, data []byte) (err error) {
 	w.Header().Set("Content-Type", "application/json")
 	_, err = w.Write(data)
@@ -96,15 +102,13 @@ func MustBeOr404(w http.ResponseWriter, r *http.Request, path string) bool {
 // Else don't do anything and return true.
 func MustExistOr404(w http.ResponseWriter, r *http.Request, filepath string) bool {
 	if !CheckExist(filepath) {
-		l.Warn("Someone visit a non-exist page", r.URL.Path)
 		http.NotFound(w, r)
 		return false
 	}
 	return true
 }
 
-// DisableListDir accept a FileServer handle and return a handle that not allow
-// list dir.
+// DisableListDir accept a FileServer handle and return a handle that not allow list dir.
 func DisableListDir(h http.Handler) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if strings.HasSuffix(r.URL.Path, "/") {
@@ -116,8 +120,12 @@ func DisableListDir(h http.Handler) http.HandlerFunc {
 	}
 }
 
+// ContextCreator accept a request and return a context, used in TemplateRenderHandler.
 type ContextCreator func(r *http.Request) interface{}
 
+// TemplateRenderHandler is a shortcut function that generate a http.HandlerFunc.
+// The generated func use contextCreator to create context and render the templatePath template file.
+// If contextCreator is nil, nil will be used as context.
 func TemplateRenderHandler(templatePath string, contextCreator ContextCreator, log *logger.Logger) http.HandlerFunc {
 	if log == nil {
 		log = l
@@ -126,17 +134,23 @@ func TemplateRenderHandler(templatePath string, contextCreator ContextCreator, l
 		defer recover()
 
 		var err error
+
 		if contextCreator != nil {
 			err = RenderTemplate(templatePath, w, contextCreator(r))
 		} else {
 			err = RenderTemplate(templatePath, w, nil)
 		}
+
 		if err != nil {
 			log.Warn("Render template", templatePath, "with data", nil, "error: ", err)
 		}
 	}
 }
 
+// RequestFilter accept a http.HandlerFunc and return a new one
+// which only accept path is pathMustBe and method is methodMustBe.
+// Error message in new hander will be print with logger log, if log is nil, will use default logger.
+// If pathMustBe or methodMustBe is empty string, no check will be performed.
 func RequestFilter(pathMustBe string, methodMustBe string, log *logger.Logger, handlerFunc http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		defer recover()
