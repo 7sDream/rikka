@@ -86,6 +86,12 @@ Docker 提供了数据卷的功能，这样就不用爬和 Rikka 无关我们上
 1. 创建数据卷：`docker volume create --name rikkafiles`
 2. 在启动 Rikka 容器时加上如下参数：`-v rikkafiles:/go/src/github.com/7sDream/rikka/files`
 
+PS：你可以使用 Rikka 的 `-dir` 参数指定文件储存位置，比如这样：
+
+`docker run -d -P -v rikkafiles:/data --name rikka 7sdream/rikka:latest -pwd 12345 -d /data`
+
+这样就不用把挂载路径设的太长了。
+
 ### 方式 3: 使用 Docker 云服务提供商
 
 比如，我们可以用 DaoCloud 的免费配额来部署一个 Rikka 服务。
