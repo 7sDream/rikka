@@ -1,4 +1,14 @@
+# rikka binary
 rikka
+
+# rikka binary when debug
+debug
+
+# vscode project config
 .vscode/
+
+# default uploaded image save dir
 files/*
+
+# rikkac binary
 cli/rikkac
