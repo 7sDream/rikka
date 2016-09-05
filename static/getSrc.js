@@ -1,3 +1,5 @@
+'use strict';
+
 function AJAX(method, url) {
     return new Promise(function (resolve, reject){
         let req = new XMLHttpRequest();

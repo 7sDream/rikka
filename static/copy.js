@@ -1,3 +1,5 @@
+'use strict';
+
 function addCopyEventListener(url){
     let divs = document.querySelectorAll("div.copyAsText");
     for (let div of divs) {
