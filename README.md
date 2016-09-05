@@ -7,7 +7,7 @@ Rikka（因为是罗马音，读音类似`莉卡`而不是`瑞卡`）是一套�
 - 一个 Web 应用（详见 [Demo](#demo) 一节）
 - 一个 RESTFul API 后端（详见 [API 文档][api-doc]）
 - 基于 API 的命令行工具 rikkac（详见 [CLI 文档][cli-doc]）
-- 各种实际图片的储存插件（详见[插件文档][plugins-doc]）
+- 图片的实际储存插件（详见[插件文档][plugins-doc]）
 
 Rikka 主要使用 Go 语言编写，并提供 Docker 镜像。
 
@@ -81,6 +81,12 @@ Rikkac 是基于 Rikka 的 RESTful API 写的命令行工具。
 ## 部署
 
 想部署自己的 Rikka 系统？请看 [Rikka 部署文档][deploy-doc]
+
+## 致谢
+
+- 感谢 Go 编程语言以及她的开发团队
+- 感谢 Visual Studio Code 编辑器和它的开发团队
+- 感谢开源精神
 
 ## License
 
