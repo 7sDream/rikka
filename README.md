@@ -78,7 +78,7 @@ Rikka 的真实储存后端使用插件形式编写。可通过 `-plugin` 参数
 
 请看 [Rikka API 文档][api-doc]。
 
-## rikkac - 命令行工具
+## Rikkac - 命令行工具
 
 rikkac 是基于 Rikka 的 API 写的命令行工具。
 
