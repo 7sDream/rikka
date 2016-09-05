@@ -35,4 +35,4 @@
 如果出错了可以用 `-v` 或者 `-vv` 参数输出详细日志用于排错。
 
 [rikka]: https://github.com/7sDream/rikka
-[usage-preview]: http://7sdream-rikka-demo.daoapp.io/files/2016-09-04-22189765
+[usage-preview]: http://7sdream-rikka-demo.daoapp.io/files/2016-09-04-221897650
