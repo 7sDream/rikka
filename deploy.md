@@ -7,7 +7,7 @@
 1. `go get github.com/7sDream/rikka`
 2. `cd $GOPATH/src/github.com/7sDream/rikka`
 3. `go build github.com/7sDream/rikka`
-4. `./rikka --port 80 --pwd yourpassword`
+4. `./rikka -port 80 -pwd yourpassword`
 
 最后一步具体的命令可查看 `./rikka -h` 之后根据自己需要设置。因为要使用 80 端口，所以可能需要 `sudo`。
 
@@ -16,9 +16,9 @@
 ## 方式 2: 使用 Docker
 
 1. `docker pull 7sdream/rikka`
-2. `docker run -d -P 7sdream/rikka:latest -pwd yourpassword`
+2. `docker run -d -p 80:80 7sdream/rikka:latest -pwd yourpassword`
 
-同样可以根据需要设定参数。
+同样可以根据需要设定参数。至于 image expose 的是 80 端口，请根据需要进行映射。 
 
 打开浏览器访问你的 IP 或域名试用看看吧。
 
