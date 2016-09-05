@@ -89,8 +89,8 @@ Rikka 系统的所有代码均基于 MIT 协议开源。
 详见 [LICENSE][license] 文件。
 
 [demo]: http://7sdream-rikka-demo.daoapp.io/
-[home]: http://7sdream-rikka-demo.daoapp.io/files/2016-09-04-097924191
-[view]: http://7sdream-rikka-demo.daoapp.io/files/2016-09-04-017113138
+[home]: http://7sdream-rikka-demo.daoapp.io/files/2016-09-05-498160687
+[view]: http://7sdream-rikka-demo.daoapp.io/files/2016-09-05-457359417
 
 [api-doc]: https://github.com/7sDream/rikka/tree/master/api
 [cli-doc]: https://github.com/7sDream/rikka/tree/master/cli
