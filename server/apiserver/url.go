@@ -19,7 +19,7 @@ func urlHandleFunc(w http.ResponseWriter, r *http.Request) {
 	if jsonData, err = getURLJSON(taskID, r, nil); err != nil {
 		l.Error("Error happened when get url json of task", taskID, ":", err)
 	} else {
-		l.Info("Get url json of task", taskID, "successfully")
+		l.Debug("Get url json of task", taskID, "successfully")
 	}
 
 	renderJSONOrError(w, taskID, jsonData, err, http.StatusInternalServerError)

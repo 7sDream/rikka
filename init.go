@@ -90,7 +90,7 @@ func initArgVars() {
 	argPassword = flag.String("pwd", "rikka", "The password need provided when upload")
 	argMaxSizeByMB = flag.Float64("size", 5, "Max file size by MB")
 	argLogLevel = flag.Int(
-		"level", logger.LevelDebug,
+		"level", logger.LevelInfo,
 		fmt.Sprintf("logger level, from %d to %d", logger.LevelDebug, logger.LevelError),
 	)
 
