@@ -18,22 +18,26 @@
 
 ## 编译安装
 
-- `go build -o rikkac github.com/7sDream/rikka/cli`
-- `mv rikkac /some/dir/in/your/path`
+![](http://7sdream-rikka-demo.daoapp.io/files/2016-09-05-853332196)
 
-## 配置
+可以看到安装编译和安装成功后并不能立即使用，需要进行一些配置。
 
-需要两个环境变量 `RIKKA_HOST` 和 `RIKKA_PWD`，分别为 Rikka 服务器的地址和密码。
+## 配置和使用
 
-当然，如果你愿意，也可以在使用时用 `-t` 和 `-p` 参数指定，它们的优先级比环境变量高。
+Rikkac 需要配置两个环境变量： `RIKKA_HOST` 和 `RIKKA_PWD`。它们分别代表 Rikka 服务器地址和密码。
 
-## 使用
+![](http://7sdream-rikka-demo.daoapp.io/files/2016-09-05-066558195)
 
-![][usage-preview]
+配置完就可以使用啦。
 
 基本上就是 `rikkac -m filepath` 就好。
 
 如果出错了可以用 `-v` 或者 `-vv` 参数输出详细日志用于排错。
 
+## 小 tipc 快速复制到剪贴板
+
+![](http://7sdream-rikka-demo.daoapp.io/files/2016-09-05-781037494)
+
+此方法需要安装 xclip：`apt-get install xclip`。
+
 [rikka]: https://github.com/7sDream/rikka
-[usage-preview]: http://7sdream-rikka-demo.daoapp.io/files/2016-09-04-221897650
