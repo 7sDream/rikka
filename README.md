@@ -86,7 +86,7 @@ Rikkac 是基于 Rikka 的 RESTful API 写的命令行工具。
 
 Rikka 系统的所有代码均基于 MIT 协议开源。
 
-详见 LICENSE 文件。
+详见 [LICENSE][license] 文件。
 
 [demo]: http://7sdream-rikka-demo.daoapp.io/
 [home]: http://7sdream-rikka-demo.daoapp.io/files/2016-09-04-097924191

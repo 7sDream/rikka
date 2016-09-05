@@ -1,10 +1,12 @@
-# rikkac - Rikka 的命令行工具
+# Rikkac - Rikka 的命令行工具
 
-需要和 [Rikka server][rikka] 配合使用。
+需要和 [Rikka][rikka] 配合使用。
 
 ## 使用方式
 
-`rikkac -smhbsr filename`
+`rikkac <format> filename`
+
+`<format>` 可选的参数如下:
 
 - `-s`: SRC 图片原始地址
 - `-m`: Markdown 格式
