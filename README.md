@@ -80,7 +80,7 @@ Rikkac 是基于 Rikka 的 RESTful API 写的命令行工具。
 
 ## 部署
 
-想部署自己的 Rikka 系统？请看 [Rikka 部署文档][deploy-doc]
+想部署自己的 Rikka 系统？请看 [Rikka 部署文档][deploy-doc]。
 
 ## 致谢
 

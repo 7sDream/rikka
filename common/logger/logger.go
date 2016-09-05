@@ -6,8 +6,8 @@ import (
 	"os"
 )
 
-// Logger is a util class to print log in different level like DEBUG
-// It has 4 level: DEBUG, INFO, WARN, ERROR
+// Logger is a util class to print log in different level like DEBUG.
+// It has 4 level: DEBUG, INFO, WARN, ERROR,
 // and 2 exception logger: PANIC and FATAL
 type Logger struct {
 	Prefix string
@@ -33,7 +33,7 @@ var (
 	currentLevel = LevelDebug
 )
 
-// NewLogger create a new top level logger based on prefix
+// NewLogger create a new top level logger based on prefix.
 func NewLogger(prefix string) *Logger {
 	return &Logger{
 		Prefix: prefix,
@@ -55,7 +55,7 @@ func (logger *Logger) Debug(data ...interface{}) {
 }
 
 // Info print log message as INFO leve.
-// if you set log level higher than LevelInfo, no message will be print.
+// If you set log level higher than LevelInfo, no message will be print.
 func (logger *Logger) Info(data ...interface{}) {
 	if currentLevel <= LevelInfo {
 		logger.il.Println(data)
@@ -63,14 +63,14 @@ func (logger *Logger) Info(data ...interface{}) {
 }
 
 // Warn print log message as WARN leve.
-// if you set log level higher than LevelWarn, no message will be print.
+// If you set log level higher than LevelWarn, no message will be print.
 func (logger *Logger) Warn(data ...interface{}) {
 	if currentLevel <= LevelWarn {
 		logger.wl.Println(data)
 	}
 }
 
-// Error print log message as ERROR leve. This function do not create panic of fatal, it just print message.
+// Error print log message as ERROR leve. This function do not create panic or fatal, it just print error message.
 // If you want get a runtime panic or fatal, use Logger.Panic or Logger.Fatal instand.
 func (logger *Logger) Error(data ...interface{}) {
 	if currentLevel <= LevelError {
