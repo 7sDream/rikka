@@ -4,19 +4,21 @@
 
 Rikka（因为是罗马音，读音类似`莉卡`而不是`瑞卡`）是一套完整的个人图床系统，她包括：
 
-- 一个 Web 界面（详见 [Demo](#Demo) 一节）
+- 一个 Web 应用（详见 [Demo](#Demo) 一节）
 - 一个 RESTFul API 后端（详见 [API][api-doc] 文档）
 - 基于 API 的命令行工具 rikkac（详见 [CLI][cli-doc] 文档）
 - 各种实际图片的储存插件（详见[插件文档][plugins-doc]）
 
-计划实现的其他系统组件：
-
-- Android 客户端
-- iOS 客户端
+Rikka 主要使用 Go 语言编写，并提供 Docker 镜像。
 
 Rikka 的镜像已经发布到了 [DockerHub](https://hub.docker.com/r/7sdream/rikka/), 直接开始用吧。
 
 目前 Docker Image latest tag 版本：0.1.2
+
+计划实现的其他非 Go 语言的系统组件：
+
+- Android 客户端
+- iOS 客户端
 
 ## 特点
 
@@ -94,3 +96,5 @@ Rikka 系统的所有代码均基于 MIT 协议开源。
 [cli-doc]: https://github.com/7sDream/rikka/tree/master/cli
 [plugins-doc]: https://github.com/7sDream/rikka/tree/master/plugins
 [deploy-doc]: https://github.com/7sDream/rikka/blob/master/deploy.md
+
+[license]: https://github.com/7sDream/rikka/blob/master/LICENSE
