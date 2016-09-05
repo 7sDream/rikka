@@ -8,15 +8,26 @@ import (
 	"github.com/7sDream/rikka/common/logger"
 )
 
+const (
+	version = "0.0.1"
+)
+
 var (
 	l = logger.NewLogger("[CLI]")
 
-	argInfo  = flag.Bool("v", false, "set logger level to Info")
-	argDebug = flag.Bool("vv", false, "set logger level to Debug")
+	argInfo    = flag.Bool("v", false, "set logger level to Info")
+	argDebug   = flag.Bool("vv", false, "set logger level to Debug")
+	argVersion = flag.Bool("version", false, "show rikkac version and exit")
 )
 
 func init() {
 	flag.Parse()
+
+	if *argVersion {
+		fmt.Println(version)
+		os.Exit(0)
+	}
+
 	if *argDebug {
 		logger.SetLevel(logger.LevelDebug)
 	} else if *argInfo {

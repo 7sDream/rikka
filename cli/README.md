@@ -16,9 +16,10 @@
 
 默认是源地址格式，优先级如上表，从低到高。也就是说下面的会覆盖上面的，`-m -b` 等同于 `-b`。其实也没那么复杂，你只要不同时提供两个就不用记优先级。
 
-## 编译
+## 编译安装
 
-`go build -o /some/dir/in/your/path github.com/7sDream/rikka/cli`
+- `go build -o rikkac github.com/7sDream/rikka/cli`
+- `mv rikkac /some/dir/in/your/path`
 
 ## 配置
 

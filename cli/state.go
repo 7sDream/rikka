@@ -49,7 +49,7 @@ func waitFinish(host string, taskID string) {
 			return
 		}
 
-		l.Warn("State is not finished, will retry after 1 second...")
+		l.Info("State is not finished, will retry after 1 second...")
 
 		time.Sleep(1 * time.Second)
 	}
