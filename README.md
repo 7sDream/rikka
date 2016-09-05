@@ -4,9 +4,9 @@
 
 Rikka（因为是罗马音，读音类似`莉卡`而不是`瑞卡`）是一套完整的个人图床系统，她包括：
 
-- 一个 Web 应用（详见 [Demo](#Demo) 一节）
-- 一个 RESTFul API 后端（详见 [API][api-doc] 文档）
-- 基于 API 的命令行工具 rikkac（详见 [CLI][cli-doc] 文档）
+- 一个 Web 应用（详见 [Demo](#demo) 一节）
+- 一个 RESTFul API 后端（详见 [API 文档][api-doc]）
+- 基于 API 的命令行工具 rikkac（详见 [CLI 文档][cli-doc]）
 - 各种实际图片的储存插件（详见[插件文档][plugins-doc]）
 
 Rikka 主要使用 Go 语言编写，并提供 Docker 镜像。
