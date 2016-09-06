@@ -148,7 +148,7 @@ func TemplateRenderHandler(templatePath string, contextCreator ContextCreator, l
 	return func(w http.ResponseWriter, r *http.Request) {
 		defer recover()
 
-		l.Info("Recieve a template render request of", templatePath, "from ip", r.RemoteAddr)
+		log.Info("Recieve a template render request of", templatePath, "from ip", r.RemoteAddr)
 
 		var err error
 
