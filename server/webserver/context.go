@@ -5,17 +5,17 @@ import "github.com/7sDream/rikka/api"
 var (
 	context = struct {
 		Version    string
-		TaskID     string
-		URL        string
 		RootPath   string
 		UploadPath string
 		StaticPath string
+		TaskID     string
+		URL        string
 	}{
-		Version:    "0.1.2",
-		TaskID:     "",
-		URL:        "",
+		Version:    api.Version,
 		RootPath:   RootPath,
 		UploadPath: api.UploadPath,
 		StaticPath: StaticPath,
+		TaskID:     "",
+		URL:        "",
 	}
 )

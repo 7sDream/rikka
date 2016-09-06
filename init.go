@@ -31,7 +31,7 @@ var (
 	thePlugin plugins.RikkaPlugin
 )
 
-// --- Init and check functions ---
+// --- Init and check ---
 
 func createSignalHandler(handlerFunc func()) (func(), chan os.Signal) {
 	signalChain := make(chan os.Signal, 1)
