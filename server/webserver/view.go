@@ -20,8 +20,8 @@ func viewHandleFunc(w http.ResponseWriter, r *http.Request) {
 	if pURL, err = plugins.GetURL(taskID, r, nil); err != nil {
 		// state is not finished or error when get url, use view.html
 		templateFilePath := "templates/view.html"
-		l.Warn("Error happened when get url of task", taskID, ":", err)
-		l.Warn("State of task", taskID, "is not finished(or error happened), render with", templateFilePath)
+		l.Warn("Can't get url of task", taskID, ":", err)
+		l.Warn("Render template", templateFilePath)
 		context.TaskID = taskID
 		err = util.RenderTemplate(templateFilePath, w, context)
 		if util.ErrHandle(w, err) {
@@ -29,7 +29,7 @@ func viewHandleFunc(w http.ResponseWriter, r *http.Request) {
 			l.Error("Erro when render template", templateFilePath, ":", err)
 		} else {
 			// successfully
-			l.Debug("Render template", templateFilePath, "successfully")
+			l.Info("Render template", templateFilePath, "successfully")
 		}
 		return
 	}
