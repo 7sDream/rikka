@@ -18,6 +18,7 @@ func StartRikkaWebServer(maxSizeByMb float64, log *logger.Logger) {
 	}
 
 	context.MaxSizeByMb = maxSizeByMb
+	context.FavIconPath = FavIconTruePath
 
 	l = log.SubLogger("[Web]")
 

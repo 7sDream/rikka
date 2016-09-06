@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <head>
     <title>Rikka - {{ .Version }} - View - {{ .TaskID }}</title>
-    <link rel="shortcut icon" href="{{ .StaticPath }}favicon.png" type="image/png">
-    <link rel="stylesheet" href="{{ .StaticPath }}common.css" />
-    <link rel="stylesheet" href="{{ .StaticPath }}view.css" />
+    <link rel="shortcut icon" href="{{ .FavIconPath }}" type="image/png">
+    <link rel="stylesheet" href="{{ .StaticPath }}css/common.css" />
+    <link rel="stylesheet" href="{{ .StaticPath }}css/view.css" />
 </head>
 <body>
     <div class="hide" id="error">Some error happened on this page, please press F12 to open devtools' console and send a snapshot to developers, thanks!</div>
@@ -40,8 +40,8 @@
         <p>Version {{ .Version}}</p>
         <p>Design with <span style="color: red">love</span>, by <span style="color: #66ccff">7sDream</span></p>
     </footer>
-    <script src="{{ .StaticPath }}onError.js"></script>
-    <script src="{{ .StaticPath }}copy.js"></script>
+    <script src="{{ .StaticPath }}js/onError.js"></script>
+    <script src="{{ .StaticPath }}js/copy.js"></script>
     <script>
         'use strict';
         addCopyEventListener("");

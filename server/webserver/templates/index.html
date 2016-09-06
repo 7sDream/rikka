@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <head>
     <title>Rikka - Home - {{ .Version }}</title>
-    <link rel="shortcut icon" href="{{ .StaticPath }}favicon.png" type="image/png">
-    <link rel="stylesheet" href="{{ .StaticPath }}common.css" />
-    <link rel="stylesheet" href="{{ .StaticPath }}index.css" />
+    <link rel="shortcut icon" href="{{ .FavIconPath }}" type="image/png">
+    <link rel="stylesheet" href="{{ .StaticPath }}css/common.css" />
+    <link rel="stylesheet" href="{{ .StaticPath }}css/index.css" />
 </head>
 <body>
     <div class="hide" id="error">Some error happened on this page, please press F12 to open devtools' console and send a snapshot to developers, thanks!</div>
@@ -12,7 +12,7 @@
         <p>A <span style="color: #6cf">simple</span> image share website</p>
     </header>
     <main>
-        <img class="logo" src="{{ .StaticPath }}rikka.png" />
+        <img class="logo" src="{{ .StaticPath }}image/rikka.png" />
         <img id="uploading" />
         <form id="uploadFrom" enctype="multipart/form-data" action="{{ .UploadPath }}" method="post"  onsubmit="return check({{ .MaxSizeByMb }});">
             <div class="line">
@@ -32,8 +32,8 @@
         <p>Version {{ .Version }}</p>
         <p>Design with <span style="color: red">love</span>, by <span style="color: #66ccff">7sDream</span></p>
     </footer>
-    <script src="{{ .StaticPath }}onError.js"></script>
-    <script src="{{ .StaticPath }}checkForm.js"></script>
+    <script src="{{ .StaticPath }}js/onError.js"></script>
+    <script src="{{ .StaticPath }}js/checkForm.js"></script>
     <script>
         let filenameBox = document.querySelector("input#filename");
         let input = document.querySelector("input#uploadFile");

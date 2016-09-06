@@ -14,12 +14,14 @@ function addCopyEventListener(url){
             }
             let res = false;
             try {
-                input.disable = false;
+                input.disabled = false;
                 let section = window.getSelection();
                 section.removeAllRanges();
+                input.focus()
                 input.setSelectionRange(0, input.value.length);
                 res = document.execCommand("copy");
-                input.disable = true;
+                console.log("res =", res)
+                input.disabled = true
             } catch(e) {
                 res = false;
             }

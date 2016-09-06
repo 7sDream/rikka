@@ -8,6 +8,7 @@ var (
 		RootPath    string
 		UploadPath  string
 		StaticPath  string
+		FavIconPath string
 		MaxSizeByMb float64
 		TaskID      string
 		URL         string
@@ -16,6 +17,7 @@ var (
 		RootPath:    RootPath,
 		UploadPath:  api.UploadPath,
 		StaticPath:  StaticPath,
+		FavIconPath: "",
 		MaxSizeByMb: 0,
 		TaskID:      "",
 		URL:         "",

@@ -30,9 +30,12 @@ var (
 	finishedViewTemplateFilePath = ""
 
 	staticFilesName = []string{
-		"common.css", "index.css", "view.css",
-		"copy.js", "getSrc.js", "onError.js", "checkForm.js",
-		"rikka.png", "favicon.png",
+		"css",
+		"css/common.css", "css/index.css", "css/view.css",
+		"js",
+		"js/copy.js", "js/getSrc.js", "js/onError.js", "js/checkForm.js",
+		"image",
+		"image/rikka.png", "image/favicon.png",
 	}
 )
 
