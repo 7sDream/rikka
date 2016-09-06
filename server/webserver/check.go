@@ -11,7 +11,7 @@ func checkFiles() {
 		"templates/index.html", "templates/view.html", "templates/viewFinish.html",
 		"static",
 		"static/common.css", "static/index.css", "static/view.css",
-		"static/copy.js", "static/getSrc.js",
+		"static/copy.js", "static/getSrc.js", "static/onError.js", "static/checkForm.js",
 		"static/rikka.png", "static/favicon.png",
 	}
 

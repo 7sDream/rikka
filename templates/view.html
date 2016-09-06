@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="{{ .StaticPath }}view.css" />
 </head>
 <body>
+    <div class="hide" id="error">Some error happened on this page, please press F12 to open devtools' console and send a snapshot to developers, thanks!</div>
     <header>
         <h1><a href="{{ .RootPath }}">RIKKA</a></h1>
         <p>A <span style="color: #6cf">simple</span> image share website</p>
@@ -40,8 +41,9 @@
         <p>Version {{ .Version}}</p>
         <p>Design with <span style="color: red">love</span>, by <span style="color: #66ccff">7sDream</span></p>
     </footer>
-    <script src="/static/getSrc.js"></script>
-    <script src="/static/copy.js"></script>
+    <script src="{{ .StaticPath }}onError.js"></script>
+    <script src="{{ .StaticPath }}getSrc.js"></script>
+    <script src="{{ .StaticPath }}copy.js"></script>
     <script>
         'use strict';
         getPhotoState({{ .TaskID }});

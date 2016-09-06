@@ -1,4 +1,13 @@
 @import 'https://fonts.googleapis.com/css?family=Satisfy';
+.hide {
+    display: none;
+}
+div#error {
+    background: black;
+    color: white;
+    margin-bottom: 1px;
+    font-family: monospace;
+}
 h1, p, span {
     font-family: 'Satisfy', sans-serif;
 }

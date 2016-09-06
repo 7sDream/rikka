@@ -1,12 +1,7 @@
 img.preview {
-    max-height: 268px;
+    height: 268px;
 }
-
-.hide {
-    display: none;
-}
-
 p#state {
-    font-family: sans-serif;
+    font-family: monospace;
     margin-bottom: 3em;
 }

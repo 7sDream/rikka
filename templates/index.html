@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="{{ .StaticPath }}index.css" />
 </head>
 <body>
+    <div class="hide" id="error">Some error happened on this page, please press F12 to open devtools' console and send a snapshot to developers, thanks!</div>
     <header>
         <h1><a href="{{ .RootPath }}">RIKKA</a></h1>
         <p>A <span style="color: #6cf">simple</span> image share website</p>
@@ -13,7 +14,7 @@
     <main>
         <img class="logo" src="{{ .StaticPath }}rikka.png" />
         <img id="uploading" />
-        <form id="uploadFrom" enctype="multipart/form-data" action="{{ .UploadPath }}" method="post"  onsubmit="return onSubmit();">
+        <form id="uploadFrom" enctype="multipart/form-data" action="{{ .UploadPath }}" method="post"  onsubmit="return check({{ .MaxSizeByMb }});">
             <div class="line">
                 <label id="fakeUploadBtn" for="uploadFile">Choose</label>
                 <input id="filename" placeholder="Choose File" disabled="disabled" />
@@ -31,29 +32,13 @@
         <p>Version {{ .Version }}</p>
         <p>Design with <span style="color: red">love</span>, by <span style="color: #66ccff">7sDream</span></p>
     </footer>
+    <script src="{{ .StaticPath }}onError.js"></script>
+    <script src="{{ .StaticPath }}checkForm.js"></script>
     <script>
-        'use strict';
         let filenameBox = document.querySelector("input#filename");
         let input = document.querySelector("input#uploadFile");
         input.addEventListener("change", function(){
             filenameBox.value = input.value.split('\\').pop().split('/').pop();
         });
-        function onSubmit() {
-            let fileInput = document.querySelector("input#uploadFile");
-            let file = fileInput.files[0]
-            if (file.type.startsWith("image") === false) {
-                let fileType = file.type || "unknown"
-                alert("Can't upload a " + file.type + " type file")
-                return false;
-            }
-            if (file.size > ({{ .MaxSizeByMb }} * 1024 * 1024)) {
-                let fileSizeByMb = Math.round(file.size / 1024 / 1024 * 100) / 100;
-                alert("Max file size is {{ .MaxSizeByMb }} Mb, input file is " + fileSizeByMb.toString() + " Mb");
-                return false;
-            }
-            let imgElement = document.querySelector("img#uploading");
-            imgElement.classList.add("show");
-            return true;
-        }
     </script>
 </body>
