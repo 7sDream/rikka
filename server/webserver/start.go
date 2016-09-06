@@ -11,7 +11,13 @@ var (
 )
 
 // StartRikkaWebServer start web server of rikka.
-func StartRikkaWebServer(log *logger.Logger) {
+func StartRikkaWebServer(maxSizeByMb float64, log *logger.Logger) {
+
+	if maxSizeByMb <= 0 {
+		l.Fatal("Max file size can't be equal or less than 0, you set it to", maxSizeByMb)
+	}
+
+	context.MaxSizeByMb = maxSizeByMb
 
 	l = log.SubLogger("[Web]")
 

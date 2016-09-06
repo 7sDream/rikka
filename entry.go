@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/7sDream/rikka/common/logger"
+	"github.com/7sDream/rikka/plugins"
 	"github.com/7sDream/rikka/server"
 )
 
@@ -22,6 +23,9 @@ func main() {
 		", log level", *argLogLevel,
 	)
 
-	// start Rikka server (this call is Sync)
-	server.StartRikka(socket, *argPassword, *argMaxSizeByMB, thePlugin)
+	l.Info("Load plugin...")
+	plugins.Load(thePlugin)
+
+	// start Rikka servers (this call is Sync)
+	server.StartRikka(socket, *argPassword, *argMaxSizeByMB)
 }

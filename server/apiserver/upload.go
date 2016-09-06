@@ -171,7 +171,7 @@ func uploadHandleFunc(w http.ResponseWriter, r *http.Request) {
 
 	l.Info("Recieve file upload request from ip", r.RemoteAddr)
 
-	maxSize := int64(maxSizeByMB * 1024 * 1024)
+	maxSize := int64(maxSizeByMb * 1024 * 1024)
 	r.Body = http.MaxBytesReader(w, r.Body, maxSize)
 
 	err := r.ParseMultipartForm(maxSize)
