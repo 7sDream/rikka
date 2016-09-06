@@ -13,7 +13,7 @@ Rikka 主要使用 Go 语言编写，并提供 Docker 镜像。
 
 Rikka 的镜像已经发布到了 [DockerHub](https://hub.docker.com/r/7sdream/rikka/), 直接开始用吧。
 
-目前 Docker Image latest tag 版本：0.1.4
+目前 Docker Image latest tag 版本：0.1.5
 
 计划实现的其他非 Go 语言的系统组件：
 
