@@ -6,7 +6,7 @@ function AJAX(method, url) {
             if (req.status == 200) {
                 resolve(req.response);
             } else {
-                let errorMsg = res.response;
+                let errorMsg = req.response;
                 try {
                     let errorJson = JSON.parse(errorMsg);
                     errorMsg = errorJson["Error"];
