@@ -25,7 +25,8 @@ func StartRikkaWebServer(maxSizeByMb float64, log *logger.Logger) {
 
 	http.HandleFunc(RootPath, indexHandlerGenerator())
 	http.HandleFunc(ViewPath, viewHandleGenerator())
-	http.Handle(StaticPath, staticFsHandlerGenerator())
+	http.HandleFunc(StaticPath, staticFsHandlerGenerator())
+	http.HandleFunc(FavIconOriginPath, favIconHandlerGenerator())
 
 	l.Info("Rikka web server start successfully")
 }

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <head>
-    <title>Rikka - View</title>
+    <title>Rikka - View - {{ .TaskID }}</title>
+    <link rel="shortcut icon" href="{{ .StaticPath }}favicon.png" type="image/png">
     <link rel="stylesheet" href="{{ .StaticPath }}common.css" />
     <link rel="stylesheet" href="{{ .StaticPath }}view.css" />
 </head>
@@ -36,7 +37,7 @@
         </form>
     </main>
     <footer>
-        <p>Version {{ .Version}} </p>
+        <p>Version {{ .Version}}</p>
         <p>Design with <span style="color: red">love</span>, by <span style="color: #66ccff">7sDream</span></p>
     </footer>
     <script src="/static/getSrc.js"></script>

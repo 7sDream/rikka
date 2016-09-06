@@ -8,7 +8,7 @@ import (
 
 // The static file server handle all request that ask for files under static dir, from url path {StaticPath}<filename>
 // Only accept GET method
-func staticFsHandlerGenerator() http.Handler {
+func staticFsHandlerGenerator() http.HandlerFunc {
 	return util.RequestFilter(
 		"", "GET", l,
 		util.DisableListDir(
@@ -16,7 +16,14 @@ func staticFsHandlerGenerator() http.Handler {
 			http.StripPrefix(
 				StaticPath[:len(StaticPath)-1],
 				http.FileServer(http.Dir("static")),
-			),
+			).ServeHTTP,
 		),
+	)
+}
+
+func favIconHandlerGenerator() http.HandlerFunc {
+	return util.RequestFilter(
+		FavIconOriginPath, "GET", l,
+		http.RedirectHandler(FavIconTruePath, http.StatusPermanentRedirect).ServeHTTP,
 	)
 }

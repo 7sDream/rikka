@@ -111,24 +111,8 @@ func MustExistOr404(w http.ResponseWriter, r *http.Request, filepath string) boo
 	return true
 }
 
-// DisableListDir accept a FileServer handle and return a handle that not allow list dir.
-func DisableListDir(log *logger.Logger, h http.Handler) http.HandlerFunc {
-	if log == nil {
-		l.Warn("Get a nil logger in function DisableListDirFunc")
-		log = l
-	}
-	return func(w http.ResponseWriter, r *http.Request) {
-		if strings.HasSuffix(r.URL.Path, "/") {
-			log.Warn("Someone try to list dir", r.URL.Path)
-			http.NotFound(w, r)
-		} else {
-			h.ServeHTTP(w, r)
-		}
-	}
-}
-
-// DisableListDirFunc accept a handle func and return a handle that not allow list dir.
-func DisableListDirFunc(log *logger.Logger, h http.HandlerFunc) http.HandlerFunc {
+// DisableListDir accept a handle func and return a handle that not allow list dir.
+func DisableListDir(log *logger.Logger, h http.HandlerFunc) http.HandlerFunc {
 	if log == nil {
 		l.Warn("Get a nil logger in function DisableListDirFunc")
 		log = l

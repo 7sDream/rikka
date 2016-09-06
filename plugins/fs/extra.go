@@ -25,7 +25,7 @@ func (fsp fsPlugin) ExtraHandlers() (handlers []plugins.HandlerWithPattern) {
 				fileURLPath[:len(fileURLPath)-1],
 				// get a base file server
 				http.FileServer(http.Dir(imageDir)),
-			),
+			).ServeHTTP,
 		),
 	)
 
