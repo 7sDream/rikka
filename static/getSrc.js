@@ -7,7 +7,14 @@ function AJAX(method, url) {
             if (req.status == 200) {
                 resolve(req.response);
             } else {
-                reject(new Error(req.responseText));
+                let errorMsg = res.response
+                try {
+                    let errorJson = JSON.parse(errorMsg)
+                    errorMsg = errorJson["Error"]
+                } catch(e) {
+                    errorMsg = e.message
+                }
+                reject(new Error(errorMsg));
             }
         }
         req.open(method, url, true);
@@ -34,24 +41,25 @@ function getPhotoState(taskID, times) {
 
     AJAX("GET", "/api/state/" + taskID).then(function(res){
         let json = JSON.parse(res);
-        let state = json['StateCode'];
+        if ("Error" in json) {
+            throw new Error(json["Error"])
+        }
 
+        let state = json['StateCode'];
         if (state == -1) {  // Error state
             throw new Error(json['Description']);
         } else if (state == 0) {    // Successful state
-            return json;
+            return AJAX("GET", '/api/url/' + json["TaskID"]);
         } else {    // Other state
             stateElement.textContent = "Request " + times.toString() + ", upload state: " + json['Description'] + ", please wait...";
             setTimeout(getPhotoState, 1000, taskID, times + 1);
             return new Promise(() => {})
         }
-    }).then(function(json){
-        return json["TaskID"];
-    }).then(function (taskID){
-        return AJAX("GET", '/api/url/' + taskID);
     }).then(function(res){
         let json = JSON.parse(res);
-        console.log(json);
+        if ("Error" in json) {
+            throw new Error(json["Error"])
+        }
         return json["URL"];
     }).then(function (url){
         imageElement.src = url;
