@@ -23,15 +23,10 @@ func getFile() (string, []byte) {
 	}
 	l.Debug("Change to absolute path:", absFilePath)
 
-	if !util.CheckExist(absFilePath) {
-		l.Fatal("File ", absFilePath, "not exists")
+	if !util.IsDir(absFilePath) {
+		l.Fatal("Path ", absFilePath, "not exists or not a dir")
 	}
-	l.Debug("Path", absFilePath, "exists")
-
-	if isDir(absFilePath) {
-		l.Fatal("Path", absFilePath, "is a dir, not a file")
-	}
-	l.Debug("Path", absFilePath, "is file, not directory")
+	l.Debug("File", absFilePath, "exists and is a file")
 
 	fileContent, err := ioutil.ReadFile(absFilePath)
 	if err != nil {

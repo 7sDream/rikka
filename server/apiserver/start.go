@@ -10,7 +10,7 @@ import (
 
 var (
 	password    string
-	maxSizeByMB float64
+	maxSizeByMb float64
 
 	l *logger.Logger
 )
@@ -19,18 +19,18 @@ var (
 func StartRikkaAPIServer(argPassword string, argMaxSizeByMb float64, log *logger.Logger) {
 
 	password = argPassword
-	maxSizeByMB = argMaxSizeByMb
+	maxSizeByMb = argMaxSizeByMb
 
 	l = log.SubLogger("[API]")
 
 	stateHandler := util.RequestFilter(
 		"", "GET", l,
-		util.DisableListDirFunc(l, stateHandleFunc),
+		util.DisableListDir(l, stateHandleFunc),
 	)
 
 	urlHandler := util.RequestFilter(
 		"", "GET", l,
-		util.DisableListDirFunc(l, urlHandleFunc),
+		util.DisableListDir(l, urlHandleFunc),
 	)
 
 	uploadHandler := util.RequestFilter(

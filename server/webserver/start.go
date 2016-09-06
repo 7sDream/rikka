@@ -11,7 +11,14 @@ var (
 )
 
 // StartRikkaWebServer start web server of rikka.
-func StartRikkaWebServer(log *logger.Logger) {
+func StartRikkaWebServer(maxSizeByMb float64, log *logger.Logger) {
+
+	if maxSizeByMb <= 0 {
+		l.Fatal("Max file size can't be equal or less than 0, you set it to", maxSizeByMb)
+	}
+
+	context.MaxSizeByMb = maxSizeByMb
+	context.FavIconPath = FavIconTruePath
 
 	l = log.SubLogger("[Web]")
 
@@ -19,7 +26,8 @@ func StartRikkaWebServer(log *logger.Logger) {
 
 	http.HandleFunc(RootPath, indexHandlerGenerator())
 	http.HandleFunc(ViewPath, viewHandleGenerator())
-	http.Handle(StaticPath, staticFsHandlerGenerator())
+	http.HandleFunc(StaticPath, staticFsHandlerGenerator())
+	http.HandleFunc(FavIconOriginPath, favIconHandlerGenerator())
 
 	l.Info("Rikka web server start successfully")
 }

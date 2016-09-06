@@ -7,6 +7,7 @@ import (
 	"html/template"
 	"net/http"
 	"os"
+	pathutil "path/filepath"
 	"strings"
 
 	"github.com/7sDream/rikka/common/logger"
@@ -40,6 +41,24 @@ func CheckExist(filepath string) bool {
 		return false
 	}
 	return true
+}
+
+// IsDir chekc if the path is a file, false when not exist or is a dir.
+func IsDir(path string) bool {
+	if CheckExist(path) {
+		stat, _ := os.Stat(path)
+		return stat.IsDir()
+	}
+	return false
+}
+
+// IsFile chekc if a path a file, false when not exist or is a file.
+func IsFile(path string) bool {
+	if CheckExist(path) {
+		stat, _ := os.Stat(path)
+		return !stat.IsDir()
+	}
+	return false
 }
 
 // CheckMethod check if request method is as excepted.
@@ -111,24 +130,8 @@ func MustExistOr404(w http.ResponseWriter, r *http.Request, filepath string) boo
 	return true
 }
 
-// DisableListDir accept a FileServer handle and return a handle that not allow list dir.
-func DisableListDir(log *logger.Logger, h http.Handler) http.HandlerFunc {
-	if log == nil {
-		l.Warn("Get a nil logger in function DisableListDirFunc")
-		log = l
-	}
-	return func(w http.ResponseWriter, r *http.Request) {
-		if strings.HasSuffix(r.URL.Path, "/") {
-			log.Warn("Someone try to list dir", r.URL.Path)
-			http.NotFound(w, r)
-		} else {
-			h.ServeHTTP(w, r)
-		}
-	}
-}
-
-// DisableListDirFunc accept a handle func and return a handle that not allow list dir.
-func DisableListDirFunc(log *logger.Logger, h http.HandlerFunc) http.HandlerFunc {
+// DisableListDir accept a handle func and return a handle that not allow list dir.
+func DisableListDir(log *logger.Logger, h http.HandlerFunc) http.HandlerFunc {
 	if log == nil {
 		l.Warn("Get a nil logger in function DisableListDirFunc")
 		log = l
@@ -157,7 +160,9 @@ func TemplateRenderHandler(templatePath string, contextCreator ContextCreator, l
 	return func(w http.ResponseWriter, r *http.Request) {
 		defer recover()
 
-		log.Info("Recieve a template render request of", templatePath, "from ip", r.RemoteAddr)
+		templateName := pathutil.Base(templatePath)
+
+		log.Info("Recieve a template render request of", templateName, "from ip", r.RemoteAddr)
 
 		var err error
 
@@ -168,10 +173,10 @@ func TemplateRenderHandler(templatePath string, contextCreator ContextCreator, l
 		}
 
 		if err != nil {
-			log.Warn("Render template", templatePath, "with data", nil, "error: ", err)
+			log.Warn("Render template", templateName, "with data", nil, "error: ", err)
 		}
 
-		log.Info("Render template", templatePath, "successfully")
+		log.Info("Render template", templateName, "successfully")
 	}
 }
 

@@ -22,10 +22,11 @@ func (fsp fsPlugin) ExtraHandlers() (handlers []plugins.HandlerWithPattern) {
 			l,
 			// Strip prefix path
 			http.StripPrefix(
+				// reserve last /
 				fileURLPath[:len(fileURLPath)-1],
 				// get a base file server
 				http.FileServer(http.Dir(imageDir)),
-			),
+			).ServeHTTP,
 		),
 	)
 

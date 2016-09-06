@@ -1,11 +1,20 @@
 @import 'https://fonts.googleapis.com/css?family=Satisfy';
+.hide {
+    display: none;
+}
+div#error {
+    background: black;
+    color: white;
+    margin-bottom: 1px;
+    font-family: monospace;
+}
 h1, p, span {
     font-family: 'Satisfy', sans-serif;
 }
 body, header, main {
     display: flex;
     flex-flow: column nowrap;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
 }
 header {
@@ -25,9 +34,9 @@ header p {
     margin: 0;
 }
 main {
-    margin-bottom: 2em;
+    margin-bottom: 1em;
 }
-img.logo, img.preview {
+img.preview {
     margin-bottom: 2em;
 }
 form {
