@@ -144,7 +144,7 @@ func sendSaveRequestToPlugin(w http.ResponseWriter, file multipart.File, from st
 	}
 
 	taskID := pTaskID.TaskID
-	l.Debug("Recieve task ID from plugin manager:", taskID)
+	l.Info("Recieve task ID from plugin manager:", taskID)
 
 	return taskID, true
 }

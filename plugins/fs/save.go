@@ -42,7 +42,7 @@ func saveFile(uploadFile multipart.File, saveTo *os.File, taskID string) {
 		time.Sleep(time.Duration(*argFsDebugSleep) * time.Millisecond)
 	}
 
-	l.Debug("Start copy file of task", taskID)
+	l.Info("Start copy file of task", taskID)
 
 	// copy file to disk, then close
 	_, err := io.Copy(saveTo, uploadFile)
@@ -51,7 +51,7 @@ func saveFile(uploadFile multipart.File, saveTo *os.File, taskID string) {
 
 	if err == nil {
 		// copy file successfully
-		l.Debug("File copy on task", taskID, "finished")
+		l.Info("File copy on task", taskID, "finished")
 
 		if err := plugins.DeleteTask(taskID); err == nil {
 			l.Debug("Task", taskID, "finished, deleted it from task list")

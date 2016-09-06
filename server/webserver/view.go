@@ -12,6 +12,7 @@ func viewHandleFunc(w http.ResponseWriter, r *http.Request) {
 	taskID := util.GetTaskIDByRequest(r)
 
 	l.Info("Recieve a view request of task", taskID, "from ip", r.RemoteAddr)
+
 	l.Debug("Send a url request of task", taskID, "to plugin manager")
 
 	var pURL *api.URL
@@ -43,7 +44,7 @@ func viewHandleFunc(w http.ResponseWriter, r *http.Request) {
 		l.Error("Error happened when render template", templateFilePath, ":", err)
 	} else {
 		// successfully
-		l.Debug("Render template", templateFilePath, "successfully")
+		l.Info("Render template", templateFilePath, "successfully")
 	}
 }
 

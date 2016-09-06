@@ -161,6 +161,8 @@ func TemplateRenderHandler(templatePath string, contextCreator ContextCreator, l
 		if err != nil {
 			log.Warn("Render template", templatePath, "with data", nil, "error: ", err)
 		}
+
+		log.Info("Render template", templatePath, "successfully")
 	}
 }
 
