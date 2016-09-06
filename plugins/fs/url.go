@@ -16,7 +16,8 @@ func buildURL(r *http.Request, taskID string) string {
 	res := url.URL{
 		Scheme: "http",
 		Host:   r.Host,
-		Path:   "files/" + taskID,
+		//    remove root /
+		Path: fileURLPath[1:] + taskID,
 	}
 	return res.String()
 }
