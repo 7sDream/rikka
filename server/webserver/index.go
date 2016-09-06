@@ -12,7 +12,7 @@ func indexHandlerGenerator() http.HandlerFunc {
 	return util.RequestFilter(
 		RootPath, "GET", l,
 		util.TemplateRenderHandler(
-			"templates/index.html",
+			homeTemplateFilePath,
 			func(r *http.Request) interface{} { return context }, l,
 		),
 	)

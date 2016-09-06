@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	fileURLPath = "/files/"
+	fileURLPath = "/images/"
 )
 
 // ExtraHandlers return value will be add to http handle list.

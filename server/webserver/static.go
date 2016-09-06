@@ -15,7 +15,7 @@ func staticFsHandlerGenerator() http.HandlerFunc {
 			l,
 			http.StripPrefix(
 				StaticPath[:len(StaticPath)-1],
-				http.FileServer(http.Dir("static")),
+				http.FileServer(http.Dir(staticDirPath)),
 			).ServeHTTP,
 		),
 	)

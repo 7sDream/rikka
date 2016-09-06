@@ -37,11 +37,6 @@ func init() {
 	}
 }
 
-func isDir(filepath string) bool {
-	stat, _ := os.Stat(filepath)
-	return stat.IsDir()
-}
-
 func main() {
 
 	host := getHost()

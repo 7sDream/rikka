@@ -20,31 +20,31 @@ func viewHandleFunc(w http.ResponseWriter, r *http.Request) {
 	var err error
 	if pURL, err = plugins.GetURL(taskID, r, nil); err != nil {
 		// state is not finished or error when get url, use view.html
-		templateFilePath := "templates/view.html"
+		templateFilePath := viewTemplateFilePath
 		l.Warn("Can't get url of task", taskID, ":", err)
-		l.Warn("Render template", templateFilePath)
+		l.Warn("Render template", viewTemplateFileName)
 		err = util.RenderTemplate(templateFilePath, w, context)
 		if util.ErrHandle(w, err) {
 			// RenderTemplate error
-			l.Error("Erro when render template", templateFilePath, ":", err)
+			l.Error("Erro when render template", viewTemplateFileName, ":", err)
 		} else {
 			// successfully
-			l.Info("Render template", templateFilePath, "successfully")
+			l.Info("Render template", viewTemplateFileName, "successfully")
 		}
 		return
 	}
 
 	// state is finished, use viewFinish.html
 	l.Debug("Recieve url of task", taskID, ":", pURL.URL)
-	templateFilePath := "templates/viewFinish.html"
+	templateFilePath := finishedViewTemplateFilePath
 	context.URL = pURL.URL
 	err = util.RenderTemplate(templateFilePath, w, context)
 	if util.ErrHandle(w, err) {
 		// RenderTemplate error
-		l.Error("Error happened when render template", templateFilePath, ":", err)
+		l.Error("Error happened when render template", finishedViewTemplateFileName, ":", err)
 	} else {
 		// successfully
-		l.Info("Render template", templateFilePath, "successfully")
+		l.Info("Render template", finishedViewTemplateFileName, "successfully")
 	}
 }
 
