@@ -169,7 +169,7 @@ func sendUploadResultToClient(w http.ResponseWriter, taskID string, from string)
 func uploadHandleFunc(w http.ResponseWriter, r *http.Request) {
 	defer recover()
 
-	l.Debug("Recieve file upload request")
+	l.Info("Recieve file upload request from ip", r.RemoteAddr)
 
 	maxSize := int64(maxSizeByMB * 1024 * 1024)
 	r.Body = http.MaxBytesReader(w, r.Body, maxSize)

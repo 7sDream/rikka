@@ -12,7 +12,7 @@ func stateHandleFunc(w http.ResponseWriter, r *http.Request) {
 
 	taskID := util.GetTaskIDByRequest(r)
 
-	l.Debug("Recieve a state request of task", taskID)
+	l.Info("Recieve a state request of task", taskID, "from ip", r.RemoteAddr)
 
 	var jsonData []byte
 	var err error

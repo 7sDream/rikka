@@ -11,7 +11,7 @@ import (
 func viewHandleFunc(w http.ResponseWriter, r *http.Request) {
 	taskID := util.GetTaskIDByRequest(r)
 
-	l.Debug("Recieve a view request of task", taskID)
+	l.Info("Recieve a view request of task", taskID, "from ip", r.RemoteAddr)
 	l.Debug("Send a url request of task", taskID, "to plugin manager")
 
 	var pURL *api.URL
