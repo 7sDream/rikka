@@ -112,10 +112,14 @@ func MustExistOr404(w http.ResponseWriter, r *http.Request, filepath string) boo
 }
 
 // DisableListDir accept a FileServer handle and return a handle that not allow list dir.
-func DisableListDir(h http.Handler) http.HandlerFunc {
+func DisableListDir(log *logger.Logger, h http.Handler) http.HandlerFunc {
+	if log == nil {
+		l.Warn("Get a nil logger in function DisableListDirFunc")
+		log = l
+	}
 	return func(w http.ResponseWriter, r *http.Request) {
 		if strings.HasSuffix(r.URL.Path, "/") {
-			l.Warn("Someone try to list dir", r.URL.Path)
+			log.Warn("Someone try to list dir", r.URL.Path)
 			http.NotFound(w, r)
 		} else {
 			h.ServeHTTP(w, r)
@@ -124,10 +128,14 @@ func DisableListDir(h http.Handler) http.HandlerFunc {
 }
 
 // DisableListDirFunc accept a handle func and return a handle that not allow list dir.
-func DisableListDirFunc(h http.HandlerFunc) http.HandlerFunc {
+func DisableListDirFunc(log *logger.Logger, h http.HandlerFunc) http.HandlerFunc {
+	if log == nil {
+		l.Warn("Get a nil logger in function DisableListDirFunc")
+		log = l
+	}
 	return func(w http.ResponseWriter, r *http.Request) {
 		if strings.HasSuffix(r.URL.Path, "/") {
-			l.Warn("Someone try to list dir", r.URL.Path)
+			log.Warn("Someone try to list dir", r.URL.Path)
 			http.NotFound(w, r)
 		} else {
 			h(w, r)
@@ -143,6 +151,7 @@ type ContextCreator func(r *http.Request) interface{}
 // If contextCreator is nil, nil will be used as context.
 func TemplateRenderHandler(templatePath string, contextCreator ContextCreator, log *logger.Logger) http.HandlerFunc {
 	if log == nil {
+		l.Warn("Get a nil logger in function TemplateRenderHandler")
 		log = l
 	}
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -175,6 +184,7 @@ func RequestFilter(pathMustBe string, methodMustBe string, log *logger.Logger, h
 		defer recover()
 
 		if log == nil {
+			l.Warn("Get a nil logger in function RequestFilter")
 			log = l
 		}
 

@@ -1,6 +1,7 @@
 package webserver
 
-var (
+// Avaliable path of web server
+const (
 	RootPath   = "/"
 	ViewPath   = "/view/"
 	StaticPath = "/static/"

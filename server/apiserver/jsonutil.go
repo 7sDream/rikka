@@ -80,7 +80,7 @@ func renderErrorJSON(w http.ResponseWriter, taskID string, err error, errorCode 
 		// rander error json failed
 		l.Error("Error happened when render error json", errorJSONData, "of task", taskID, ":", err)
 	} else {
-		l.Debug("Render error json successfully")
+		l.Info("Render error json", string(errorJSONData), " of task", taskID, "successfully")
 	}
 }
 
@@ -97,6 +97,6 @@ func renderJSONOrError(w http.ResponseWriter, taskID string, jsonData []byte, er
 	if util.ErrHandle(w, err) {
 		l.Error("Error happened when render json", fmt.Sprint(jsonData), "of task", taskID, ":", err)
 	} else {
-		l.Debug("Render json", string(jsonData), "of task", taskID, "successfully")
+		l.Info("Render json", string(jsonData), "of task", taskID, "successfully")
 	}
 }

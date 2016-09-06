@@ -48,9 +48,11 @@ func viewHandleFunc(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// ViewHandler handle requset ask for photo view page(/view/TaskID), use templates/view.html
+// ViewHandler handle requset ask for image view page(${ViewPath}<taskID>), use templates/view.html
 // Only accept GET Method
-var viewHandler = util.RequestFilter(
-	"", "GET", l,
-	viewHandleFunc,
-)
+func viewHandleGenerator() http.HandlerFunc {
+	return util.RequestFilter(
+		"", "GET", l,
+		util.DisableListDirFunc(l, viewHandleFunc),
+	)
+}

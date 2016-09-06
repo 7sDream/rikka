@@ -6,12 +6,17 @@ import (
 	"github.com/7sDream/rikka/common/util"
 )
 
-// The static file server handle all request that ask for files under /static
+// The static file server handle all request that ask for files under static dir, from url path {StaticPath}<filename>
 // Only accept GET method
-var staticFsHandler = http.StripPrefix(
-	StaticPath[:len(StaticPath)-1],
-	util.RequestFilter(
+func staticFsHandlerGenerator() http.Handler {
+	return util.RequestFilter(
 		"", "GET", l,
-		util.DisableListDir(http.FileServer(http.Dir("static"))),
-	),
-)
+		util.DisableListDir(
+			l,
+			http.StripPrefix(
+				StaticPath[:len(StaticPath)-1],
+				http.FileServer(http.Dir("static")),
+			),
+		),
+	)
+}

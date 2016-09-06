@@ -14,20 +14,19 @@ const (
 // ExtraHandlers return value will be add to http handle list.
 // In fs plugin, we start a static file server to serve image file we accped in /files/taskID path.
 func (fsp fsPlugin) ExtraHandlers() (handlers []plugins.HandlerWithPattern) {
-	// get a base file server
-	fileServer := http.StripPrefix(
-		fileURLPath[:len(fileURLPath)-1],
-		// Disable list dir
-		util.DisableListDir(
-			http.FileServer(http.Dir(imageDir)),
-		),
-	)
-	// only accped GET request
+	// only accpet GET method
 	requestFilterFileServer := util.RequestFilter(
 		"", "GET", l,
-		func(w http.ResponseWriter, q *http.Request) {
-			fileServer.ServeHTTP(w, q)
-		},
+		// disable list dir
+		util.DisableListDir(
+			l,
+			// Strip prefix path
+			http.StripPrefix(
+				fileURLPath[:len(fileURLPath)-1],
+				// get a base file server
+				http.FileServer(http.Dir(imageDir)),
+			),
+		),
 	)
 
 	handlers = []plugins.HandlerWithPattern{

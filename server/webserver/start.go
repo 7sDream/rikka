@@ -17,9 +17,9 @@ func StartRikkaWebServer(log *logger.Logger) {
 
 	checkFiles()
 
-	http.HandleFunc(RootPath, indexHandler)
-	http.HandleFunc(ViewPath, viewHandler)
-	http.Handle(StaticPath, staticFsHandler)
+	http.HandleFunc(RootPath, indexHandlerGenerator())
+	http.HandleFunc(ViewPath, viewHandleGenerator())
+	http.Handle(StaticPath, staticFsHandlerGenerator())
 
 	l.Info("Rikka web server start successfully")
 }

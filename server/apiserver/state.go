@@ -19,7 +19,7 @@ func stateHandleFunc(w http.ResponseWriter, r *http.Request) {
 	if jsonData, err = getStateJSON(taskID); err != nil {
 		l.Warn("Error happened when get state json of task", taskID, ":", err)
 	} else {
-		l.Debug("Get state json of task", taskID, "successfully")
+		l.Info("Get state json", string(jsonData), "of task", taskID, "successfully")
 	}
 
 	renderJSONOrError(w, taskID, jsonData, err, http.StatusInternalServerError)

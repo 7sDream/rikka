@@ -158,7 +158,7 @@ func sendUploadResultToClient(w http.ResponseWriter, taskID string, from string)
 		if taskIDJSON, err = getTaskIDJSON(taskID); err != nil {
 			l.Error("Error happened when build task ID json of task", taskID, ":", err)
 		} else {
-			l.Debug("Build task ID json", taskIDJSON, "of task", taskID, "successfully")
+			l.Info("Build task ID json", taskIDJSON, "of task", taskID, "successfully")
 		}
 		renderJSONOrError(w, taskID, taskIDJSON, err, http.StatusInternalServerError)
 	}

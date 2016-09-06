@@ -25,12 +25,12 @@ func StartRikkaAPIServer(argPassword string, argMaxSizeByMb float64, log *logger
 
 	stateHandler := util.RequestFilter(
 		"", "GET", l,
-		util.DisableListDirFunc(stateHandleFunc),
+		util.DisableListDirFunc(l, stateHandleFunc),
 	)
 
 	urlHandler := util.RequestFilter(
 		"", "GET", l,
-		util.DisableListDirFunc(urlHandleFunc),
+		util.DisableListDirFunc(l, urlHandleFunc),
 	)
 
 	uploadHandler := util.RequestFilter(
