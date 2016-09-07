@@ -7,7 +7,7 @@ function errorHandler( message, source, lineno, colno, error){
     console.log("On line - col: ", lineno, "-", colno);
     console.log("Error:", error);
     try {
-        ua = navigator.userAgent;
+        var ua = navigator.userAgent;
         console.log("UA: ", ua);
     } catch (e) {
         console.log("Unable to get UA");
