@@ -1,17 +1,11 @@
 'use strict';
 
 function isImageType(typeStr) {
-    if (typeStr === "") {
-        return false;
-    }
     if (typeStr.startsWith("image") === false) {
         return false;
     }
-    if (typeStr.includes("vnd")) {
-        return false;
-    }
-    let accepted = ["/jpeg", "/bmp", "/gif", "/png"];
-    return accepted.some((type) => typeStr.includes(type))
+    let accepted = ["jpeg", "bmp", "gif", "png"];
+    return accepted.some((type) => typeStr.endsWith("/" + type))
 }
 
 function check(maxSizeByMb) {
