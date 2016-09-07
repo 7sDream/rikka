@@ -17,7 +17,7 @@ function check(maxSizeByMb) {
         alert("Can't upload a " + fileType + " type file");
         return false;
     }
-    console.log("Accept a", fileTypem, "file")
+    console.log("Accept a", fileType, "file")
     if (file.size > (maxSizeByMb * 1024 * 1024)) {
         let fileSizeByMb = Math.round(file.size / 1024 / 1024 * 100) / 100;
         alert("Max file size is " + maxSizeByMb + " Mb, input file is " + fileSizeByMb.toString() + " Mb");
