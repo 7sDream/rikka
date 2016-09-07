@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"github.com/7sDream/rikka/common/util"
+	"github.com/7sDream/rikka/server/apiserver"
 )
 
 func getFile() (string, []byte) {
@@ -35,7 +36,7 @@ func getFile() (string, []byte) {
 	l.Info("Read file", absFilePath, "content successfully")
 
 	filetype := http.DetectContentType(fileContent)
-	if !strings.HasPrefix(filetype, "image") {
+	if !apiserver.IsAccepted(filetype) {
 		l.Fatal("File", absFilePath, "is not a image file, it is", filetype)
 	}
 	l.Debug("Fie", absFilePath, "type check passed:", filetype)
