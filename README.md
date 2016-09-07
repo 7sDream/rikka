@@ -1,5 +1,7 @@
 # Rikka - 极简图床系统
 
+![][badge-info-img] ![][badge-version-img] 
+
 ## 简介
 
 Rikka（因为是罗马音，读音类似`莉卡`而不是`瑞卡`）是一套完整的个人图床系统，她包括：
@@ -72,11 +74,11 @@ Rikka 的真实储存后端使用插件形式编写。可通过 `-plugin` 参数
 
 请看 [Rikka API 文档][api-doc]。
 
-## CLI
+## CLI - Rikkac
 
-Rikkac 是基于 Rikka 的 RESTful API 写的命令行工具。
+Rikkac 是基于 Rikka 的 RESTful API 写的 Rikka CLI 工具。
 
-编译、配置和使用方法请看 [Rikka CLI 文档][cli-doc]。
+编译、配置和使用方法请看 [Rikkac 文档][rikkac-doc]。
 
 ## 部署
 
@@ -94,12 +96,15 @@ Rikka 系统的所有代码均基于 MIT 协议开源。
 
 详见 [LICENSE][license] 文件。
 
+[badge-info-img]: https://images.microbadger.com/badges/image/7sdream/rikka.svg
+[badge-version-img]: https://images.microbadger.com/badges/version/7sdream/rikka.svg
+
 [demo]: http://7sdream-rikka-demo.daoapp.io/
 [home]: http://7sdream-rikka-demo.daoapp.io/files/2016-09-05-498160687
 [view]: http://7sdream-rikka-demo.daoapp.io/files/2016-09-05-457359417
 
 [api-doc]: https://github.com/7sDream/rikka/tree/master/api
-[cli-doc]: https://github.com/7sDream/rikka/tree/master/cli
+[rikkac-doc]: https://github.com/7sDream/rikka/tree/master/rikkac
 [plugins-doc]: https://github.com/7sDream/rikka/tree/master/plugins
 [deploy-doc]: https://github.com/7sDream/rikka/blob/master/deploy.md
 
