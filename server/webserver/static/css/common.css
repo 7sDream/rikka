@@ -3,9 +3,14 @@
     display: none;
 }
 div#error {
-    background: black;
-    color: white;
-    margin-bottom: 1px;
+    color: #6cf;
+    margin-bottom: 1em;
+    font-family: monospace;
+    padding: 0.5em;
+    border: 0.1em solid #6cf;
+    border-radius: 0.2em;
+}
+div#error > span {
     font-family: monospace;
 }
 h1, p, span {
