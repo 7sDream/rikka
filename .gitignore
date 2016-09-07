@@ -12,3 +12,6 @@ files/*
 
 # rikkac binary
 cli/rikkac
+
+# git big picture
+bp.png
