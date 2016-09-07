@@ -158,7 +158,6 @@ func TemplateRenderHandler(templatePath string, contextCreator ContextCreator, l
 		log = l
 	}
 	return func(w http.ResponseWriter, r *http.Request) {
-		defer recover()
 
 		templateName := pathutil.Base(templatePath)
 
