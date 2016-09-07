@@ -1,5 +1,7 @@
 # Rikka - 极简图床系统
 
+![][badge-info-img] ![][badge-version-img] 
+
 ## 简介
 
 Rikka（因为是罗马音，读音类似`莉卡`而不是`瑞卡`）是一套完整的个人图床系统，她包括：
@@ -93,6 +95,9 @@ Rikkac 是基于 Rikka 的 RESTful API 写的命令行工具。
 Rikka 系统的所有代码均基于 MIT 协议开源。
 
 详见 [LICENSE][license] 文件。
+
+[badge-info-img]: https://images.microbadger.com/badges/image/7sdream/rikka.svg
+[badge-version-img]: https://images.microbadger.com/badges/version/7sdream/rikka.svg
 
 [demo]: http://7sdream-rikka-demo.daoapp.io/
 [home]: http://7sdream-rikka-demo.daoapp.io/files/2016-09-05-498160687
