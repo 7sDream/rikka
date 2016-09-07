@@ -183,7 +183,6 @@ func sendUploadResultToClient(w http.ResponseWriter, r *http.Request, taskID str
 // ---- end of upload handle aux functions --
 
 func uploadHandleFunc(w http.ResponseWriter, r *http.Request) {
-	defer recover()
 
 	l.Info("Recieve file upload request from ip", r.RemoteAddr)
 

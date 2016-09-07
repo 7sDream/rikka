@@ -8,7 +8,6 @@ import (
 
 // stateHandleFunc is the base handle func of path /api/state/taskID
 func stateHandleFunc(w http.ResponseWriter, r *http.Request) {
-	defer recover()
 
 	taskID := util.GetTaskIDByRequest(r)
 

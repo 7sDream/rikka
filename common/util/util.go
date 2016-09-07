@@ -158,7 +158,6 @@ func TemplateRenderHandler(templatePath string, contextCreator ContextCreator, l
 		log = l
 	}
 	return func(w http.ResponseWriter, r *http.Request) {
-		defer recover()
 
 		templateName := pathutil.Base(templatePath)
 
@@ -186,7 +185,6 @@ func TemplateRenderHandler(templatePath string, contextCreator ContextCreator, l
 // If pathMustBe or methodMustBe is empty string, no check will be performed.
 func RequestFilter(pathMustBe string, methodMustBe string, log *logger.Logger, handlerFunc http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		defer recover()
 
 		if log == nil {
 			l.Warn("Get a nil logger in function RequestFilter")
