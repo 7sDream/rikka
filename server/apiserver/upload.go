@@ -10,11 +10,14 @@ import (
 	"github.com/7sDream/rikka/api"
 	"github.com/7sDream/rikka/common/util"
 	"github.com/7sDream/rikka/plugins"
-	"github.com/7sDream/rikka/server/webserver"
 )
 
 var (
+	viewPath        = ""
 	taskIDUploading = "[uploading]"
+	acceptedTypes   = []string{
+		"jpeg", "bmp", "gif", "png",
+	}
 )
 
 // ---- upload handle aux functions --
@@ -50,6 +53,19 @@ func checkPassowrd(w http.ResponseWriter, r *http.Request, from string) bool {
 	return true
 }
 
+// IsAccepted check a mime filetype is accped by rikka.
+func IsAccepted(fileMimeTypeStr string) bool {
+	if !strings.HasPrefix(fileMimeTypeStr, "image") {
+		return false
+	}
+	for _, acceptedType := range acceptedTypes {
+		if strings.HasSuffix(fileMimeTypeStr, "/"+acceptedType) {
+			return true
+		}
+	}
+	return false
+}
+
 func checkUploadedFile(w http.ResponseWriter, file multipart.File, from string) bool {
 	fileContent, err := ioutil.ReadAll(file)
 	if err != nil {
@@ -67,7 +83,8 @@ func checkUploadedFile(w http.ResponseWriter, file multipart.File, from string) 
 	l.Debug("Get form file content successfully")
 
 	filetype := http.DetectContentType(fileContent)
-	if !strings.HasPrefix(filetype, "image") {
+
+	if !IsAccepted(filetype) {
 		l.Error("Form file is not a image, it is a", filetype)
 
 		if from == "website" {
@@ -121,10 +138,9 @@ func getUploadedFile(w http.ResponseWriter, r *http.Request, from string) (multi
 	return file, true
 }
 
-func redirectToView(w http.ResponseWriter, taskID string) {
-	viewPage := webserver.ViewPath + taskID
-	w.Header().Set("Location", viewPage)
-	w.WriteHeader(302)
+func redirectToView(w http.ResponseWriter, r *http.Request, taskID string) {
+	viewPage := viewPath + taskID
+	http.Redirect(w, r, viewPage, http.StatusFound)
 	l.Debug("Redirect user to view page", viewPage)
 }
 
@@ -149,9 +165,9 @@ func sendSaveRequestToPlugin(w http.ResponseWriter, file multipart.File, from st
 	return taskID, true
 }
 
-func sendUploadResultToClient(w http.ResponseWriter, taskID string, from string) {
+func sendUploadResultToClient(w http.ResponseWriter, r *http.Request, taskID string, from string) {
 	if from == "website" {
-		redirectToView(w, taskID)
+		redirectToView(w, r, taskID)
 	} else {
 		var taskIDJSON []byte
 		var err error
@@ -167,7 +183,6 @@ func sendUploadResultToClient(w http.ResponseWriter, taskID string, from string)
 // ---- end of upload handle aux functions --
 
 func uploadHandleFunc(w http.ResponseWriter, r *http.Request) {
-	defer recover()
 
 	l.Info("Recieve file upload request from ip", r.RemoteAddr)
 
@@ -200,5 +215,5 @@ func uploadHandleFunc(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	sendUploadResultToClient(w, taskID, from)
+	sendUploadResultToClient(w, r, taskID, from)
 }

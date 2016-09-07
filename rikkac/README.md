@@ -18,9 +18,13 @@
 
 ## 编译安装
 
-![](http://7sdream-rikka-demo.daoapp.io/files/2016-09-05-853332196)
+`go install github.com/7sDream/rikka/rikkac`
 
-可以看到安装编译和安装成功后并不能立即使用，需要进行一些配置。
+把 `$GOPATH/bin` 加入 `PATH` 如果你在安装 Go 的时候没做这步的话。
+
+然后输入 `which rikkac` 或者 `rikkac --version` 不出错就安装成功了。
+
+编译和安装成功后并不能立即使用，需要进行一些配置。
 
 ## 配置和使用
 
@@ -30,7 +34,7 @@ Rikkac 需要配置两个环境变量： `RIKKA_HOST` 和 `RIKKA_PWD`。它们�
 
 配置完就可以使用啦。
 
-基本上就是 `rikkac -m filepath` 就好。
+基本上就是 `rikkac -m filepath` 就好，当然 `rikkac filepath -m` 也是可以的。
 
 如果出错了可以用 `-v` 或者 `-vv` 参数输出详细日志用于排错。
 

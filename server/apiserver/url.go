@@ -7,7 +7,6 @@ import (
 )
 
 func urlHandleFunc(w http.ResponseWriter, r *http.Request) {
-	defer recover()
 
 	taskID := util.GetTaskIDByRequest(r)
 
