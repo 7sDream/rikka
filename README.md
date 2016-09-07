@@ -74,11 +74,11 @@ Rikka 的真实储存后端使用插件形式编写。可通过 `-plugin` 参数
 
 请看 [Rikka API 文档][api-doc]。
 
-## CLI
+## CLI - Rikkac
 
-Rikkac 是基于 Rikka 的 RESTful API 写的命令行工具。
+Rikkac 是基于 Rikka 的 RESTful API 写的 Rikka CLI 工具。
 
-编译、配置和使用方法请看 [Rikka CLI 文档][cli-doc]。
+编译、配置和使用方法请看 [Rikkac 文档][rikkac-doc]。
 
 ## 部署
 
@@ -104,7 +104,7 @@ Rikka 系统的所有代码均基于 MIT 协议开源。
 [view]: http://7sdream-rikka-demo.daoapp.io/files/2016-09-05-457359417
 
 [api-doc]: https://github.com/7sDream/rikka/tree/master/api
-[cli-doc]: https://github.com/7sDream/rikka/tree/master/cli
+[rikkac-doc]: https://github.com/7sDream/rikka/tree/master/rikkac
 [plugins-doc]: https://github.com/7sDream/rikka/tree/master/plugins
 [deploy-doc]: https://github.com/7sDream/rikka/blob/master/deploy.md
 
