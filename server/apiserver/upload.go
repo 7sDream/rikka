@@ -140,7 +140,7 @@ func getUploadedFile(w http.ResponseWriter, r *http.Request, from string) (multi
 
 func redirectToView(w http.ResponseWriter, r *http.Request, taskID string) {
 	viewPage := webserver.ViewPath + taskID
-	http.Redirect(w, r, viewPage, http.StatusTemporaryRedirect)
+	http.Redirect(w, r, viewPage, http.StatusFound)
 	l.Debug("Redirect user to view page", viewPage)
 }
 
