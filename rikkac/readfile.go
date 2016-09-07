@@ -4,6 +4,7 @@ import (
 	"flag"
 	"io/ioutil"
 	"net/http"
+	"os"
 	pathutil "path/filepath"
 	"strings"
 
@@ -12,10 +13,17 @@ import (
 )
 
 func getFile() (string, []byte) {
-	if len(flag.Args()) != 1 {
-		l.Fatal("No file specified or more than one file specified")
+	filepath := ""
+	if len(flag.Args()) == 1 {
+		filepath = flag.Args()[0]
+	} else {
+		if !strings.HasPrefix(os.Args[1], "-") {
+			filepath = os.Args[1]
+		} else {
+			l.Fatal("No or more than one file specified")
+		}
 	}
-	filepath := flag.Args()[0]
+
 	l.Debug("Get path of file want be uploaded:", filepath)
 
 	absFilePath, err := pathutil.Abs(filepath)
@@ -24,8 +32,8 @@ func getFile() (string, []byte) {
 	}
 	l.Debug("Change to absolute path:", absFilePath)
 
-	if !util.IsDir(absFilePath) {
-		l.Fatal("Path ", absFilePath, "not exists or not a dir")
+	if !util.IsFile(absFilePath) {
+		l.Fatal("Path ", absFilePath, "not exists or not a file")
 	}
 	l.Debug("File", absFilePath, "exists and is a file")
 

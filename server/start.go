@@ -15,11 +15,11 @@ var (
 // StartRikka start server part of rikka. Include Web Server and API server.
 func StartRikka(socket string, password string, maxSizeByMb float64) {
 
-	l.Info("Start API server")
-	apiserver.StartRikkaAPIServer(password, maxSizeByMb, l)
-
 	l.Info("Start web server...")
-	webserver.StartRikkaWebServer(maxSizeByMb, l)
+	viewPath := webserver.StartRikkaWebServer(maxSizeByMb, l)
+
+	l.Info("Start API server")
+	apiserver.StartRikkaAPIServer(viewPath, password, maxSizeByMb, l)
 
 	l.Info("Rikka is listening", socket)
 

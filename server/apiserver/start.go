@@ -16,8 +16,9 @@ var (
 )
 
 // StartRikkaAPIServer start API server of Rikka
-func StartRikkaAPIServer(argPassword string, argMaxSizeByMb float64, log *logger.Logger) {
+func StartRikkaAPIServer(argViewPath string, argPassword string, argMaxSizeByMb float64, log *logger.Logger) {
 
+	viewPath = argViewPath
 	password = argPassword
 	maxSizeByMb = argMaxSizeByMb
 
