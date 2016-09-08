@@ -43,12 +43,12 @@ build: version confirm delete clean
 	docker tag $(IMAGE_NAME):$(NEW_VERSION) $(IMAGE_NAME):latest
 
 push: build 
-	dockler push $(IMAGE_NAME)
+	docker push $(IMAGE_NAME)
 
 # Clean
 
 clean:
 	rm -f ./rikka
-	rm -rf files
+	rm -rf files/
 	rm -f debug
 	rm -f rikkac/rikkac 
