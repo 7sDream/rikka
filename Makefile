@@ -21,9 +21,13 @@ version:
 	@echo "Will delete $(OLD_VERSION)"
 	@echo "Will build $(NEW_VERSION)"
 
+ifeq ($(OLD_VERSION),$(NEW_VERSION))
 confirm:
-	@if [ "$(OLD_VERSION)" = "$(NEW_VERSION)" ]; then $(error No newer version than $(OLD_VERSION)); fi
-	@bash -c "read -s -n 1 -p 'Press any key to continue'"
+	$(error No newer version than $(OLD_VERSION))
+else
+confirm:
+	@bash -c "read -s -n 1 -p 'Press any key to continue, Ctrl+C to stop'"
+endif
 
 delete:
 	docker rmi $(IMAGE_NAME):$(OLD_VERSION)
