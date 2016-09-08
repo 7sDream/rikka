@@ -2,6 +2,6 @@ version: "2.0"
 
 build:
   image:
-    dockerfile_path: Dockerfile
+    dockerfile_path: DaoCloudDockerfile
     build_dir: /
     cache: true
