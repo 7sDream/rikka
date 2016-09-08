@@ -9,8 +9,17 @@ function isImageType(typeStr) {
 }
 
 function check(maxSizeByMb) {
+    let passwordInput = document.querySelector("input#password")
     let fileInput = document.querySelector("input#uploadFile");
     let file = fileInput.files[0];
+    if (passwordInput.value === "") {
+        alert("Please input password");
+        return false;
+    }
+    if (file === undefined) {
+        alert("Plesae choose a image to upload");
+        return false;
+    }
     let fileType = file.type
     if (!isImageType(fileType)) {
         fileType = fileType || "unknown";
