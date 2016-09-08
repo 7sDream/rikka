@@ -18,13 +18,11 @@ NEW_VERSION = $(shell sed -n 's:\t*Version = "\([0-9.]\+\).*":\1:p' api/consts.g
 GIT_COMMIT = $(strip $(shell git rev-parse --short HEAD))
 
 version:
-	@echo "Last version $(OLD_VERSION)"
-	@echo "Will delete $(NEW_VERSION)"
+	@echo "Will delete $(OLD_VERSION)"
+	@echo "Will build $(NEW_VERSION)"
 
 confirm:
-	ifeq ($(OLD_VERSION), $(NEW_VERSION))
-		$(error Now new version)
-	endif
+	@if [ "$(OLD_VERSION)" = "$(NEW_VERSION)" ]; then $(error No newer version than $(OLD_VERSION)); fi
 	@bash -c "read -s -n 1 -p 'Press any key to continue'"
 
 delete:
