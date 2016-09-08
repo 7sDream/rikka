@@ -26,7 +26,7 @@ confirm:
 	$(error No newer version than $(OLD_VERSION))
 else
 confirm:
-	@bash -c "read -s -n 1 -p 'Press any key to continue'"
+	@bash -c "read -s -n 1 -p 'Press any key to continue, Ctrl+C to stop'"
 endif
 
 delete:
