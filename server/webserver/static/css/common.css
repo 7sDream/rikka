@@ -61,12 +61,13 @@ div.line label, div.line input {
     border: 1px solid #6cf;
     border-radius: 2px;
     text-align: center;
-    font-size: 1em;
 }
 div.line label {
+    font-size: 1em;
     width: 40%;
 }
 div.line input {
+    font-size: 0,75em;
     width: 60%;
     outline: none;
 }
