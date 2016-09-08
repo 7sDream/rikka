@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"html/template"
+	"net"
 	"net/http"
 	"os"
 	pathutil "path/filepath"
@@ -59,6 +60,31 @@ func IsFile(path string) bool {
 		return !stat.IsDir()
 	}
 	return false
+}
+
+// GetClientIP get client ip address from a http request.
+// Try to get ip from x-forwarded-for header first,
+// If key not exist in header, try to get ip:host from r.RemoteAddr
+// split it to ip:port and return ip, If error happened, return 0.0.0.0
+func GetClientIP(r *http.Request) string {
+	defer func() {
+		if r := recover(); r != nil {
+			l.Error("Unexcepted panic happened when get client ip:", r)
+		}
+	}()
+
+	forwardIP := r.Header.Get("X-FORWARDED-FOR")
+	if forwardIP != "" {
+		return forwardIP
+	}
+
+	socket := r.RemoteAddr
+	host, _, err := net.SplitHostPort(socket)
+	if err != nil {
+		l.Warn("Error happened when get IP address :", err)
+		return "0.0.0.0"
+	}
+	return host
 }
 
 // CheckMethod check if request method is as excepted.
@@ -138,7 +164,7 @@ func DisableListDir(log *logger.Logger, h http.HandlerFunc) http.HandlerFunc {
 	}
 	return func(w http.ResponseWriter, r *http.Request) {
 		if strings.HasSuffix(r.URL.Path, "/") {
-			log.Warn("Someone try to list dir", r.URL.Path)
+			log.Warn(GetClientIP(r), "try to list dir", r.URL.Path)
 			http.NotFound(w, r)
 		} else {
 			h(w, r)
@@ -160,22 +186,23 @@ func TemplateRenderHandler(templatePath string, contextCreator ContextCreator, l
 	return func(w http.ResponseWriter, r *http.Request) {
 
 		templateName := pathutil.Base(templatePath)
+		ip := GetClientIP(r)
 
-		log.Info("Recieve a template render request of", templateName, "from ip", r.RemoteAddr)
+		log.Info("Recieve a template render request of", templateName, "from ip", ip)
 
-		var err error
-
+		var data interface{}
 		if contextCreator != nil {
-			err = RenderTemplate(templatePath, w, contextCreator(r))
+			data = contextCreator(r)
 		} else {
-			err = RenderTemplate(templatePath, w, nil)
+			data = nil
 		}
 
+		err := RenderTemplate(templatePath, w, data)
 		if err != nil {
-			log.Warn("Render template", templateName, "with data", nil, "error: ", err)
+			log.Warn("Error happened when render template", templateName, "with data", fmt.Sprintf("%+v", data), "to", ip, ": ", err)
 		}
 
-		log.Info("Render template", templateName, "successfully")
+		log.Info("Render template", templateName, "to", ip, "uccessfully")
 	}
 }
 
@@ -193,14 +220,14 @@ func RequestFilter(pathMustBe string, methodMustBe string, log *logger.Logger, h
 
 		if pathMustBe != "" {
 			if !MustBeOr404(w, r, pathMustBe) {
-				log.Warn("Someone visit a non-exist page", r.URL.Path, ", excepted is /")
+				log.Warn(GetClientIP(r), "visit a non-exist page", r.URL.Path, ", excepted is /")
 				return
 			}
 		}
 
 		if methodMustBe != "" {
 			if !CheckMethod(w, r, methodMustBe) {
-				log.Warn("Someone visit page", r.URL.Path, "with method", r.Method, ", only", methodMustBe, "is allowed")
+				log.Warn(GetClientIP(r), "visit page", r.URL.Path, "with method", r.Method, ", only", methodMustBe, "is allowed")
 				return
 			}
 		}

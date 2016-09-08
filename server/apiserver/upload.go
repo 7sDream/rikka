@@ -22,23 +22,23 @@ var (
 
 // ---- upload handle aux functions --
 
-func checkFromArg(w http.ResponseWriter, r *http.Request) (string, bool) {
+func checkFromArg(w http.ResponseWriter, r *http.Request, ip string) (string, bool) {
 	from := r.FormValue("from")
 	if from != "website" && from != "api" {
-		l.Warn("Someone use a error from value:", from)
+		l.Warn(ip, "use a error from value:", from)
 		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("from argument can only be website or api."))
+		w.Write([]byte(api.InvalidFromArgErrMsg))
 		return "", false
 	}
-	l.Debug("Request from:", from)
+	l.Debug("Request of", ip, "is from:", from)
 	return from, true
 }
 
-func checkPassowrd(w http.ResponseWriter, r *http.Request, from string) bool {
+func checkPassowrd(w http.ResponseWriter, r *http.Request, ip string, from string) bool {
 	userPassword := r.FormValue("password")
 	if userPassword != password {
 		// error password
-		l.Warn("Someone input a error password:", userPassword)
+		l.Warn(ip, "input a error password:", userPassword)
 
 		if from == "website" {
 			http.Error(w, "Error password", http.StatusUnauthorized)
@@ -49,7 +49,7 @@ func checkPassowrd(w http.ResponseWriter, r *http.Request, from string) bool {
 
 		return false
 	}
-	l.Debug("Password check successfully")
+	l.Debug("Password check for", ip, "successfully")
 	return true
 }
 
@@ -66,10 +66,10 @@ func IsAccepted(fileMimeTypeStr string) bool {
 	return false
 }
 
-func checkUploadedFile(w http.ResponseWriter, file multipart.File, from string) bool {
+func checkUploadedFile(w http.ResponseWriter, file multipart.File, ip string, from string) bool {
 	fileContent, err := ioutil.ReadAll(file)
 	if err != nil {
-		l.Error("Error happened when get form file content:", err)
+		l.Error("Error happened when get form file content of ip", ip, ":", err)
 
 		if from == "website" {
 			util.ErrHandle(w, err)
@@ -80,12 +80,12 @@ func checkUploadedFile(w http.ResponseWriter, file multipart.File, from string) 
 
 		return false
 	}
-	l.Debug("Get form file content successfully")
+	l.Debug("Get form file content of ip", ip, "successfully")
 
 	filetype := http.DetectContentType(fileContent)
 
 	if !IsAccepted(filetype) {
-		l.Error("Form file is not a image, it is a", filetype)
+		l.Error("Form file submitted by", ip, "is not a image, it is a", filetype)
 
 		if from == "website" {
 			util.ErrHandle(w, errors.New(api.NotAImgFileErrMsg))
@@ -96,10 +96,10 @@ func checkUploadedFile(w http.ResponseWriter, file multipart.File, from string) 
 
 		return false
 	}
-	l.Debug("Check form file type, passed:", filetype)
+	l.Debug("Check type of form file submitted by", ip, ", passed:", filetype)
 
 	if _, err = file.Seek(0, 0); err != nil {
-		l.Error("Error when try to seek form file to start:", err)
+		l.Error("Error when try to seek form file submitted by", ip, "to start:", err)
 
 		if from == "website" {
 			util.ErrHandle(w, err)
@@ -114,11 +114,11 @@ func checkUploadedFile(w http.ResponseWriter, file multipart.File, from string) 
 	return true
 }
 
-func getUploadedFile(w http.ResponseWriter, r *http.Request, from string) (multipart.File, bool) {
+func getUploadedFile(w http.ResponseWriter, r *http.Request, ip string, from string) (multipart.File, bool) {
 	file, _, err := r.FormFile("uploadFile")
 	if err != nil {
 		// no needed file
-		l.Error("Error happened when get form file:", err)
+		l.Error("Error happened when get form file from request of", ip, ":", err)
 
 		if from == "website" {
 			util.ErrHandle(w, err)
@@ -129,28 +129,28 @@ func getUploadedFile(w http.ResponseWriter, r *http.Request, from string) (multi
 
 		return file, false
 	}
-	l.Debug("Get uploaded file successfully")
+	l.Debug("Get uploaded file from request of", ip, "successfully")
 
-	if !checkUploadedFile(w, file, from) {
+	if !checkUploadedFile(w, file, ip, from) {
 		return nil, false
 	}
 
 	return file, true
 }
 
-func redirectToView(w http.ResponseWriter, r *http.Request, taskID string) {
+func redirectToView(w http.ResponseWriter, r *http.Request, ip string, taskID string) {
 	viewPage := viewPath + taskID
 	http.Redirect(w, r, viewPage, http.StatusFound)
-	l.Debug("Redirect user to view page", viewPage)
+	l.Debug("Redirect client", ip, "to view page", viewPage)
 }
 
-func sendSaveRequestToPlugin(w http.ResponseWriter, file multipart.File, from string) (string, bool) {
+func sendSaveRequestToPlugin(w http.ResponseWriter, file multipart.File, ip string, from string) (string, bool) {
 	l.Debug("Send file save request to plugin manager")
 
 	pTaskID, err := plugins.AcceptFile(&plugins.SaveRequest{File: file})
 
 	if err != nil {
-		l.Error("Error happened when plugin manager process file save request:", err)
+		l.Error("Error happened when plugin manager process file save request by ip", ip, ":", err)
 		if from == "website" {
 			util.ErrHandle(w, err)
 		} else {
@@ -160,21 +160,21 @@ func sendSaveRequestToPlugin(w http.ResponseWriter, file multipart.File, from st
 	}
 
 	taskID := pTaskID.TaskID
-	l.Info("Recieve task ID from plugin manager:", taskID)
+	l.Info("Recieve task ID request by", ip, "from plugin manager:", taskID)
 
 	return taskID, true
 }
 
-func sendUploadResultToClient(w http.ResponseWriter, r *http.Request, taskID string, from string) {
+func sendUploadResultToClient(w http.ResponseWriter, r *http.Request, ip string, taskID string, from string) {
 	if from == "website" {
-		redirectToView(w, r, taskID)
+		redirectToView(w, r, ip, taskID)
 	} else {
 		var taskIDJSON []byte
 		var err error
 		if taskIDJSON, err = getTaskIDJSON(taskID); err != nil {
-			l.Error("Error happened when build task ID json of task", taskID, ":", err)
+			l.Error("Error happened when build task ID json of task", taskID, "request by", ip, ":", err)
 		} else {
-			l.Info("Build task ID json", taskIDJSON, "of task", taskID, "successfully")
+			l.Info("Build task ID json", taskIDJSON, "of task", "request by", ip, "successfully")
 		}
 		renderJSONOrError(w, taskID, taskIDJSON, err, http.StatusInternalServerError)
 	}
@@ -183,37 +183,38 @@ func sendUploadResultToClient(w http.ResponseWriter, r *http.Request, taskID str
 // ---- end of upload handle aux functions --
 
 func uploadHandleFunc(w http.ResponseWriter, r *http.Request) {
+	ip := util.GetClientIP(r)
 
-	l.Info("Recieve file upload request from ip", r.RemoteAddr)
+	l.Info("Recieve file upload request from ip", ip)
 
 	maxSize := int64(maxSizeByMb * 1024 * 1024)
 	r.Body = http.MaxBytesReader(w, r.Body, maxSize)
 
 	err := r.ParseMultipartForm(maxSize)
 	if util.ErrHandle(w, err) {
-		l.Error("Error happened when parse form:", err)
+		l.Error("Error happened when parse form submitted by", ip, ":", err)
 		return
 	}
 
 	var from string
 	var ok bool
-	if from, ok = checkFromArg(w, r); !ok {
+	if from, ok = checkFromArg(w, r, ip); !ok {
 		return
 	}
 
-	if !checkPassowrd(w, r, from) {
+	if !checkPassowrd(w, r, ip, from) {
 		return
 	}
 
 	var file multipart.File
-	if file, ok = getUploadedFile(w, r, from); !ok {
+	if file, ok = getUploadedFile(w, r, ip, from); !ok {
 		return
 	}
 
 	var taskID string
-	if taskID, ok = sendSaveRequestToPlugin(w, file, from); !ok {
+	if taskID, ok = sendSaveRequestToPlugin(w, file, ip, from); !ok {
 		return
 	}
 
-	sendUploadResultToClient(w, r, taskID, from)
+	sendUploadResultToClient(w, r, ip, taskID, from)
 }
