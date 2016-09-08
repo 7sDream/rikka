@@ -46,46 +46,47 @@ func NewLogger(prefix string) *Logger {
 	}
 }
 
-// Debug print log message as DEBUG leve.
+// Debug print log message as DEBUG level.
 // if you set log level higher than LevelDebug, no message will be print.
 func (logger *Logger) Debug(data ...interface{}) {
 	if currentLevel <= LevelDebug {
-		logger.dl.Println(data)
+		logger.dl.Println(data...)
 	}
 }
 
-// Info print log message as INFO leve.
+// Info print log message as INFO level.
 // If you set log level higher than LevelInfo, no message will be print.
 func (logger *Logger) Info(data ...interface{}) {
 	if currentLevel <= LevelInfo {
-		logger.il.Println(data)
+		logger.il.Println(data...)
 	}
 }
 
-// Warn print log message as WARN leve.
+// Warn print log message as WARN level.
 // If you set log level higher than LevelWarn, no message will be print.
 func (logger *Logger) Warn(data ...interface{}) {
 	if currentLevel <= LevelWarn {
-		logger.wl.Println(data)
+		logger.wl.Println(data...)
 	}
 }
 
-// Error print log message as ERROR leve. This function do not create panic or fatal, it just print error message.
+// Error print log message as ERROR level. 
+// This function do not create panic or fatal, it just print error message.
 // If you want get a runtime panic or fatal, use Logger.Panic or Logger.Fatal instand.
 func (logger *Logger) Error(data ...interface{}) {
 	if currentLevel <= LevelError {
-		logger.el.Println(data)
+		logger.el.Println(data...)
 	}
 }
 
 // Panic print log message, and create a panic use the message.
 func (logger *Logger) Panic(data ...interface{}) {
-	logger.pl.Panicln(data)
+	logger.pl.Panicln(data...)
 }
 
 // Fatal print log message, and create a fatal use the message.
 func (logger *Logger) Fatal(data ...interface{}) {
-	logger.fl.Fatalln(data)
+	logger.fl.Fatalln(data...)
 }
 
 // SubLogger create a new logger based on the logger.
