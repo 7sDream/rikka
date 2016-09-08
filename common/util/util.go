@@ -200,7 +200,7 @@ func RequestFilter(pathMustBe string, methodMustBe string, log *logger.Logger, h
 
 		if methodMustBe != "" {
 			if !CheckMethod(w, r, methodMustBe) {
-				log.Warn("Someone visit page", r.URL.Path, "with method", r.Method, ", only", methodMustBe, "is allowed.")
+				log.Warn("Someone visit page", r.URL.Path, "with method", r.Method, ", only", methodMustBe, "is allowed")
 				return
 			}
 		}
