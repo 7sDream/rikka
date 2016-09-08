@@ -14,7 +14,7 @@ Rikka（因为是罗马音，读音类似`莉卡`而不是`瑞卡`）是一套�
 
 - 一个 Web 应用（详见 [Demo](#demo) 一节）
 - 一个 RESTFul API 后端（详见 [API 文档][api-doc]）
-- 基于 API 的命令行工具 rikkac（详见 [CLI 文档][cli-doc]）
+- 基于 API 的命令行工具 rikkac（详见 [Rikkac 文档][rikkac-doc]）
 - 图片的实际储存插件（详见[插件文档][plugins-doc]）
 
 计划实现的其他非 Go 语言的系统组件：
