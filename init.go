@@ -53,7 +53,8 @@ func registerSignalHandler(handlerFunc func()) {
 func init() {
 
 	registerSignalHandler(func() {
-		l.Fatal("Rikka have to go to sleep, see you tomorrow")
+		l.Info("Rikka have to go to sleep, see you tomorrow")
+		os.Exit(0)
 	})
 
 	initPluginList()
