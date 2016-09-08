@@ -54,7 +54,7 @@ func GetURL(taskID string, r *http.Request, picOp *ImageOperate) (pURL *api.URL,
 		// not finished
 		if pState.StateCode != api.StateFinishCode {
 			l.Warn("Task", taskID, "not finished, can't get url")
-			return nil, errors.New("Task not finished")
+			return nil, errors.New(api.TaskNotFinishErrMsg)
 		}
 		// finished
 		l.Debug("Task", taskID, "is finished, send url request to the plugin")

@@ -23,7 +23,7 @@ func CreateTask(taskID string) error {
 	defer tasks.Unlock()
 
 	if _, ok := tasks.m[taskID]; ok { // key exist
-		return errors.New(api.TaskAlreadyExist)
+		return errors.New(api.TaskAlreadyExistErrMsg)
 	}
 
 	tasks.m[taskID] = api.BuildCreateState(taskID)

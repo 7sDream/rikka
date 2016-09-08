@@ -13,8 +13,8 @@ var (
 		flag.Bool("r", false, "reStructuredText format"),
 		flag.Bool("b", false, "BBCode format"),
 		flag.Bool("h", false, "HTML format"),
-		flag.Bool("m", false, "markdown format"),
-		flag.Bool("s", true, "src address format"),
+		flag.Bool("m", false, "Markdown format"),
+		flag.Bool("s", true, "Src url format"),
 	}
 
 	templateStrings = []string{
