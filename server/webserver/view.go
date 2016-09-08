@@ -11,8 +11,9 @@ import (
 func viewHandleFunc(w http.ResponseWriter, r *http.Request) {
 	taskID := util.GetTaskIDByRequest(r)
 	context.TaskID = taskID
+	ip := util.GetClientIP(r)
 
-	l.Info("Recieve a view request of task", taskID, "from ip", r.RemoteAddr)
+	l.Info("Recieve a view request of task", taskID, "from ip", ip)
 
 	l.Debug("Send a url request of task", taskID, "to plugin manager")
 
@@ -26,10 +27,10 @@ func viewHandleFunc(w http.ResponseWriter, r *http.Request) {
 		err = util.RenderTemplate(templateFilePath, w, context)
 		if util.ErrHandle(w, err) {
 			// RenderTemplate error
-			l.Error("Erro when render template", viewTemplateFileName, ":", err)
+			l.Error("Erro happened when render template", viewTemplateFileName, "to", ip, ":", err)
 		} else {
 			// successfully
-			l.Info("Render template", viewTemplateFileName, "successfully")
+			l.Info("Render template", viewTemplateFileName, "to", ip, "successfully")
 		}
 		return
 	}
@@ -41,10 +42,10 @@ func viewHandleFunc(w http.ResponseWriter, r *http.Request) {
 	err = util.RenderTemplate(templateFilePath, w, context)
 	if util.ErrHandle(w, err) {
 		// RenderTemplate error
-		l.Error("Error happened when render template", finishedViewTemplateFileName, ":", err)
+		l.Error("Error happened when render template", finishedViewTemplateFileName, "to", ip, ":", err)
 	} else {
 		// successfully
-		l.Info("Render template", finishedViewTemplateFileName, "successfully")
+		l.Info("Render template", finishedViewTemplateFileName, "to", ip, "successfully")
 	}
 }
 

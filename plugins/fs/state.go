@@ -38,7 +38,7 @@ func (fsp fsPlugin) StateRequestHandle(taskID string) (pState *api.State, err er
 	l.Debug("State of task", taskID, "not found, check if file exist")
 	// TaskID not exist or error when get it, check if image file already exist
 	if util.CheckExist(pathutil.Join(imageDir, taskID)) {
-		// file exist as a finished state
+		// file exist is regarded as a finished state
 		pFinishState := api.BuildFinishState(taskID)
 		l.Debug("File of task", taskID, "exist, return finished state", *pFinishState)
 		return pFinishState, nil

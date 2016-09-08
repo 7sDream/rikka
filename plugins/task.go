@@ -23,7 +23,7 @@ func CreateTask(taskID string) error {
 	defer tasks.Unlock()
 
 	if _, ok := tasks.m[taskID]; ok { // key exist
-		return errors.New("Task already exist")
+		return errors.New(api.TaskAlreadyExistErrMsg)
 	}
 
 	tasks.m[taskID] = api.BuildCreateState(taskID)
@@ -43,7 +43,7 @@ func ChangeTaskState(pProvidedState *api.State) error {
 		return nil
 	}
 
-	return errors.New("Task not exist")
+	return errors.New(api.TaskNotExistErrMsg)
 }
 
 // GetTaskState get state of a task.
@@ -55,7 +55,7 @@ func GetTaskState(taskID string) (*api.State, error) {
 	if pState, ok := tasks.m[taskID]; ok { // key exist
 		return pState, nil
 	}
-	return nil, errors.New("Task not exist.")
+	return nil, errors.New(api.TaskNotExistErrMsg)
 }
 
 // DeleteTask delete a task from task list.
@@ -69,5 +69,5 @@ func DeleteTask(taskID string) error {
 		return nil
 	}
 
-	return errors.New("Task not exist")
+	return errors.New(api.TaskNotExistErrMsg)
 }

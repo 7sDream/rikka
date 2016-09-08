@@ -11,7 +11,7 @@ func stateHandleFunc(w http.ResponseWriter, r *http.Request) {
 
 	taskID := util.GetTaskIDByRequest(r)
 
-	l.Info("Recieve a state request of task", taskID, "from ip", r.RemoteAddr)
+	l.Info("Recieve a state request of task", taskID, "from ip", util.GetClientIP(r))
 
 	var jsonData []byte
 	var err error
