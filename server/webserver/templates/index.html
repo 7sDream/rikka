@@ -20,7 +20,7 @@
         <form id="uploadFrom" enctype="multipart/form-data" action="{{ .UploadPath }}" method="post"  onsubmit="return check({{ .MaxSizeByMb }});">
             <div class="line">
                 <label id="fakeUploadBtn" for="uploadFile">Choose</label>
-                <input id="filename" placeholder="Choose File" disabled="disabled" />
+                <input id="filename" placeholder="<-- Choose File" disabled="disabled" />
                 <input id="uploadFile" name="uploadFile" type="file" accept="image/*" /><br>
             </div>
             <div class="line">

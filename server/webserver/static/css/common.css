@@ -54,10 +54,11 @@ div.line {
     display: flex;
     margin-bottom: 0.5em;
     width: 15em;
+    height: 1.6em;
 }
-div.line label {
+div.line label, div.line input {
     color: #66ccff;
-    border: 1px solid;
+    border: 1px solid #6cf;
     border-radius: 2px;
     text-align: center;
     font-size: 1em;
@@ -68,8 +69,6 @@ div.line label {
 div.line input {
     width: 60%;
     outline: none;
-    border: 1px solid #6cf;
-    border-radius: 2px;
 }
 footer {
     width: 100%;
