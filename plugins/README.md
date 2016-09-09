@@ -1,5 +1,7 @@
 # Rikka Plugin System
 
+[中文版][version-zh]
+
 Rikka back-end image save is powered by plugins.
 
 ## fs Plugin
@@ -15,5 +17,7 @@ In plan.
 ## Sina Weibo Plugin
 
 In plan.
+
+[version-zh]: https://github.com/7sDream/rikka/blob/master/plugins/README.zh.md
 
 [fs-doc]: https://github.com/7sDream/rikka/tree/master/plugins/fs

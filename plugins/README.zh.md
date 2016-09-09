@@ -1,5 +1,7 @@
 # Rikka 插件系统
 
+[English version][version-en]
+
 Rikka 后端实际图片的储存使用插件形式处理。
 
 ## fs 插件
@@ -15,5 +17,7 @@ Rikka 后端实际图片的储存使用插件形式处理。
 ## weibo 新狼微博插件
 
 也还没写出来。
+
+[version-en]: https://github.com/7sDream/rikka/blob/master/plugins/README.md
 
 [fs-doc]: https://github.com/7sDream/rikka/tree/master/plugins/fs/README.zh.md

@@ -1,5 +1,7 @@
 # 部署
 
+[English version][version-en]
+
 以下部署方法均以默认 `fs` 插件为例。
 
 ## 方式 1: 在你的 VPS 上编译
@@ -44,3 +46,7 @@ PS：你可以使用 Rikka `fs` 插件的 `-dir` 参数指定文件储存位置�
 比如，我们可以用 DaoCloud 的免费配额来部署一个 Rikka 服务。
 
 详细步骤请看 [DaoCloud 部署教程](https://github.com/7sDream/rikka/wiki/%E5%9C%A8-DaoCloud-%E4%B8%8A%E5%85%8D%E8%B4%B9%E9%83%A8%E7%BD%B2-Rikka)。
+
+[version-en]: https://github.com/7sDream/rikka/blob/master/deploy.md
+
+[daocloud-guide]: https://github.com/7sDream/rikka/wiki/%E5%9C%A8-DaoCloud-%E4%B8%8A%E5%85%8D%E8%B4%B9%E9%83%A8%E7%BD%B2-Rikka

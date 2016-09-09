@@ -1,5 +1,7 @@
 # 部署
 
+[中文版][version-zh]
+
 The following ways use default plugin `fs` as example.
 
 ## Way 1: Build in you VPS
@@ -47,4 +49,8 @@ So you needn't input a long mount path like `/go/src/github.com/7sDream/rikka/fi
 
 For example, you can use free-plan of DaoCloud to deploy a Rikka server.
 
-See [DaoCloud Deploy Guide](https://github.com/7sDream/rikka/wiki/%E5%9C%A8-DaoCloud-%E4%B8%8A%E5%85%8D%E8%B4%B9%E9%83%A8%E7%BD%B2-Rikka) for detail.
+See [DaoCloud Deploy Guide][daocloud-guide] for detail.
+
+[version-zh]: https://github.com/7sDream/rikka/blob/master/deploy.zh.md
+
+[daocloud-guide]: https://github.com/7sDream/rikka/wiki/%E5%9C%A8-DaoCloud-%E4%B8%8A%E5%85%8D%E8%B4%B9%E9%83%A8%E7%BD%B2-Rikka
