@@ -1,47 +1,47 @@
-# Rikkac - Rikka 的命令行工具
+# Rikkac - CLI tool of Rikka
 
-需要和 [Rikka][rikka] 配合使用。
+Rikkac need to be used wieh a [Rikka][rikka] server.
 
-## 使用方式
+## Usage
 
 `rikkac <format> filename`
 
-`<format>` 可选的参数如下:
+`<format>` can be:
 
-- `-s`: SRC 图片原始地址
-- `-m`: Markdown 格式
-- `-h`: HTML 格式
-- `-b`: BBCode 格式
-- `-r` reStructuredText 格式
+- `-s`: Src, image source url
+- `-m`: Markdown
+- `-h`: HTML
+- `-b`: BBCode
+- `-r` reStructuredText
 
-默认是源地址格式，优先级如上表，从低到高。也就是说下面的会覆盖上面的，`-m -b` 等同于 `-b`。其实也没那么复杂，你只要不同时提供两个就不用记优先级。
+Src is default format. Format priority as same as the list ablove, lowest to highest。This is, `-m -b` considered as `-b`, `-m` is ignored。Not so complicated, you shouldn't remember priority if you never provide two format in one command。
 
-## 编译安装
+## Build and Install
 
-`go install github.com/7sDream/rikka/rikkac`
+`go get github.com/7sDream/rikka/rikkac`
 
-把 `$GOPATH/bin` 加入 `PATH` 如果你在安装 Go 的时候没做这步的话。
+Add `$GOPATH/bin` into your `PATH`, if you havn't do this when you install Golang.
 
-然后输入 `which rikkac` 或者 `rikkac --version` 不出错就安装成功了。
+Then run `rikkac --version`, a version number means install successfully。
 
-编译和安装成功后并不能立即使用，需要进行一些配置。
+You need some configure before use Rikkac.
 
-## 配置和使用
+## Configure and Usage
 
-Rikkac 需要配置两个环境变量： `RIKKA_HOST` 和 `RIKKA_PWD`。它们分别代表 Rikka 服务器地址和密码。
+Rikkac need to env variable： `RIKKA_HOST` and `RIKKA_PWD`. for  Rikka server address and password.
 
 ![](http://7sdream-rikka-demo.daoapp.io/files/2016-09-05-066558195)
 
-配置完就可以使用啦。
+Than you can enjoy Rikkac.
 
-基本上就是 `rikkac -m filepath` 就好，当然 `rikkac filepath -m` 也是可以的。
+Just run `rikkac -m filepath` for upload, `rikkac filepath -m` is also runnable.
 
-如果出错了可以用 `-v` 或者 `-vv` 参数输出详细日志用于排错。
+You can get detail log when you meet some error by add  `-v` or `-vv` option.
 
-## 小 tipc 快速复制到剪贴板
+## Tips: Copy Result to Clipboard in Quick
 
 ![](http://7sdream-rikka-demo.daoapp.io/files/2016-09-05-781037494)
 
-此方法需要安装 xclip：`apt-get install xclip`。
+need xclip installed：`apt-get install xclip`。
 
 [rikka]: https://github.com/7sDream/rikka

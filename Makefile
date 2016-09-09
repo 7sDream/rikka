@@ -36,6 +36,7 @@ endif
 
 build: version confirm delete clean
 	@docker build \
+		--build-arg VERSION=$(NEW_VERSION) \
 		--build-arg VCS_URL=$(shell git config --get remote.origin.url) \
   		--build-arg VCS_REF=$(GIT_COMMIT) \
   		--build-arg BUILD_DATE=$(shell date -u +"%Y-%m-%dT%H:%M:%SZ") \

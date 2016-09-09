@@ -1,103 +1,109 @@
-# Rikka - 极简图床系统
+# Rikka - A simple image share system
 
 ![][badge-version-img] ![][badge-info-img]
 
-Rikka 主要使用 Go 语言编写，并提供 Docker 镜像。
+[中文版][readme-zh]
 
-Rikka 的镜像已经发布到了 [DockerHub](https://hub.docker.com/r/7sdream/rikka/), 直接开始用吧。
+Rikka is written in Golang primarily, and provide Docker image.
 
-最新版本号和镜像大小见上面的徽章。
+Rikka image has been published to [DockerHub][image-in-dockerhub], just try it!
 
-## 简介
+Badges above shows latest version and size of Rikka image.
 
-Rikka（因为是罗马音，读音类似`莉卡`而不是`瑞卡`）是一套完整的个人图床系统，她包括：
+## Introduction
 
-- 一个 Web 应用（详见 [Demo](#demo) 一节）
-- 一个 RESTFul API 后端（详见 [API 文档][api-doc]）
-- 基于 API 的命令行工具 rikkac（详见 [Rikkac 文档][rikkac-doc]）
-- 图片的实际储存插件（详见[插件文档][plugins-doc]）
+Rikka（`りっか` in Japanese, sound like `/ɾʲikka/`, not `/rikka/`）is a integral personal image share system, includes:
 
-计划实现的其他非 Go 语言的系统组件：
+- A web application (See [Demo](#demo) section)
+- A RESTful API server (See [API Doc][api-doc])
+- A CLI tool named Rikkac based on the API (See [Rikkac Doc](rikkac-doc))
+- image save plugins (See [Plugins Doc](plugins-doc))
 
-- Android 客户端
-- iOS 客户端
+Other part which not written in Golang (in plan):
 
-## 特点
+- Andrild client
+- iOS client
 
-1. 极简，不保存上传历史
-2. 支持将图片链接复制成多种格式
-3. 文件储存部分插件化
-4. 提供 API
-4. Web 服务和 RESTful API 服务模块化
-5. CLI 工具
-6. **只对最新版 Chrome/Firefox/Safari 保持兼容**
-7. 首页标志很可爱
-8. 维护者貌似很活跃
+## Feature and Advantage
 
-\*：没错这是优点。如果你遇到无法在预览页面复制地址，或者一直停留在 please wait 界面，那就基本上肯定是你的浏览器不支持 es6 的锅咯。因为我前端不擅长啊，刚看了几天 es6 就被逼上阵写了点 js，实在是心有余而力不足，如果有谁愿意帮忙改善兼容性的话，辣就太蟹蟹里辣！
+1. Simple and minimalist, no upload history
+2. Image address can be copied to various formats
+3. Image save part is plug-oriented
+4. API provided
+4. Modular Web server and API server 
+5. CLI tool provided
+6. **Only support latest verstion of Chrome/Firefox/Safari\***
+7. Cute homepage image
+8. An active maintainer
+
+\*: Yes, It is advantage! If you can't copy url in view page or stock in "Please wait" message, it is certainly because your browser is too old to support javascript es6 syntax. Front-end is my weakness, I only learn javascript several days. I will be grateful if someone want help me to improve browser compatibility.
 
 ## Demo
 
-这里有一个使用 Rikka 建立的[网站 Demo][demo]，密码是 `rikka`。
+There is a [Demo site][demo] built with Rikka, password is `rikka`, just try it.
 
-主页大概长这样:
+homepage:
 
 ![homepage][home]
 
-点击 `Choose` 按钮选一张图片。
+Click `Choose` button to choose an image。
 
-输入密码 `rikka`。
+Input password`rikka`.
 
-点击上传按钮。
+Click `Upload` button.
 
-上传完成后你将转到查看页面:
+If no error happened, you will be redirect to preview page:
 
 ![viewpage][view]
 
-如果文件过大，还没有保存完毕的话会看到等待提示，等一下就好。
+You will see a "Please wait" message If you uploaded a large file and save process is not finished, just wait a second.
 
-等地址出现后，点击 `Src`, `Markdown`, `HTML`, `RST`，`BBCode` 按钮可以复制对应格式的文本，然后你可以把它粘贴到其他地方。
+When you see image url, you can click `Src`, `Markdown`, `HTML`, `rST`, `BBCode` button to copy image url in that format.
 
-但是注意：如果你关闭了这个页面，除了浏览器的历史记录（或者你保存了这个网址），网站并没有提供其他让你找到以前上传的图片的方法。
+**But**: Once you close this page, you can't get it back except from browser history(Or you save the url).
 
-这是有意为之的，因为 Rikka 的主要设计的理念就是简单， `上传-复制-关闭-粘贴`，之后就再也不用管了。
+This is intentional, Because main design concept is simple, just `Upload-Copy-Close-Patse`, then you can forget Rikka.
 
-PS：你看到的这些预览图也是由 Rikka 储存的哟。
+BTW: The preview image of Demo site is saved in Rikka too. 
 
-## 插件
+## Plugins
 
-Rikka 的真实储存后端使用插件形式编写。可通过 `-plugin` 参数设置。
+Truly image save back-end of Rikka is written in plugin form, can be set by `-plugin` option.
 
-请看 [Rikka 插件文档][plugins-doc] 查看目前可用的插件。
+Please see [Rikka Plugins Doc][plugins-doc] for alivaliable plugins.
 
 ## API
 
-请看 [Rikka API 文档][api-doc]。
+See [Rikka API Doc][api-doc]。
 
 ## CLI - Rikkac
 
-Rikkac 是基于 Rikka 的 RESTful API 写的 Rikka CLI 工具。
+Rikkac is a CLI tool for Rikka based on Rikka RESTful API.
 
-编译、配置和使用方法请看 [Rikkac 文档][rikkac-doc]。
+Build, install, configure and use guide can be found in [Rikkac Doc][rikkac-doc]。
 
-## 部署
+## Deploy
 
-想部署自己的 Rikka 系统？请看 [Rikka 部署文档][deploy-doc]。
+Want deploy Rikka system of you own? Check [Rikka Deploy Doc][deploy-doc] for deploy guide。
 
-## 致谢
+## Acknowledgements
 
-- 感谢 Go 编程语言以及她的开发团队
-- 感谢 Visual Studio Code 编辑器和它的开发团队
-- 感谢开源精神
+- Thanks Golang and her developers
+- Thanks Visual Studio Code and her developers
+- Thanks open source
 
 ## License
 
-Rikka 系统的所有代码均基于 MIT 协议开源。
+All code of Rikka system are open source, based on  MIT license.
 
-详见 [LICENSE][license] 文件。
+See [LICENSE][license].
+
+[readme-zh]: https://github.com/7sDream/rikka/blob/master/Readme.zh.md
 
 [badge-info-img]: https://images.microbadger.com/badges/image/7sdream/rikka.svg
 [badge-version-img]: https://images.microbadger.com/badges/version/7sdream/rikka.svg
+
+[image-in-dockerhub]: https://hub.docker.com/r/7sdream/rikka/
 
 [demo]: http://7sdream-rikka-demo.daoapp.io/
 [home]: http://7sdream-rikka-demo.daoapp.io/files/2016-09-05-498160687
