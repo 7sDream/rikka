@@ -1,13 +1,13 @@
-# fs 插件
+# fs Plugin
 
-插件内部名 `fs`，是 Rikka 的默认插件。
+Inner name `fs`， default plugin of Rikka.
 
-## 功能
+## Description
 
-它直接将上传的图片储存在部署 Rikka 的服务器上，并且使用一个静态文件 Server 来提供这些图片。
+it save image file to server where Rikka live directly, and run a static file server for those files.
 
-## 参数
+## Options
 
-`-dir` 参数指定文件存放位置。如果你使用 Docker 或在 Docker 云服务上部署的话，可以设置成 `/data` 之类便于挂载的位置。
+`-dir` set file dir where image saved。Default is `files` folder under workdir. If you are using Docker or deploying Rikka at Docker Cloud Server Provider, you can set it to a position easy to volume mount, like `/data`.
 
-`-fsDebugSleep` 一般用不到，是让 fs 插件在复制文件前暂停一段时间，模拟耗时操作，便于测试 javascript AJAX 的。单位是 ms。
+`-fsDebugSleep` Not for common use, it make a sleep before copy file to dir, simulate a long time operation，for javascript AJAX tests. In microsecond.

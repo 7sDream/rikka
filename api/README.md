@@ -1,24 +1,26 @@
-# Rikka API 简介
+# Rikka API Introduction
 
-注意：Rikka 0.1.0 版本之后才有 API 功能。
+[中文版][version-zh]
 
-## 上传
+Note: API was added into Rikka after version 0.1.0
 
-### 地址
+## Upload
+
+### Path
 
 `POST /api/upload`
 
-### 参数
+### Params
 
-`Content-type` 为 `multipart/form-data`。
+`Content-type` muse be `multipart/form-data`。
 
-- `uploadFile"`：要上传的文件
-- `password"`：Rikka 的密码
-- `from"`：必须项，指示请求来源
+- `uploadFile"`：the image file
+- `password"`：Rikka password
+- `from"`：request source, value must be `api`
 
-### 返回值
+### Return Value
 
-上传成功则返回任务 ID，可通过任务 ID 获取任务状态和图片地址
+A JSON contains task ID if you request successfully, then you can get task state and final image url use the ID.
 
 ```json
 {
@@ -26,21 +28,21 @@
 }
 ```
 
-失败返回错误，格式见后。
+A error JSON when request failed, error message format can be found in the end of article.
 
-## 获取任务状态
+## Get Task State
 
-### 地址
+### Path
 
 `GET /api/state/<TaskID>`
 
-### 参数
+### Params
 
-无
+None
 
-### 返回值
+### Return Value
 
-查询成功则返回任务状态。
+A state JSON like bellow if query successfully.
 
 ```json
 {
@@ -51,21 +53,21 @@
 }
 ```
 
-失败返回错误，格式见后。
+A error JSON when query failed, error message format can be found in the end of article.
 
-## 获取图片地址
+## Get Image URL
 
-### 地址
+### Path
 
 `GET /api/url/<TaskID>`
 
-### 参数
+### Params
 
-无
+None
 
-### 返回值
+### Return Value
 
-查询成功则返回图片原始 URL。
+A JSON contains image URL like bellow if query successfully.
 
 ```json
 {
@@ -73,14 +75,16 @@
 }
 ```
 
-失败返回错误，格式见后。
+A error JSON when query failed, error message format can be found in the end of article.
 
-## 返回错误
+## Error JSON format
 
-如果 API 请求出错，返回格式如下：
+If API request error, return error JSON like bellow：
 
 ```json
 {
     "Error": "error message"
 }
 ```
+
+[version-zh]: https://github.com/7sDream/rikka/blob/master/api/README.zh.md
