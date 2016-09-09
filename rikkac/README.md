@@ -14,7 +14,7 @@ Rikkac need to be used wieh a [Rikka][rikka] server.
 - `-b`: BBCode
 - `-r` reStructuredText
 
-Src is default format. Format priority as same as the list ablove, lowest to highest。This is, `-m -b` considered as `-b`, `-m` is ignored。Not so complicated, you shouldn't remember priority if you never provide two format in one command。
+Src is default format. Format priority as same as the list ablove, lowest to highest. This is, `-m -b` considered as `-b`, `-m` is ignored. Not so complicated, you shouldn't remember priority if you never provide two format in one command.
 
 ## Build and Install
 
@@ -22,7 +22,7 @@ Src is default format. Format priority as same as the list ablove, lowest to hig
 
 Add `$GOPATH/bin` into your `PATH`, if you havn't do this when you install Golang.
 
-Then run `rikkac --version`, a version number means install successfully。
+Then run `rikkac --version`, a version number means install successfully.
 
 You need some configure before use Rikkac.
 
@@ -42,6 +42,6 @@ You can get detail log when you meet some error by add  `-v` or `-vv` option.
 
 ![](http://7sdream-rikka-demo.daoapp.io/files/2016-09-05-781037494)
 
-need xclip installed：`apt-get install xclip`。
+need xclip installed：`apt-get install xclip`.
 
 [rikka]: https://github.com/7sDream/rikka
