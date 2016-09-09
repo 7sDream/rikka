@@ -1,5 +1,7 @@
 # Rikkac - Rikka 的命令行工具
 
+[English version][version-en]
+
 需要和 [Rikka][rikka] 配合使用。
 
 ## 使用方式
@@ -43,5 +45,7 @@ Rikkac 需要配置两个环境变量： `RIKKA_HOST` 和 `RIKKA_PWD`。它们�
 ![](http://7sdream-rikka-demo.daoapp.io/files/2016-09-05-781037494)
 
 此方法需要安装 xclip：`apt-get install xclip`。
+
+[version-en]: https://github.com/7sDream/rikka/blob/master/rikkac/README.md
 
 [rikka]: https://github.com/7sDream/rikka/blob/master/README.zh.md

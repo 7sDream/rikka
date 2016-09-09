@@ -1,5 +1,7 @@
 # Rikkac - CLI tool of Rikka
 
+[中文版][version-zh]
+
 Rikkac need to be used with a [Rikka][rikka] server.
 
 ## Usage
@@ -43,5 +45,7 @@ You can get detail log when you meet some error by add  `-v` or `-vv` option.
 ![](http://7sdream-rikka-demo.daoapp.io/files/2016-09-05-781037494)
 
 need xclip installed：`apt-get install xclip`.
+
+[version-zh]: https://github.com/7sDream/rikka/blob/master/rikkac/README.zh.md
 
 [rikka]: https://github.com/7sDream/rikka
