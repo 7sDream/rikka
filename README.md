@@ -32,7 +32,7 @@ Other part which not written in Golang (in plan):
 4. API provided
 4. Modular Web server and API server 
 5. CLI tool provided
-6. **Only support latest verstion of Chrome/Firefox/Safari\***
+6. **Only support latest verstion of Chrome/Firefox/Safari \***
 7. Cute homepage image
 8. An active maintainer
 
@@ -58,7 +58,7 @@ If no error happened, you will be redirect to preview page:
 
 You will see a "Please wait" message If you uploaded a large file and save process is not finished, just wait a second.
 
-When you see image url, you can click `Src`, `Markdown`, `HTML`, `rST`, `BBCode` button to copy image url in that format.
+When you see image url, you can click `Src`, `Markdown`, `HTML`, `RST`, `BBCode` button to copy image url in that format.
 
 **But**: Once you close this page, you can't get it back except from browser history(Or you save the url).
 
@@ -98,7 +98,7 @@ All code of Rikka system are open source, based on  MIT license.
 
 See [LICENSE][license].
 
-[readme-zh]: https://github.com/7sDream/rikka/blob/master/Readme.zh.md
+[readme-zh]: https://github.com/7sDream/rikka/blob/master/README.zh.md
 
 [badge-info-img]: https://images.microbadger.com/badges/image/7sdream/rikka.svg
 [badge-version-img]: https://images.microbadger.com/badges/version/7sdream/rikka.svg
