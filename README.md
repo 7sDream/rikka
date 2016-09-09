@@ -13,7 +13,7 @@ Rikka 的镜像已经发布到了 [DockerHub](https://hub.docker.com/r/7sdream/r
 Rikka（因为是罗马音，读音类似`莉卡`而不是`瑞卡`）是一套完整的个人图床系统，她包括：
 
 - 一个 Web 应用（详见 [Demo](#demo) 一节）
-- 一个 RESTFul API 后端（详见 [API 文档][api-doc]）
+- 一个 RESTful API 后端（详见 [API 文档][api-doc]）
 - 基于 API 的命令行工具 rikkac（详见 [Rikkac 文档][rikkac-doc]）
 - 图片的实际储存插件（详见[插件文档][plugins-doc]）
 
@@ -87,7 +87,7 @@ Rikkac 是基于 Rikka 的 RESTful API 写的 Rikka CLI 工具。
 ## 致谢
 
 - 感谢 Go 编程语言以及她的开发团队
-- 感谢 Visual Studio Code 编辑器和它的开发团队
+- 感谢 Visual Studio Code 编辑器和她的开发团队
 - 感谢开源精神
 
 ## License
