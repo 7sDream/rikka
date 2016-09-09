@@ -2,6 +2,8 @@
 
 ![][badge-version-img] ![][badge-info-img]
 
+[中文版][readme-zh]
+
 Rikka is written in Golang primarily, and provide Docker image.
 
 Rikka image has been published to [DockerHub][image-in-dockerhub], just try it!
@@ -95,6 +97,8 @@ Want deploy Rikka system of you own? Check [Rikka Deploy Doc][deploy-doc] for de
 All code of Rikka system are open source, based on  MIT license.
 
 See [LICENSE][license].
+
+[readme-zh]: https://github.com/7sDream/rikka/blob/master/Readme.zh.md
 
 [badge-info-img]: https://images.microbadger.com/badges/image/7sdream/rikka.svg
 [badge-version-img]: https://images.microbadger.com/badges/version/7sdream/rikka.svg

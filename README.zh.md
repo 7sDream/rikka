@@ -2,6 +2,8 @@
 
 ![][badge-version-img] ![][badge-info-img]
 
+[English version][readme-en]
+
 Rikka 主要使用 Go 语言编写，并提供 Docker 镜像。
 
 Rikka 的镜像已经发布到了 [DockerHub](https://hub.docker.com/r/7sdream/rikka/), 直接开始用吧。
@@ -10,7 +12,7 @@ Rikka 的镜像已经发布到了 [DockerHub](https://hub.docker.com/r/7sdream/r
 
 ## 简介
 
-Rikka（因为是罗马音，读音类似`莉卡`而不是`瑞卡`）是一套完整的个人图床系统，她包括：
+Rikka（因为是日文罗马音，读音类似`莉卡`而不是`瑞卡`）是一套完整的个人图床系统，她包括：
 
 - 一个 Web 应用（详见 [Demo](#demo) 一节）
 - 一个 RESTful API 后端（详见 [API 文档][api-doc]）
@@ -95,6 +97,8 @@ Rikkac 是基于 Rikka 的 RESTful API 写的 Rikka CLI 工具。
 Rikka 系统的所有代码均基于 MIT 协议开源。
 
 详见 [LICENSE][license] 文件。
+
+[readme-en]: https://github.com/7sDream/rikka/blob/master/Readme.md
 
 [badge-info-img]: https://images.microbadger.com/badges/image/7sdream/rikka.svg
 [badge-version-img]: https://images.microbadger.com/badges/version/7sdream/rikka.svg
