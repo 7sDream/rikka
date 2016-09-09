@@ -16,8 +16,8 @@ Rikka（`りっか` in Japanese, sound like `/ɾʲikka/`, not `/rikka/`）is a i
 
 - A web application (See [Demo](#demo) section)
 - A RESTful API server (See [API Doc][api-doc])
-- A CLI tool named Rikkac based on the API (See [Rikkac Doc](rikkac-doc))
-- image save plugins (See [Plugins Doc](plugins-doc))
+- A CLI tool named Rikkac based on the API (See [Rikkac Doc][rikkac-doc])
+- image save plugins (See [Plugins Doc][plugins-doc])
 
 Other part which not written in Golang (in plan):
 
@@ -46,7 +46,7 @@ homepage:
 
 ![homepage][home]
 
-Click `Choose` button to choose an image。
+Click `Choose` button to choose an image.
 
 Input password`rikka`.
 
@@ -74,17 +74,17 @@ Please see [Rikka Plugins Doc][plugins-doc] for alivaliable plugins.
 
 ## API
 
-See [Rikka API Doc][api-doc]。
+See [Rikka API Doc][api-doc].
 
 ## CLI - Rikkac
 
 Rikkac is a CLI tool for Rikka based on Rikka RESTful API.
 
-Build, install, configure and use guide can be found in [Rikkac Doc][rikkac-doc]。
+Build, install, configure and use guide can be found in [Rikkac Doc][rikkac-doc].
 
 ## Deploy
 
-Want deploy Rikka system of you own? Check [Rikka Deploy Doc][deploy-doc] for deploy guide。
+Want deploy Rikka system of you own? Check [Rikka Deploy Doc][deploy-doc] for deploy guide.
 
 ## Acknowledgements
 

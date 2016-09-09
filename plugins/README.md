@@ -1,6 +1,6 @@
 # Rikka Plugin System
 
-Rikka back-end image save is powered by plugins。
+Rikka back-end image save is powered by plugins.
 
 ## fs Plugin
 

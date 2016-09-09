@@ -12,7 +12,7 @@ Note: API was added into Rikka after version 0.1.0
 
 ### Params
 
-`Content-type` muse be `multipart/form-data`。
+`Content-type` muse be `multipart/form-data`.
 
 - `uploadFile"`：the image file
 - `password"`：Rikka password
