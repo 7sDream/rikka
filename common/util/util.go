@@ -218,16 +218,18 @@ func RequestFilter(pathMustBe string, methodMustBe string, log *logger.Logger, h
 			log = l
 		}
 
+		ip := GetClientIP(r)
+
 		if pathMustBe != "" {
 			if !MustBeOr404(w, r, pathMustBe) {
-				log.Warn(GetClientIP(r), "visit a non-exist page", r.URL.Path, ", excepted is /")
+				log.Warn(ip, "visit a non-exist page", r.URL.Path, ", excepted is /")
 				return
 			}
 		}
 
 		if methodMustBe != "" {
 			if !CheckMethod(w, r, methodMustBe) {
-				log.Warn(GetClientIP(r), "visit page", r.URL.Path, "with method", r.Method, ", only", methodMustBe, "is allowed")
+				log.Warn(ip, "visit page", r.URL.Path, "with method", r.Method, ", only", methodMustBe, "is allowed")
 				return
 			}
 		}
