@@ -32,7 +32,7 @@ Rikka（因为是日文罗马音，读音类似`莉卡`而不是`瑞卡`）是�
 4. 提供 API
 4. Web 服务和 RESTful API 服务模块化
 5. CLI 工具
-6. **只对最新版 Chrome/Firefox/Safari 保持兼容**
+6. **只对最新版 Chrome/Firefox/Safari 保持兼容 \***
 7. 首页标志很可爱
 8. 维护者貌似很活跃
 
@@ -98,7 +98,7 @@ Rikka 系统的所有代码均基于 MIT 协议开源。
 
 详见 [LICENSE][license] 文件。
 
-[readme-en]: https://github.com/7sDream/rikka/blob/master/Readme.md
+[readme-en]: https://github.com/7sDream/rikka/blob/master/README.md
 
 [badge-info-img]: https://images.microbadger.com/badges/image/7sdream/rikka.svg
 [badge-version-img]: https://images.microbadger.com/badges/version/7sdream/rikka.svg

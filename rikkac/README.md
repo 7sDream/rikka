@@ -1,6 +1,6 @@
 # Rikkac - CLI tool of Rikka
 
-Rikkac need to be used wieh a [Rikka][rikka] server.
+Rikkac need to be used with a [Rikka][rikka] server.
 
 ## Usage
 
