@@ -202,7 +202,7 @@ func TemplateRenderHandler(templatePath string, contextCreator ContextCreator, l
 			log.Warn("Error happened when render template", templateName, "with data", fmt.Sprintf("%+v", data), "to", ip, ": ", err)
 		}
 
-		log.Info("Render template", templateName, "to", ip, "uccessfully")
+		log.Info("Render template", templateName, "to", ip, "successfully")
 	}
 }
 
