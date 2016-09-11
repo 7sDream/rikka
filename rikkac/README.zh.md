@@ -36,7 +36,7 @@ Rikkac 需要配置两个环境变量： `RIKKA_HOST` 和 `RIKKA_PWD`。它们�
 
 配置完就可以使用啦。
 
-基本上就是 `rikkac -m filepath` 就好，当然 `rikkac filepath -m` 也是可以的。
+基本上就是 `rikkac -m filepath` 就好。
 
 如果出错了可以用 `-v` 或者 `-vv` 参数输出详细日志用于排错。
 

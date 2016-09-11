@@ -38,9 +38,15 @@ func getHost() string {
 
 	if !strings.HasPrefix(host, "http") {
 		host = "http://" + host
-		l.Debug("Add scheme http:// for host, becauses:", host)
+		l.Debug("Add scheme http:// for host, become:", host)
 	}
 	l.Debug("Host seems contains scheme, won't process")
+
+	if !strings.HasSuffix(host, "/") {
+		host = host[:len(host)-1]
+		l.Debug("Delete extra / for host, become:", host)
+	}
+	l.Debug("No extra / in host, won't process")
 
 	urlStruct, err := url.Parse(host)
 	if err != nil || urlStruct.Host == "" || urlStruct.Scheme == "" || urlStruct.Path != "" {

@@ -36,7 +36,7 @@ Rikkac need to env variable： `RIKKA_HOST` and `RIKKA_PWD`. for  Rikka server a
 
 Than you can enjoy Rikkac.
 
-Just run `rikkac -m filepath` for upload, `rikkac filepath -m` is also runnable.
+Just run `rikkac -m filepath` for upload.
 
 You can get detail log when you meet some error by add  `-v` or `-vv` option.
 
