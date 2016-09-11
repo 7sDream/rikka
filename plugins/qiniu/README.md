@@ -20,4 +20,9 @@ Bucket name and bucket host should be provide use command line option:
 
 `-bhost` for bucket host.
 
+## Guide
+
+See [Rikka Deploy Guide with Qiniu Plugin on DaoCloud][qiniu-plugin-guide].
+
 [version-zh]: https://github.com/7sDream/rikka/blob/master/plugins/qiniu/README.zh.md
+[qiniu-plugin-guide]: https://github.com/7sDream/rikka/wiki/%E4%BD%BF%E7%94%A8%E4%B8%83%E7%89%9B%E4%BA%91%E6%8F%92%E4%BB%B6
