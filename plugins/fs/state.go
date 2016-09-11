@@ -32,12 +32,22 @@ func (fsp fsPlugin) StateRequestHandle(taskID string) (pState *api.State, err er
 	// taskID exist on task list, just return it
 	if pState, err = plugins.GetTaskState(taskID); err == nil {
 		l.Debug("State of task", taskID, "found", *pState)
+		// error state can only be consume once, delete it for minimum memeory use
+		if pState.StateCode == api.StateErrorCode {
+			defer func() {
+				filepath := pathutil.Join(imageDir, taskID)
+				if util.IsFile(filepath) {
+					deleteFile(filepath)
+				}
+				plugins.DeleteTask(taskID)
+			}()
+		}
 		return pState, nil
 	}
 
 	l.Debug("State of task", taskID, "not found, check if file exist")
 	// TaskID not exist or error when get it, check if image file already exist
-	if util.CheckExist(pathutil.Join(imageDir, taskID)) {
+	if util.IsFile(pathutil.Join(imageDir, taskID)) {
 		// file exist is regarded as a finished state
 		pFinishState := api.BuildFinishState(taskID)
 		l.Debug("File of task", taskID, "exist, return finished state", *pFinishState)
