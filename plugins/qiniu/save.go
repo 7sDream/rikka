@@ -62,7 +62,7 @@ func uploadToQiniu(taskID string, q *plugins.SaveRequest) {
 		}
 	} else {
 		// uploading successfully
-		l.Debug("Upload task", taskID, "successfully")
+		l.Info("Upload task", taskID, "to qiniu cloud successfully")
 		err = plugins.DeleteTask(taskID)
 		if err != nil {
 			l.Fatal("Error happened when delete state of task", taskID, ":", err)
