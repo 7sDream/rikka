@@ -46,8 +46,11 @@ build: version confirm delete clean
 		-t $(IMAGE_NAME):$(NEW_VERSION) .
 	docker tag $(IMAGE_NAME):$(NEW_VERSION) $(IMAGE_NAME):latest
 
-push: build 
+just-pust:
 	docker push $(IMAGE_NAME)
+
+push: build just-push
+	
 
 # Clean
 
