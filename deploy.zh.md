@@ -49,6 +49,13 @@ PS：你可以使用 Rikka `fs` 插件的 `-dir` 参数指定文件储存位置�
 
 详细步骤请看 [DaoCloud 部署教程](https://github.com/7sDream/rikka/wiki/%E5%9C%A8-DaoCloud-%E4%B8%8A%E5%85%8D%E8%B4%B9%E9%83%A8%E7%BD%B2-Rikka)。
 
+## 使用其他插件
+
+主要步骤和上述相同。
+
+不同插件的不同启动参数请参考[插件文档][plugins-doc]。
+
 [version-en]: https://github.com/7sDream/rikka/blob/master/deploy.md
 
 [daocloud-guide]: https://github.com/7sDream/rikka/wiki/%E5%9C%A8-DaoCloud-%E4%B8%8A%E5%85%8D%E8%B4%B9%E9%83%A8%E7%BD%B2-Rikka
+[plugins-doc]: https://github.com/7sDream/rikka/blob/master/plugins/README.zh.md

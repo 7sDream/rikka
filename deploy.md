@@ -51,6 +51,13 @@ For example, you can use free-plan of DaoCloud to deploy a Rikka server.
 
 See [DaoCloud Deploy Guide][daocloud-guide] for detail.
 
+## Use Other plugin
+
+Main steps are the same.
+
+See [Plugins Doc] for options for different plugins.
+
 [version-zh]: https://github.com/7sDream/rikka/blob/master/deploy.zh.md
 
 [daocloud-guide]: https://github.com/7sDream/rikka/wiki/%E5%9C%A8-DaoCloud-%E4%B8%8A%E5%85%8D%E8%B4%B9%E9%83%A8%E7%BD%B2-Rikka
+[plugins-doc]: https://github.com/7sDream/rikka/tree/master/plugins
