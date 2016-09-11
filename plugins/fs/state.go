@@ -31,16 +31,10 @@ func (fsp fsPlugin) StateRequestHandle(taskID string) (pState *api.State, err er
 
 	// taskID exist on task list, just return it
 	if pState, err = plugins.GetTaskState(taskID); err == nil {
-		l.Debug("State of task", taskID, "found", *pState)
-		// error state can only be consume once, delete it for minimum memeory use
 		if pState.StateCode == api.StateErrorCode {
-			defer func() {
-				filepath := pathutil.Join(imageDir, taskID)
-				if util.IsFile(filepath) {
-					deleteFile(filepath)
-				}
-				plugins.DeleteTask(taskID)
-			}()
+			l.Warn("Get a error state of task", taskID, *pState)
+		} else {
+			l.Debug("Get a normal state of task", taskID, *pState)
 		}
 		return pState, nil
 	}

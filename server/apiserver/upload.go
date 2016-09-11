@@ -66,7 +66,7 @@ func IsAccepted(fileMimeTypeStr string) bool {
 	return false
 }
 
-func checkUploadedFile(w http.ResponseWriter, file multipart.File, ip string, from string) bool {
+func checkUploadedFile(w http.ResponseWriter, file multipart.File, ip string, from string) (bool, int64) {
 	fileContent, err := ioutil.ReadAll(file)
 	if err != nil {
 		l.Error("Error happened when get form file content of ip", ip, ":", err)
@@ -78,7 +78,7 @@ func checkUploadedFile(w http.ResponseWriter, file multipart.File, ip string, fr
 			renderErrorJSON(w, taskIDUploading, err, http.StatusInternalServerError)
 		}
 
-		return false
+		return false, 0
 	}
 	l.Debug("Get form file content of ip", ip, "successfully")
 
@@ -94,7 +94,7 @@ func checkUploadedFile(w http.ResponseWriter, file multipart.File, ip string, fr
 			renderErrorJSON(w, taskIDUploading, errors.New(api.NotAImgFileErrMsg), http.StatusInternalServerError)
 		}
 
-		return false
+		return false, 0
 	}
 	l.Debug("Check type of form file submitted by", ip, ", passed:", filetype)
 
@@ -108,13 +108,13 @@ func checkUploadedFile(w http.ResponseWriter, file multipart.File, ip string, fr
 			renderErrorJSON(w, taskIDUploading, err, http.StatusInternalServerError)
 		}
 
-		return false
+		return false, 0
 	}
 
-	return true
+	return true, int64(len((fileContent)))
 }
 
-func getUploadedFile(w http.ResponseWriter, r *http.Request, ip string, from string) (multipart.File, bool) {
+func getUploadedFile(w http.ResponseWriter, r *http.Request, ip string, from string) (multipart.File, int64, bool) {
 	file, _, err := r.FormFile("uploadFile")
 	if err != nil {
 		// no needed file
@@ -127,15 +127,16 @@ func getUploadedFile(w http.ResponseWriter, r *http.Request, ip string, from str
 			renderErrorJSON(w, taskIDUploading, err, http.StatusBadRequest)
 		}
 
-		return file, false
+		return nil, 0, false
 	}
 	l.Debug("Get uploaded file from request of", ip, "successfully")
 
-	if !checkUploadedFile(w, file, ip, from) {
-		return nil, false
+	acceptable, fileSize := checkUploadedFile(w, file, ip, from)
+	if !acceptable {
+		return nil, 0, false
 	}
 
-	return file, true
+	return file, fileSize, true
 }
 
 func redirectToView(w http.ResponseWriter, r *http.Request, ip string, taskID string) {
@@ -144,10 +145,13 @@ func redirectToView(w http.ResponseWriter, r *http.Request, ip string, taskID st
 	l.Debug("Redirect client", ip, "to view page", viewPage)
 }
 
-func sendSaveRequestToPlugin(w http.ResponseWriter, file multipart.File, ip string, from string) (string, bool) {
+func sendSaveRequestToPlugin(w http.ResponseWriter, file multipart.File, fileSize int64, ip string, from string) (string, bool) {
 	l.Debug("Send file save request to plugin manager")
 
-	pTaskID, err := plugins.AcceptFile(&plugins.SaveRequest{File: file})
+	pTaskID, err := plugins.AcceptFile(&plugins.SaveRequest{
+		File:     file,
+		FileSize: fileSize,
+	})
 
 	if err != nil {
 		l.Error("Error happened when plugin manager process file save request by ip", ip, ":", err)
@@ -207,12 +211,13 @@ func uploadHandleFunc(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var file multipart.File
-	if file, ok = getUploadedFile(w, r, ip, from); !ok {
+	var fileSize int64
+	if file, fileSize, ok = getUploadedFile(w, r, ip, from); !ok {
 		return
 	}
 
 	var taskID string
-	if taskID, ok = sendSaveRequestToPlugin(w, file, ip, from); !ok {
+	if taskID, ok = sendSaveRequestToPlugin(w, file, fileSize, ip, from); !ok {
 		return
 	}
 
