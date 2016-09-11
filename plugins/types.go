@@ -10,7 +10,8 @@ import (
 // SaveRequest is a request that want to 'save'(acctuly upload) a file.
 // Plugins' SaveRequestHandle func should accept a point of instance and return a string as taskID
 type SaveRequest struct {
-	File multipart.File
+	File     multipart.File
+	FileSize int64
 }
 
 // URLRequest is a request ask for photo src url of a task.

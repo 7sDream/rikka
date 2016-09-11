@@ -27,11 +27,10 @@ func saveFile(uploadFile multipart.File, saveTo *os.File, taskID string) {
 
 	// If error happend when change task state, delete file
 	if err := plugins.ChangeTaskState(buildCopyingState(taskID)); err != nil {
-		l.Error("Error happend when change state of task", taskID, "to copying:", err)
 		saveTo.Close()
 		uploadFile.Close()
 		deleteFile(filepath)
-		return
+		l.Fatal("Error happend when change state of task", taskID, "to copying:", err)
 	}
 
 	l.Debug("Change task", taskID, "state to copy successfully")
