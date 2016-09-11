@@ -1,6 +1,6 @@
 # Rikka - A simple image share system
 
-![][badge-version-img] ![][badge-info-img]
+![][badge-version-img] ![][badge-info-img] ![][badge-license-img]
 
 [中文版][readme-zh]
 
@@ -102,6 +102,7 @@ See [LICENSE][license].
 
 [badge-info-img]: https://images.microbadger.com/badges/image/7sdream/rikka.svg
 [badge-version-img]: https://images.microbadger.com/badges/version/7sdream/rikka.svg
+[badge-license-img]: https://images.microbadger.com/badges/license/7sdream/rikka.svg
 
 [image-in-dockerhub]: https://hub.docker.com/r/7sdream/rikka/
 

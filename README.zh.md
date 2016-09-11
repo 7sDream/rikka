@@ -1,6 +1,6 @@
 # Rikka - 极简图床系统
 
-![][badge-version-img] ![][badge-info-img]
+![][badge-version-img] ![][badge-info-img] ![][badge-license-img]
 
 [English version][readme-en]
 
@@ -102,6 +102,7 @@ Rikka 系统的所有代码均基于 MIT 协议开源。
 
 [badge-info-img]: https://images.microbadger.com/badges/image/7sdream/rikka.svg
 [badge-version-img]: https://images.microbadger.com/badges/version/7sdream/rikka.svg
+[badge-license-img]: https://images.microbadger.com/badges/license/7sdream/rikka.svg
 
 [demo]: http://7sdream-rikka-demo.daoapp.io/
 [home]: http://7sdream-rikka-demo.daoapp.io/files/2016-09-05-498160687
