@@ -6,7 +6,7 @@
 
 ## 方式 1: 在你的 VPS 上编译
 
-1. `go get -d github.com/7sDream/rikka`
+1. `go get -u -d github.com/7sDream/rikka`
 2. `cd $GOPATH/src/github.com/7sDream/rikka`
 3. `go build .`
 4. `./rikka -port 80 -pwd yourpassword`
