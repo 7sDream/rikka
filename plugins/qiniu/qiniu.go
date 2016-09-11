@@ -18,13 +18,15 @@ var (
 	l = plugins.SubLogger("[Qiniu]")
 
 	argBucketName = flag.String("bname", "", "Qiniu bucket name to store image")
-	argBucketHost = flag.String("bhost", "", "Qiniu bucket host address")
+	argBucketHost = flag.String("bhost", "", "Qiniu bucket host")
+	argBucketPath = flag.String("bpath", "", "Where the image will be save in Qiniu bucket")
 
-	access     string
-	secret     string
-	bucketName string
-	bucketAddr string
-	client     *kodo.Client
+	access       string
+	secret       string
+	bucketName   string
+	bucketAddr   string
+	bucketPrefix string
+	client       *kodo.Client
 
 	// QiniuPlugin is the main plugin instance
 	QiniuPlugin = qiniuPlugin{}

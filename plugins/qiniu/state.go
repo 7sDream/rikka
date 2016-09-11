@@ -39,7 +39,7 @@ func (qnp qiniuPlugin) StateRequestHandle(taskID string) (pState *api.State, err
 	pState, err = plugins.GetTaskState(taskID)
 	if err == nil {
 		if pState.StateCode == api.StateErrorCode {
-			l.Info("Get a normal state of task", taskID, *pState)
+			l.Warn("Get a error state of task", taskID, *pState)
 		} else {
 			l.Debug("Get a normal state of task", taskID, *pState)
 		}

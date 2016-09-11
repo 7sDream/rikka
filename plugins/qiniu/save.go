@@ -15,6 +15,10 @@ type putRet struct {
 	Key  string `json:"key"`
 }
 
+func buildPath(taskID string) string {
+	return bucketPrefix + taskID
+}
+
 func uploadToQiniu(taskID string, q *plugins.SaveRequest) {
 	// perparing...
 	err := plugins.ChangeTaskState(buildPreparingState(taskID))
@@ -41,14 +45,13 @@ func uploadToQiniu(taskID string, q *plugins.SaveRequest) {
 	}
 
 	// uploading
-	l.Info("Upload with arg", "token:", token, ", taskID:", taskID, ", filesize:", q.FileSize)
+	l.Info("Upload with arg", "key:", buildPath(taskID), ", filesize:", q.FileSize)
 	err = plugins.ChangeTaskState(buildUploadingState(taskID))
 	if err != nil {
 		l.Fatal("Error happend when change state of task", taskID, "to uploading:", err)
 	}
-
 	var ret putRet
-	err = uploader.Rput(context.Background(), &ret, token, taskID, q.File, q.FileSize, nil)
+	err = uploader.Rput(context.Background(), &ret, buildPath(token), taskID, q.File, q.FileSize, nil)
 
 	// uploading error
 	if err != nil {

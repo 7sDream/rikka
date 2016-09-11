@@ -6,7 +6,7 @@ import (
 )
 
 func buildURL(taskID string) string {
-	return bucketAddr + "/" + taskID
+	return bucketAddr + "/" + buildPath(taskID)
 }
 
 // URLRequestHandle will be called when recieve a get image url by taskID request

@@ -40,23 +40,25 @@ func (qnp qiniuPlugin) Init() {
 	l.Info("Args secret =", maskString(secret, 5))
 	l.Info("Args bucket name =", *argBucketName)
 	l.Info("Args bucket host =", *argBucketHost)
+	l.Info("Args bucket path =", *argBucketPath)
 
 	if access == "" {
-		l.Fatal("No Qiniu access key provided")
+		l.Fatal("No Qiniu access key provided， plesae add it into your env var use the name", accessEnvKey)
 	}
 
 	if secret == "" {
-		l.Fatal("No Qiniu secret key provided")
+		l.Fatal("No Qiniu secret key provided, please add it into your env var use the name", secretEnvKey)
 	}
 
 	if *argBucketName == "" {
-		l.Fatal("No bucket name provided")
+		l.Fatal("No bucket name provided, please add option -bname")
 	}
 
 	if *argBucketHost == "" {
-		l.Fatal("No bucket host provided")
+		l.Fatal("No bucket host provided, please add option -bhost")
 	}
 
+	// host process
 	if !strings.HasPrefix(*argBucketHost, "http") {
 		*argBucketHost = "http://" + *argBucketHost
 	}
@@ -66,8 +68,25 @@ func (qnp qiniuPlugin) Init() {
 		l.Fatal("Invalid bucket host", *argBucketHost, ":", err)
 	}
 
-	bucketName = *argBucketName
 	bucketAddr = pURL.Scheme + "://" + pURL.Host
+
+	// name
+	bucketName = *argBucketName
+
+	// disable path arg temporarily, because qiniu sdk has a bug
+	if *argBucketPath != "" {
+		l.Fatal("The bpath argument is now disabled, plesae don't use it")
+	}
+
+	// prefix
+	if strings.HasPrefix(*argBucketPath, "/") {
+		*argBucketPath = (*argBucketPath)[1:]
+	}
+
+	if len(*argBucketPath) > 0 && !strings.HasSuffix(*argBucketPath, "/") {
+		*argBucketPath = (*argBucketPath) + "/"
+	}
+	bucketPrefix = *argBucketPath
 
 	// set qiniu conf
 	conf.ACCESS_KEY = access
