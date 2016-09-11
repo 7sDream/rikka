@@ -1,5 +1,7 @@
 # Qiniu Plugin
 
+[中文版][version-zh]
+
 Inner name `qiniu`.
 
 ## Description
@@ -17,3 +19,5 @@ Bucket name and bucket host should be provide use command line option:
 `-bname` for the bucket name.
 
 `-bhost` for bucket host.
+
+[version-zh]: https://github.com/7sDream/rikka/blob/master/plugins/qiniu/README.zh.md

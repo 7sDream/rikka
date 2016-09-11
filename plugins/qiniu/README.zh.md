@@ -1,5 +1,7 @@
 # Qiniu 插件
 
+[English version][version-en]
+
 内部名 `qiniu`。
 
 ## 介绍
@@ -17,3 +19,5 @@
 `-bname` 空间名
 
 `-bhost` 空间域名
+
+[version-en]: https://github.com/7sDream/rikka/blob/master/plugins/qiniu/README.md
