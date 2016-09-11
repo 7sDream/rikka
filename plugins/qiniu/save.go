@@ -71,7 +71,7 @@ func uploadToQiniu(taskID string, q *plugins.SaveRequest) {
 }
 
 func (qnp qiniuPlugin) SaveRequestHandle(q *plugins.SaveRequest) (*api.TaskID, error) {
-	taskID := uuid.NewV4().String()
+	taskID := uuid.NewV4().String() + "." + q.FileExt
 
 	err := plugins.CreateTask(taskID)
 	if err != nil {

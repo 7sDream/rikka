@@ -12,7 +12,21 @@ const (
 	stateCopying     = "copying"
 	stateCopyingCode = 2
 	stateCopyingDesc = "Image is being copied to rikka file system"
+
+	stateCreating     = "creating"
+	stateCreatingCode = 3
+	stateCreatingDesc = "Creating file in fs to store your image"
 )
+
+// A shortcut funtion to build state we need.
+func buildCreatingState(taskID string) *api.State {
+	return &api.State{
+		TaskID:      taskID,
+		StateCode:   stateCreatingCode,
+		State:       stateCreating,
+		Description: stateCreatingDesc,
+	}
+}
 
 // A shortcut funtion to build state we need.
 func buildCopyingState(taskID string) *api.State {

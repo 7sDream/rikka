@@ -11,7 +11,7 @@ rikka-test:
 	-./rikka -port 8000 -fsDebugSleep 5000
 
 qiniu: rikka-build
-	-./rikka -port 8000 -plugin qiniu -bname rikka -bhost od8qjnxw1.bkt.clouddn.com
+	-./rikka -port 8000 -plugin qiniu -bname rikka-qiniu -bhost odbw8jckg.bkt.clouddn.com
 
 # Docker
 
