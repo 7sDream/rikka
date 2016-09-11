@@ -12,6 +12,7 @@ import (
 type SaveRequest struct {
 	File     multipart.File
 	FileSize int64
+	FileExt  string
 }
 
 // URLRequest is a request ask for photo src url of a task.
