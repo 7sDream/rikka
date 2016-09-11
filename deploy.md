@@ -6,21 +6,21 @@ The following ways use default plugin `fs` as example.
 
 ## Way 1: Build in you VPS
 
-1. `go get github.com/7sDream/rikka`
+1. `go get -d github.com/7sDream/rikka`
 2. `cd $GOPATH/src/github.com/7sDream/rikka`
-3. `go build github.com/7sDream/rikka`
+3. `go build .`
 4. `./rikka -port 80 -pwd yourpassword`
 
-You can use `./rikka -h` for option description and run you own start command.
+You can use `./rikka --help` to get more options and make you own launch command.
 
-Becase use port 80, may you need `sudo`.
+Becase port 80 wll be used, may you need `sudo` prefix.
 
 Then you can open your browser to test Rikka.
 
 ## Way 2: Use Docker
 
 1. `docker pull 7sdream/rikka`
-2. `docker run -d -p 80:80 7sdream/rikka:latest -pwd yourpassword`
+2. `docker run -d -p 80:80 7sdream/rikka -pwd yourpassword`
 
 You can set option based on you requirements. 
 
@@ -41,7 +41,7 @@ Usage：
 
 BTW: You can use `-dir` option of plugin `fs` to set image save dir, like bellow:
 
-`docker run -d -P -v rikkafiles:/data --name rikka 7sdream/rikka:latest -pwd 12345 -dir /data`
+`docker run -d -P -v rikkafiles:/data --name rikka 7sdream/rikka -pwd 12345 -dir /data`
 
 So you needn't input a long mount path like `/go/src/github.com/7sDream/rikka/files`.
 

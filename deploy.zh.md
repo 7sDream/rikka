@@ -6,19 +6,21 @@
 
 ## 方式 1: 在你的 VPS 上编译
 
-1. `go get github.com/7sDream/rikka`
+1. `go get -d github.com/7sDream/rikka`
 2. `cd $GOPATH/src/github.com/7sDream/rikka`
-3. `go build github.com/7sDream/rikka`
+3. `go build .`
 4. `./rikka -port 80 -pwd yourpassword`
 
-最后一步具体的命令可查看 `./rikka -h` 之后根据自己需要设置。因为要使用 80 端口，所以可能需要 `sudo`。
+最后一步具体的命令可查看 `./rikka -h` 之后根据自己需要设置。
+
+因为要使用 80 端口，所以可能需要在启动命令前加上 `sudo`。
 
 之后你就可以用浏览器打开看看效果了。
 
 ## 方式 2: 使用 Docker
 
 1. `docker pull 7sdream/rikka`
-2. `docker run -d -p 80:80 7sdream/rikka:latest -pwd yourpassword`
+2. `docker run -d -p 80:80 7sdream/rikka -pwd yourpassword`
 
 同样可以根据需要设定参数。至于 image expose 的是 80 端口，请根据需要进行映射。 
 
@@ -37,7 +39,7 @@ Docker 提供了数据卷的功能，这样就不用怕我们上传的图片会�
 
 PS：你可以使用 Rikka `fs` 插件的 `-dir` 参数指定文件储存位置，比如这样：
 
-`docker run -d -P -v rikkafiles:/data --name rikka 7sdream/rikka:latest -pwd 12345 -dir /data`
+`docker run -d -P -v rikkafiles:/data --name rikka 7sdream/rikka -pwd 12345 -dir /data`
 
 这样就不用把挂载路径设的太长了。
 
