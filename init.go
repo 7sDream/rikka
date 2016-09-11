@@ -10,6 +10,7 @@ import (
 	"github.com/7sDream/rikka/common/logger"
 	"github.com/7sDream/rikka/plugins"
 	"github.com/7sDream/rikka/plugins/fs"
+	"github.com/7sDream/rikka/plugins/qiniu"
 )
 
 var (
@@ -68,7 +69,7 @@ func init() {
 	l.Info("Args password =", *argPassword)
 	l.Info("Args maxFileSize =", *argMaxSizeByMB, "MB")
 	l.Info("Args loggerLevel =", *argLogLevel)
-	l.Info("Args.plugin =", *argPluginStr)
+	l.Info("Args plugin =", *argPluginStr)
 
 	if *argBindIPAddress == ":" {
 		socket = *argBindIPAddress + strconv.Itoa(*argPort)
@@ -83,16 +84,17 @@ func init() {
 
 func initPluginList() {
 	pluginMap["fs"] = fs.FsPlugin
+	pluginMap["qiniu"] = qiniu.QiniuPlugin
 }
 
 func initArgVars() {
-	argBindIPAddress = flag.String("bind", ":", "bind ip address, use : for all address")
-	argPort = flag.Int("port", 80, "server port")
+	argBindIPAddress = flag.String("bind", ":", "Bind ip address, use : for all address")
+	argPort = flag.Int("port", 80, "Server port")
 	argPassword = flag.String("pwd", "rikka", "The password need provided when upload")
 	argMaxSizeByMB = flag.Float64("size", 5, "Max file size by MB")
 	argLogLevel = flag.Int(
 		"level", logger.LevelInfo,
-		fmt.Sprintf("logger level, from %d to %d", logger.LevelDebug, logger.LevelError),
+		fmt.Sprintf("Log level, from %d to %d", logger.LevelDebug, logger.LevelError),
 	)
 
 	// Get name array of all avaliable plugins, show in `rikka -h``
@@ -102,9 +104,8 @@ func initArgVars() {
 	}
 	argPluginStr = flag.String(
 		"plugin", "fs",
-		"what plugin use to save file, selected from "+fmt.Sprintf("%v", pluginNames),
+		"What plugin use to save file, selected from "+fmt.Sprintf("%v", pluginNames),
 	)
-
 }
 
 func runtimeEnvCheck() {
