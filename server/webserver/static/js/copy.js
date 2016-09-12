@@ -1,21 +1,25 @@
 'use strict';
 function addCopyEventListener(url){
-    let divs = document.querySelectorAll("div.copyAsText");
-    for (let div of divs) {
-        let input = div.querySelector("input");
-        let btn = div.querySelector("label");
+    var divs = document.querySelectorAll("div.copyAsText");
+    for (var index in divs) {
+        if(!divs.hasOwnProperty(index)) {
+            continue;
+        }
+        var div = divs[index];
+        var input = div.querySelector("input");
+        var btn = div.querySelector("label");
         if (url !== "") {
-            let template = input.getAttribute("data-template");
+            var template = input.getAttribute("data-template");
             input.value = template.replace("${url}", url);
         }
         btn.addEventListener("click", function(){
             if (btn.disabled) {
                 return;
             }
-            let res = false;
+            var res = false;
             try {
                 input.disabled = false;
-                let section = window.getSelection();
+                var section = window.getSelection();
                 section.removeAllRanges();
                 input.focus()
                 input.setSelectionRange(0, input.value.length);
@@ -26,7 +30,7 @@ function addCopyEventListener(url){
                 res = false;
             }
             if (res) {
-                let origin = btn.textContent;
+                var origin = btn.textContent;
                 btn.textContent = "Copied!";
                 btn.disabled = true;
                 setTimeout(function(){
