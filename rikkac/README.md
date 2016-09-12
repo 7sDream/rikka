@@ -40,6 +40,14 @@ Just run `rikkac -m filepath` for upload.
 
 You can get detail log when you meet some error by add  `-v` or `-vv` option.
 
+## Multi File upload
+
+Just provide file path one by one: `rikkac -m file1 file2 file3 ...`
+
+Or you can use wildcard if your shell support：`rikkac -m *.png`。
+
+![](http://odbw8jckg.bkt.clouddn.com/ba2d2dca-2ae2-4436-ade2-7905183ce23d.png)
+
 ## Tips: Copy Result to Clipboard in Quick
 
 ![](http://7sdream-rikka-demo.daoapp.io/files/2016-09-05-781037494)
