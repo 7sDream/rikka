@@ -20,6 +20,12 @@ Bucket name and bucket host should be provide use command line option:
 
 `-bhost` for bucket host.
 
+BTW： you can set upload dir by provide `-bpath` option.
+
+For example，ues `-bpath rikka`, then images will be under `rikka` folder。
+
+Multi-level dir like `-bpath rikka/images` are also supported.
+
 ## Guide
 
 See [Rikka Deploy Guide with Qiniu Plugin on DaoCloud][qiniu-plugin-guide].
