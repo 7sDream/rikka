@@ -1,14 +1,14 @@
 'use strict';
 function AJAX(method, url) {
     return new Promise(function (resolve, reject){
-        let req = new XMLHttpRequest();
-        let handler = (state) => {
+        var req = new XMLHttpRequest();
+        var handler = function(state) {
             if (req.status == 200) {
                 resolve(req.response);
             } else {
-                let errorMsg = req.response;
+                var errorMsg = req.response;
                 try {
-                    let errorJson = JSON.parse(errorMsg);
+                    var errorJson = JSON.parse(errorMsg);
                     errorMsg = errorJson["Error"];
                 } catch(e) {
                     errorMsg = e.message;
@@ -30,15 +30,15 @@ function show(elem) {
 }
 function getPhotoState(taskID, times) {
     times = times || 0;
-    let stateElement = document.querySelector("p#state");
-    let imageElement = document.querySelector("img.preview");
-    let formElement = document.querySelector("form");
+    var stateElement = document.querySelector("p#state");
+    var imageElement = document.querySelector("img.preview");
+    var formElement = document.querySelector("form");
     AJAX("GET", "/api/state/" + taskID).then(function(res){
-        let json = JSON.parse(res);
+        var json = JSON.parse(res);
         if ("Error" in json) {
             throw new Error(json["Error"]);
         }
-        let state = json['StateCode'];
+        var state = json['StateCode'];
         if (state == -1) {  // Error state
             throw new Error(json['Description']);
         } else if (state == 0) {    // Successful state
@@ -49,7 +49,7 @@ function getPhotoState(taskID, times) {
             return new Promise(() => {});
         }
     }).then(function(res){
-        let json = JSON.parse(res);
+        var json = JSON.parse(res);
         if ("Error" in json) {
             throw new Error(json["Error"]);
         }
