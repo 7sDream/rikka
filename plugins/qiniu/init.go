@@ -73,20 +73,14 @@ func (qnp qiniuPlugin) Init() {
 	// name
 	bucketName = *argBucketName
 
-	// disable path arg temporarily, because qiniu sdk has a bug
-	if *argBucketPath != "" {
-		l.Fatal("The bpath argument is now disabled, plesae don't use it")
-	}
-
 	// prefix
-	if strings.HasPrefix(*argBucketPath, "/") {
-		*argBucketPath = (*argBucketPath)[1:]
-	}
-
-	if len(*argBucketPath) > 0 && !strings.HasSuffix(*argBucketPath, "/") {
-		*argBucketPath = (*argBucketPath) + "/"
-	}
 	bucketPrefix = *argBucketPath
+	if strings.HasPrefix(bucketPrefix, "/") {
+		bucketPrefix = bucketPrefix[1:]
+	}
+	if len(bucketPrefix) > 0 && !strings.HasSuffix(bucketPrefix, "/") {
+		bucketPrefix = bucketPrefix + "/"
+	}
 
 	// set qiniu conf
 	conf.ACCESS_KEY = access
