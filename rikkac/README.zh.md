@@ -40,6 +40,14 @@ Rikkac 需要配置两个环境变量： `RIKKA_HOST` 和 `RIKKA_PWD`。它们�
 
 如果出错了可以用 `-v` 或者 `-vv` 参数输出详细日志用于排错。
 
+## 批量上传
+
+`rikkac -m file1 file2 file3 ...` 这样就行了。
+
+如果你用的 shell 带有通配符自动展开的话，那这样也行：`rikkac -m *.png`。
+
+![](http://odbw8jckg.bkt.clouddn.com/ba2d2dca-2ae2-4436-ade2-7905183ce23d.png)
+
 ## 小 tipc 快速复制到剪贴板
 
 ![](http://7sdream-rikka-demo.daoapp.io/files/2016-09-05-781037494)

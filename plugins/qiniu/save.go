@@ -51,7 +51,7 @@ func uploadToQiniu(taskID string, q *plugins.SaveRequest) {
 		l.Fatal("Error happend when change state of task", taskID, "to uploading:", err)
 	}
 	var ret putRet
-	err = uploader.Rput(context.Background(), &ret, buildPath(token), taskID, q.File, q.FileSize, nil)
+	err = uploader.Rput(context.Background(), &ret, token, buildPath(taskID), q.File, q.FileSize, nil)
 
 	// uploading error
 	if err != nil {

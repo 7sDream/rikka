@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	version = "0.0.3"
+	version = "0.0.5"
 )
 
 var (
@@ -37,25 +37,47 @@ func init() {
 	}
 }
 
+func waitOutput(index int, out chan *taskRes) {
+	if index == 0 {
+		l.Fatal("No file provided")
+	} else if index == 1 {
+		c := <-out
+		fmt.Println(c.StringWithoutFilepath())
+	} else {
+		nowShow := 0
+		resList := make([]*taskRes, index)
+		for i := 0; i < index; i++ {
+			c := <-out
+			resList[c.Index] = c
+			if c.Index == nowShow {
+				for nowShow < index && resList[nowShow] != nil {
+					c = resList[nowShow]
+					fmt.Println(c.String())
+					nowShow++
+				}
+			}
+		}
+	}
+}
+
 func main() {
 
 	host := getHost()
-	params := getParams()
-	filePath, fileContent := getFile()
 
-	l.Info("Start upload")
+	index := 0
+	ok := true
+	out := make(chan *taskRes)
+	var filepath string
 
-	taskID := upload(host, filePath, fileContent, params)
-	l.Info("Get taskID:", taskID)
+	for ok {
+		filepath, ok = getFile(index)
+		if ok {
+			l.Info("Read image file", filepath, "successfully, add to task list")
+			go worker(host, filepath, index, out)
+			index++
+		}
+	}
+	l.Info("End with index", index)
 
-	waitFinish(host, taskID)
-	l.Info("Task state comes to finished")
-
-	pURL := getURL(host, taskID)
-	l.Info("Url gotten:", *pURL)
-
-	formatted := format(pURL)
-	l.Info("Make final formatted text successfully:", formatted)
-
-	fmt.Println(formatted)
+	waitOutput(index, out)
 }
