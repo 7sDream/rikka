@@ -2,7 +2,7 @@
 function addCopyEventListener(url){
     var divs = document.querySelectorAll("div.copyAsText");
     for (var index in divs) {
-        if(!obj.hasOwnProperty(index)) {
+        if(!divs.hasOwnProperty(index)) {
             continue;
         }
         var div = divs[index];
