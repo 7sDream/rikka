@@ -18,7 +18,7 @@ function AJAX(method, url) {
         }
         req.open(method, url, true);
         req.onload = handler;
-        req.onerror = () => reject(new Error("Network error."));
+        req.onerror = function(){ reject(new Error("Network error.")); }
         req.send();
     });
 }
@@ -46,7 +46,7 @@ function getPhotoState(taskID, times) {
         } else {    // Other state
             stateElement.textContent = "Request " + times.toString() + ", upload state: " + json['Description'] + ", please wait...";
             setTimeout(getPhotoState, 1000, taskID, times + 1);
-            return new Promise(() => {});
+            return new Promise(function(){});
         }
     }).then(function(res){
         var json = JSON.parse(res);

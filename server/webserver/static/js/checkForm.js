@@ -5,7 +5,7 @@ function isImageType(typeStr) {
         return false;
     }
     var accepted = ["jpeg", "bmp", "gif", "png"];
-    return accepted.some((type) => typeStr.endsWith("/" + type))
+    return accepted.some(function(type){return typeStr.endsWith("/" + type)})
 }
 
 function check(maxSizeByMb) {
