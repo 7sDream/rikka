@@ -18,7 +18,7 @@ func (res taskRes) String() string {
 
 func (res taskRes) StringWithoutFilepath() string {
 	if res.Err != nil {
-		return res.Err.Error()
+		return "Error:" + res.Err.Error()
 	}
 	return res.Res
 }

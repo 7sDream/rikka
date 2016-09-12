@@ -23,8 +23,8 @@ var (
 // ---- upload handle aux functions --
 
 func checkFromArg(w http.ResponseWriter, r *http.Request, ip string) (string, bool) {
-	from := r.FormValue("from")
-	if from != "website" && from != "api" {
+	from := r.FormValue(api.FormKeyFrom)
+	if from != api.FromWebsite && from != api.FromAPI {
 		l.Warn(ip, "use a error from value:", from)
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte(api.InvalidFromArgErrMsg))
@@ -35,12 +35,12 @@ func checkFromArg(w http.ResponseWriter, r *http.Request, ip string) (string, bo
 }
 
 func checkPassowrd(w http.ResponseWriter, r *http.Request, ip string, from string) bool {
-	userPassword := r.FormValue("password")
+	userPassword := r.FormValue(api.FormKeyPWD)
 	if userPassword != password {
 		// error password
 		l.Warn(ip, "input a error password:", userPassword)
 
-		if from == "website" {
+		if from == api.FromWebsite {
 			http.Error(w, "Error password", http.StatusUnauthorized)
 		} else {
 			// from == "api"
@@ -71,7 +71,7 @@ func checkUploadedFile(w http.ResponseWriter, file multipart.File, ip string, fr
 	if err != nil {
 		l.Error("Error happened when get form file content of ip", ip, ":", err)
 
-		if from == "website" {
+		if from == api.FromWebsite {
 			util.ErrHandle(w, err)
 		} else {
 			// from == "api"
@@ -89,7 +89,7 @@ func checkUploadedFile(w http.ResponseWriter, file multipart.File, ip string, fr
 	if !ok {
 		l.Error("Form file submitted by", ip, "is not a image, it is a", filetype)
 
-		if from == "website" {
+		if from == api.FromWebsite {
 			util.ErrHandle(w, errors.New(api.NotAImgFileErrMsg))
 		} else {
 			// from == "api"
@@ -103,7 +103,7 @@ func checkUploadedFile(w http.ResponseWriter, file multipart.File, ip string, fr
 	if _, err = file.Seek(0, 0); err != nil {
 		l.Error("Error when try to seek form file submitted by", ip, "to start:", err)
 
-		if from == "website" {
+		if from == api.FromWebsite {
 			util.ErrHandle(w, err)
 		} else {
 			// from == "api"
@@ -121,12 +121,12 @@ func checkUploadedFile(w http.ResponseWriter, file multipart.File, ip string, fr
 }
 
 func getUploadedFile(w http.ResponseWriter, r *http.Request, ip string, from string) (*plugins.SaveRequest, bool) {
-	file, _, err := r.FormFile("uploadFile")
+	file, _, err := r.FormFile(api.FormKeyFile)
 	if err != nil {
 		// no needed file
 		l.Error("Error happened when get form file from request of", ip, ":", err)
 
-		if from == "website" {
+		if from == api.FromWebsite {
 			util.ErrHandle(w, err)
 		} else {
 			// from == "api"
@@ -158,7 +158,7 @@ func sendSaveRequestToPlugin(w http.ResponseWriter, pStateRequest *plugins.SaveR
 
 	if err != nil {
 		l.Error("Error happened when plugin manager process file save request by ip", ip, ":", err)
-		if from == "website" {
+		if from == api.FromWebsite {
 			util.ErrHandle(w, err)
 		} else {
 			renderErrorJSON(w, taskIDUploading, err, http.StatusInternalServerError)
@@ -173,7 +173,7 @@ func sendSaveRequestToPlugin(w http.ResponseWriter, pStateRequest *plugins.SaveR
 }
 
 func sendUploadResultToClient(w http.ResponseWriter, r *http.Request, ip string, taskID string, from string) {
-	if from == "website" {
+	if from == api.FromWebsite {
 		redirectToView(w, r, ip, taskID)
 	} else {
 		var taskIDJSON []byte

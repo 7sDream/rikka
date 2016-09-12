@@ -12,6 +12,10 @@ var (
 		MaxSizeByMb float64
 		TaskID      string
 		URL         string
+		FormKeyFile string
+		FormKeyPWD  string
+		FormKeyFrom string
+		FromWebsite string
 	}{
 		Version:     api.Version,
 		RootPath:    RootPath,
@@ -21,5 +25,9 @@ var (
 		MaxSizeByMb: 0,
 		TaskID:      "",
 		URL:         "",
+		FormKeyFile: api.FormKeyFile,
+		FormKeyPWD:  api.FormKeyPWD,
+		FormKeyFrom: api.FormKeyFrom,
+		FromWebsite: api.FromWebsite,
 	}
 )
