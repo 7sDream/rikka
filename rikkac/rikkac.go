@@ -13,7 +13,7 @@ const (
 )
 
 var (
-	l = logger.NewLogger("[CLI]")
+	l = logger.NewLogger("[Rikkac]")
 
 	argInfo    = flag.Bool("v", false, "set logger level to Info")
 	argDebug   = flag.Bool("vv", false, "set logger level to Debug")
