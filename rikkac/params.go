@@ -39,14 +39,16 @@ func getHost() string {
 	if !strings.HasPrefix(host, "http") {
 		host = "http://" + host
 		l.Debug("Add scheme http:// for host, become:", host)
+	} else {
+		l.Debug("Host seems contains scheme, won't process")
 	}
-	l.Debug("Host seems contains scheme, won't process")
 
-	if !strings.HasSuffix(host, "/") {
+	if strings.HasSuffix(host, "/") {
 		host = host[:len(host)-1]
 		l.Debug("Delete extra / for host, become:", host)
+	} else {
+		l.Debug("No extra / in host, won't process")
 	}
-	l.Debug("No extra / in host, won't process")
 
 	urlStruct, err := url.Parse(host)
 	if err != nil || urlStruct.Host == "" || urlStruct.Scheme == "" || urlStruct.Path != "" {
@@ -66,14 +68,12 @@ func getPassword() string {
 		l.Info("Get password from argument:", password)
 	} else {
 		l.Debug("No password argument provided, try get from env")
-
 		password = os.Getenv(envPwdKey)
 		if password == "" {
 			l.Fatal("No", envPwdKey, "env variable, I don't know password of rikka")
 		}
 		l.Info("Get password from env variable:", password)
 	}
-
 	return password
 }
 

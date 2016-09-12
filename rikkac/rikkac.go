@@ -5,11 +5,12 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/7sDream/rikka/client"
 	"github.com/7sDream/rikka/common/logger"
 )
 
 const (
-	version = "0.0.3"
+	version = "0.0.4"
 )
 
 var (
@@ -40,18 +41,28 @@ func init() {
 func main() {
 
 	host := getHost()
-	params := getParams()
-	filePath, fileContent := getFile()
+	filePath, fileContent, err := getFile()
+	if err != nil {
+		l.Fatal("Error happened when try to read image file:", err)
+	}
+	l.Info("Read image file successfully")
 
-	l.Info("Start upload")
+	taskID, err := client.Upload(host, filePath, fileContent, getPassword())
+	if err != nil {
+		l.Fatal("Error happened when upload image:", err)
+	}
+	l.Info("Upload successfully, get taskID:", taskID)
 
-	taskID := upload(host, filePath, fileContent, params)
-	l.Info("Get taskID:", taskID)
-
-	waitFinish(host, taskID)
+	err = client.WaitFinish(host, taskID)
+	if err != nil {
+		l.Fatal("Error happened when wait state to finished:", err)
+	}
 	l.Info("Task state comes to finished")
 
-	pURL := getURL(host, taskID)
+	pURL, err := client.GetURL(host, taskID)
+	if err != nil {
+		l.Fatal("Error happened when get url of image:", err)
+	}
 	l.Info("Url gotten:", *pURL)
 
 	formatted := format(pURL)

@@ -2,17 +2,15 @@ package main
 
 import (
 	"flag"
-	"io/ioutil"
-	"net/http"
 	"os"
 	pathutil "path/filepath"
 	"strings"
 
+	"github.com/7sDream/rikka/client"
 	"github.com/7sDream/rikka/common/util"
-	"github.com/7sDream/rikka/server/apiserver"
 )
 
-func getFile() (string, []byte) {
+func getFile() (string, []byte, error) {
 	filepath := ""
 	if len(flag.Args()) == 1 {
 		filepath = flag.Args()[0]
@@ -37,17 +35,9 @@ func getFile() (string, []byte) {
 	}
 	l.Debug("File", absFilePath, "exists and is a file")
 
-	fileContent, err := ioutil.ReadFile(absFilePath)
+	fileContent, err := client.CheckFile(absFilePath)
 	if err != nil {
-		l.Fatal("Error happened when read file", filepath, ":", err)
+		return "", nil, err
 	}
-	l.Info("Read file", absFilePath, "content successfully")
-
-	filetype := http.DetectContentType(fileContent)
-	if !apiserver.IsAccepted(filetype) {
-		l.Fatal("File", absFilePath, "is not a image file, it is", filetype)
-	}
-	l.Debug("Fie", absFilePath, "type check passed:", filetype)
-
-	return absFilePath, fileContent
+	return absFilePath, fileContent, nil
 }
