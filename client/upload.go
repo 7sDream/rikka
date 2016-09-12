@@ -55,8 +55,8 @@ func createUploadRequest(url string, path string, content []byte, params map[str
 
 func getParams(password string) map[string]string {
 	params := map[string]string{
-		"from":     "api",
-		"password": password,
+		api.FormKeyFrom: api.FromAPI,
+		api.FormKeyPWD:  password,
 	}
 
 	l.Debug("Build params:", params)

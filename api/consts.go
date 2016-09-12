@@ -10,4 +10,9 @@ const (
 	FormKeyPWD = "password"
 	// FormKeyFrom is from field name when upload image
 	FormKeyFrom = "from"
+
+	// FromWebsite is a value of FromKeyFrom, means request comes from website
+	FromWebsite = "website"
+	// FromAPI is a value of FromKeyFrom, means request comes from RESTful API
+	FromAPI = "api"
 )

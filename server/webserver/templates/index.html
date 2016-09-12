@@ -19,15 +19,15 @@
         <img id="uploading" />
         <form id="uploadFrom" enctype="multipart/form-data" action="{{ .UploadPath }}" method="post"  onsubmit="return check({{ .MaxSizeByMb }});">
             <div class="line">
-                <label id="fakeUploadBtn" for="uploadFile">Choose</label>
+                <label id="fakeUploadBtn" for={{ .FormKeyFile }}>Choose</label>
                 <input id="filename" placeholder="<-- Choose File" disabled="disabled" />
-                <input id="uploadFile" name="uploadFile" type="file" accept="image/*" /><br>
+                <input id={{ .FormKeyFile }} name={{ .FormKeyFile }} type="file" accept="image/*" /><br>
             </div>
             <div class="line">
-                <label for="password">Password</label>
-                <input id="password" name="password" type="password" />
+                <label for="{{ .FormKeyPWD }}">Password</label>
+                <input id="{{ .FormKeyPWD }}" name="{{ .FormKeyPWD }}" type="password" />
             </div>
-            <input type="hidden" name="from" value="website" />
+            <input type="hidden" name="{{ .FormKeyFrom }}" value="{{ .FromWebsite }}" />
             <input id="submitBtn" type="submit" value="Upload" />
         </form>
     </main>
