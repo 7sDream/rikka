@@ -20,6 +20,20 @@ Src is default format. Format priority as same as the list ablove, lowest to hig
 
 ## Build and Install
 
+### Executable Binary Download
+
+Now we only provide [executable binary for Linux][download], Because I only have Linux installed in my PC, QwQ
+
+Then rename the file to `rikkac` and move to a folder in your `PATH`.
+
+OK, installation finished, now you need [configure](#configure_and_usage) Rikkac before use it.
+
+User of other os please refer to next section to build and install Rikkac.
+
+### From Source Code
+
+First, you need have Golang installed in your PC, then:
+
 `go get github.com/7sDream/rikka/rikkac`
 
 Add `$GOPATH/bin` into your `PATH`, if you havn't do this when you install Golang.
@@ -57,3 +71,4 @@ need xclip installed：`apt-get install xclip`.
 [version-zh]: https://github.com/7sDream/rikka/blob/master/rikkac/README.zh.md
 
 [rikka]: https://github.com/7sDream/rikka
+[download]: https://github.com/7sDream/rikka/releases/tag/Rikkac

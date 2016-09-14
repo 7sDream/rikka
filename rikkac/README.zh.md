@@ -20,6 +20,18 @@
 
 ## 编译安装
 
+### 下载二进制文件
+
+目前编译好的 Rikkac 工具只提供了 [Linux 版下载][download]，因为我这里只有 Linux 系统 QwQ
+
+下载了之后重命名为 `rikkac`，放到某个 `PATH` 目录下即可。
+
+使用其他操作系统的用户请使用下一节所说的从源代码安装。
+
+### 从源代码安装
+
+首先你需要安装 Go，然后：
+
 `go get github.com/7sDream/rikka/rikkac`
 
 把 `$GOPATH/bin` 加入 `PATH` 如果你在安装 Go 的时候没做这步的话。
@@ -57,3 +69,4 @@ Rikkac 需要配置两个环境变量： `RIKKA_HOST` 和 `RIKKA_PWD`。它们�
 [version-en]: https://github.com/7sDream/rikka/blob/master/rikkac/README.md
 
 [rikka]: https://github.com/7sDream/rikka/blob/master/README.zh.md
+[download]: https://github.com/7sDream/rikka/releases/tag/Rikkac
