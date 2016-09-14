@@ -40,7 +40,7 @@ Add `$GOPATH/bin` into your `PATH`, if you havn't do this when you install Golan
 
 Then run `rikkac --version`, a version number means install successfully.
 
-You need some configure before use Rikkac.
+You need some [configure](#configure-and-usage) before use Rikkac.
 
 ## Configure and Usage
 
