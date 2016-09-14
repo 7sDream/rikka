@@ -96,7 +96,7 @@ Want deploy Rikka system of you own? Check [Rikka Deploy Doc][deploy-doc] for de
 
 Thanks all contributors!
 
-You can see contributors list in [CONTRIBUTIONS.md].
+You can see contributors list in [CONTRIBUTIONS.md][contributors].
 
 ## Acknowledgements
 
