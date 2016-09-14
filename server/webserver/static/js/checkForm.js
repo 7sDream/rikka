@@ -20,13 +20,13 @@ function check(maxSizeByMb) {
         alert("Plesae choose a image to upload");
         return false;
     }
-    var fivarype = file.type
-    if (!isImageType(fivarype)) {
-        fivarype = fivarype || "unknown";
-        alert("Can't upload a " + fivarype + " type file");
+    var fileType = file.type
+    if (!isImageType(fileType)) {
+        fileType = fileType || "unknown";
+        alert("Can't upload a " + fileType + " type file");
         return false;
     }
-    console.log("Accept a", fivarype, "file")
+    console.log("Accept a", fileType, "file")
     if (file.size > (maxSizeByMb * 1024 * 1024)) {
         var fileSizeByMb = Math.round(file.size / 1024 / 1024 * 100) / 100;
         alert("Max file size is " + maxSizeByMb + " Mb, input file is " + fileSizeByMb.toString() + " Mb");
