@@ -86,6 +86,18 @@ Build, install, configure and use guide can be found in [Rikkac Doc][rikkac-doc]
 
 Want deploy Rikka system of you own? Check [Rikka Deploy Doc][deploy-doc] for deploy guide.
 
+## Contribution
+
+- Fork me
+- Create a new branch from dev branch
+- Add your code, comment, document and meaningful commit message
+- Add yourself to CONTRIBUTION.md and description your work
+- PR to dev branch
+
+Thanks all contributors!
+
+You can see contributors list in [CONTRIBUTIONS.md].
+
 ## Acknowledgements
 
 - Thanks Golang and her developers
@@ -115,4 +127,5 @@ See [LICENSE][license].
 [plugins-doc]: https://github.com/7sDream/rikka/tree/master/plugins
 [deploy-doc]: https://github.com/7sDream/rikka/blob/master/deploy.md
 
+[contributors]: https://github.com/7sDream/rikka/blob/master/CONTRIBUTORS.md
 [license]: https://github.com/7sDream/rikka/blob/master/LICENSE
