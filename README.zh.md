@@ -86,6 +86,18 @@ Rikkac 是基于 Rikka 的 RESTful API 写的 Rikka CLI 工具。
 
 想部署自己的 Rikka 系统？请看 [Rikka 部署文档][deploy-doc]。
 
+## 协助开发
+
+- Fork
+- 从 dev 分支新建一个分支
+- 写代码，注释和文档，并使用有意义的 commit message 提交
+- 将自己加入 CONTRIBUTIONS.md，并且描述你做了什么
+- PR 到 dev 分支
+
+感谢所有协助开发的朋友！
+
+在 [CONTRIBUTIONS.md][contributors] 里可以看到贡献者名单。
+
 ## 致谢
 
 - 感谢 Go 编程语言以及她的开发团队
@@ -113,4 +125,5 @@ Rikka 系统的所有代码均基于 MIT 协议开源。
 [plugins-doc]: https://github.com/7sDream/rikka/blob/master/plugins/README.zh.md
 [deploy-doc]: https://github.com/7sDream/rikka/blob/master/deploy.zh.md
 
+[contributors]: https://github.com/7sDream/rikka/blob/master/CONTRIBUTORS.md
 [license]: https://github.com/7sDream/rikka/blob/master/LICENSE
