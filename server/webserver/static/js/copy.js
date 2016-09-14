@@ -12,34 +12,35 @@ function addCopyEventListener(url){
             var template = input.getAttribute("data-template");
             input.value = template.replace("${url}", url);
         }
-        btn.addEventListener("click", function(){
-            if (btn.disabled) {
-                return;
-            }
-            var res = false;
-            try {
-                input.disabled = false;
-                var section = window.getSelection();
-                section.removeAllRanges();
-                input.focus()
-                input.setSelectionRange(0, input.value.length);
-                res = document.execCommand("copy");
-                console.log("res =", res)
-                input.disabled = true
-            } catch(e) {
-                res = false;
-            }
-            if (res) {
-                var origin = btn.textContent;
-                btn.textContent = "Copied!";
-                btn.disabled = true;
-                setTimeout(function(){
-                    btn.textContent = origin;
-                    btn.disabled = false;
-                }, 2000);
-            } else {
-                window.prompt("Copy to clipboard: Ctrl+C, Enter", input.value);
-            }
-        });
+        void function(btn, input){
+            btn.addEventListener("click", function(){
+                if (btn.disabled) {
+                    return;
+                }
+                var res = false;
+                try {
+                    input.disabled = false;
+                    var section = window.getSelection();
+                    section.removeAllRanges();
+                    input.focus();
+                    input.setSelectionRange(0, input.value.length);
+                    res = document.execCommand("copy");
+                    input.disabled = true
+                } catch(e) {
+                    res = false;
+                }
+                if (res) {
+                    var origin = btn.textContent;
+                    btn.textContent = "Copied!";
+                    btn.disabled = true;
+                    setTimeout(function(){
+                        btn.textContent = origin;
+                        btn.disabled = false;
+                    }, 2000);
+                } else {
+                    window.prompt("Copy to clipboard: Ctrl+C, Enter", input.value);
+                }
+            });
+        }(btn, input);
     }
 }
