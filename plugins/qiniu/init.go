@@ -4,30 +4,11 @@ import (
 	"net/url"
 	"os"
 	"strings"
-	"unicode/utf8"
 
+	"github.com/7sDream/rikka/plugins"
 	"qiniupkg.com/api.v7/conf"
 	"qiniupkg.com/api.v7/kodo"
 )
-
-func maskString(str string, showNum int) string {
-	var res string
-	var i int
-	var c rune
-	for i, c = range str {
-		if i < showNum {
-			res += string(c)
-		} else {
-			break
-		}
-	}
-	i++
-	length := utf8.RuneCountInString(str)
-	if i < length {
-		res += strings.Repeat("*", length-i)
-	}
-	return res
-}
 
 // Init is the plugin init function, will be called when plugin be load.
 func (qnp qiniuPlugin) Init() {
@@ -38,9 +19,9 @@ func (qnp qiniuPlugin) Init() {
 
 	l.Info("Args access =", maskString(access, 5))
 	l.Info("Args secret =", maskString(secret, 5))
-	l.Info("Args bucket name =", *argBucketName)
-	l.Info("Args bucket host =", *argBucketHost)
-	l.Info("Args bucket path =", *argBucketPath)
+	l.Info("Args bucket name =", *plugins.ArgBucketName)
+	l.Info("Args bucket host =", *plugins.ArgBucketHost)
+	l.Info("Args bucket path =", *plugins.ArgBucketPath)
 
 	if access == "" {
 		l.Fatal("No Qiniu access key provided， plesae add it into your env var use the name", accessEnvKey)
@@ -50,31 +31,32 @@ func (qnp qiniuPlugin) Init() {
 		l.Fatal("No Qiniu secret key provided, please add it into your env var use the name", secretEnvKey)
 	}
 
-	if *argBucketName == "" {
+	if *plugins.ArgBucketName == "" {
 		l.Fatal("No bucket name provided, please add option -bname")
 	}
 
-	if *argBucketHost == "" {
+	if *plugins.ArgBucketName == "" {
 		l.Fatal("No bucket host provided, please add option -bhost")
 	}
 
 	// host process
-	if !strings.HasPrefix(*argBucketHost, "http") {
-		*argBucketHost = "http://" + *argBucketHost
+	bucketAddr = *plugins.ArgBucketHost
+	if !strings.HasPrefix(bucketAddr, "http") {
+		bucketAddr = "http://" + bucketAddr
 	}
 
-	pURL, err := url.Parse(*argBucketHost)
+	pURL, err := url.Parse(bucketAddr)
 	if err != nil {
-		l.Fatal("Invalid bucket host", *argBucketHost, ":", err)
+		l.Fatal("Invalid bucket host", bucketAddr, ":", err)
 	}
 
 	bucketAddr = pURL.Scheme + "://" + pURL.Host
 
 	// name
-	bucketName = *argBucketName
+	bucketName = *plugins.ArgBucketName
 
 	// prefix
-	bucketPrefix = *argBucketPath
+	bucketPrefix = *plugins.ArgBucketPath
 	if strings.HasPrefix(bucketPrefix, "/") {
 		bucketPrefix = bucketPrefix[1:]
 	}
