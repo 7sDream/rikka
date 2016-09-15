@@ -12,9 +12,15 @@ Refer to [fs Plugin Doc][fs-doc] for plugin options.
 
 ## Qiniu Cloud Plugin
 
-This plugin use Qiniu Cloud CND to store your image.
+This plugin use Qiniu Cloud CDN to store your image.
 
 Refer to [Qiniu Plugin Doc][qiniu-doc] for plugin options.
+
+## UPai Cloud Plugin
+
+This plugin use UPai Cloud CDN to store your image.
+
+Refer to [UPai Plugin Doc][upai-doc].
 
 ## Sina Weibo Plugin
 
@@ -24,3 +30,4 @@ In plan.
 
 [fs-doc]: https://github.com/7sDream/rikka/tree/master/plugins/fs
 [qiniu-doc]: https://github.com/7sDream/rikka/tree/master/plugins/qiniu
+[upai-doc]: https://github.com/7sDream/rikka/tree/master/plugins/upai
