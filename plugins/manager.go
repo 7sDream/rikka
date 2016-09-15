@@ -2,7 +2,6 @@ package plugins
 
 import (
 	"errors"
-	"flag"
 	"fmt"
 	"net/http"
 
@@ -14,13 +13,6 @@ var (
 	l = logger.NewLogger("[Plugins]")
 
 	currentPlugin RikkaPlugin
-)
-
-// Common flags for cloud plugins
-var (
-	ArgBucketName = flag.String("bname", "", "Bucket name to store image")
-	ArgBucketHost = flag.String("bhost", "", "Bucket host")
-	ArgBucketPath = flag.String("bpath", "", "Where the image will be save in bucket")
 )
 
 // SubLogger return a new sub logger from plugins logger.
