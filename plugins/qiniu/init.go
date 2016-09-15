@@ -5,6 +5,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/7sDream/rikka/common/util"
 	"github.com/7sDream/rikka/plugins"
 	"qiniupkg.com/api.v7/conf"
 	"qiniupkg.com/api.v7/kodo"
@@ -17,8 +18,8 @@ func (qnp qiniuPlugin) Init() {
 	access = os.Getenv(accessEnvKey)
 	secret = os.Getenv(secretEnvKey)
 
-	l.Info("Args access =", maskString(access, 5))
-	l.Info("Args secret =", maskString(secret, 5))
+	l.Info("Args access =", util.MaskString(access, 5))
+	l.Info("Args secret =", util.MaskString(secret, 5))
 	l.Info("Args bucket name =", *plugins.ArgBucketName)
 	l.Info("Args bucket host =", *plugins.ArgBucketHost)
 	l.Info("Args bucket path =", *plugins.ArgBucketPath)
