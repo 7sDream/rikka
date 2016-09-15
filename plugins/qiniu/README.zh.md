@@ -22,7 +22,7 @@
 
 另外，你还可以通过提供 `bpath` 参数的形式设置图片需要保存到的文件夹。
 
-比如，使用 `-bpath rikka`，上传到的文件会传到七牛云空间的 `rikka` 文件夹下。当然 `-bpath rikka/images` 之类的多级文件夹也是可以的。
+比如，使用 `-bpath rikka`，上传到的文件会传到空间的 `rikka` 文件夹下。当然 `-bpath rikka/images` 之类的多级文件夹也是可以的。
 
 ## 部署教程
 
