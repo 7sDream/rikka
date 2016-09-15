@@ -2,7 +2,7 @@
 
 [English version][version-en]
 
-内部名 `upai`。
+0.3.0 版本添加。内部名 `upai`。
 
 ## 介绍
 

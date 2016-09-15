@@ -2,7 +2,7 @@
 
 [中文版][version-zh]
 
-Inner name `qiniu`.
+Added in version 0.2.0. Inner name `qiniu`.
 
 ## Description
 

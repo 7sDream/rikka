@@ -2,7 +2,7 @@
 
 [English version][version-en]
 
-内部名 `qiniu`。
+0.2.0 版本添加。内部名 `qiniu`。
 
 ## 介绍
 

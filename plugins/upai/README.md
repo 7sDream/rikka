@@ -2,7 +2,7 @@
 
 [中文版][version-zh]
 
-Inner name `upai`.
+Added in version 0.3.0. Inner name `upai`.
 
 ## Description
 
