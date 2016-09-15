@@ -35,8 +35,8 @@
         <p>Version {{ .Version }}</p>
         <p>Design with <span style="color: red">❤</span>, by <span style="color: #66ccff">7sDream</span></p>
     </footer>
-    <script src="{{ .StaticPath }}js/onError.js"></script>
-    <script src="{{ .StaticPath }}js/checkForm.js"></script>
+    <script src="{{ .StaticPath }}js/onError.js?v={{ .Version }}"></script>
+    <script src="{{ .StaticPath }}js/checkForm.js?v={{ .Version }}"></script>
     <script>
         let filenameBox = document.querySelector("input#filename");
         let input = document.querySelector("input#uploadFile");

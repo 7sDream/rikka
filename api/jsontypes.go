@@ -1,6 +1,6 @@
 package api
 
-// StateJSON shows a state of task.
+// State shows a state of task.
 type State struct {
 	TaskID      string
 	StateCode   int
@@ -8,17 +8,17 @@ type State struct {
 	Description string
 }
 
-// ErrorJSON struct used to build json from eror string.
+// Error struct used to build json from eror string.
 type Error struct {
 	Error string
 }
 
-// URLJSON struct used to build json from eror URL.
+// URL struct used to build json from eror URL.
 type URL struct {
 	URL string
 }
 
-// TaskIDJSON struct used to build json from taskID.
+// TaskID struct used to build json from taskID.
 type TaskID struct {
 	TaskID string
 }

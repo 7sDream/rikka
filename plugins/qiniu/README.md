@@ -2,7 +2,7 @@
 
 [中文版][version-zh]
 
-Inner name `qiniu`.
+Added in version 0.2.0. Inner name `qiniu`.
 
 ## Description
 
@@ -10,7 +10,7 @@ This plugin use Qiniu Cloud CND to store your image.
 
 ## Options
 
-You should provide Qiniu ACCESSKEY, SECRETKEY, Bucket name and Bucket host.
+You should provide Qiniu ACCESSKEY, SECRETKEY, bucket name and bucket host.
 
 ACCESSKEY and SECRETKEY should be add into your env variable, use key `RIKKA_QINIU_ACCESS` and `RIKKA_QINIU_SECRET`.
 
