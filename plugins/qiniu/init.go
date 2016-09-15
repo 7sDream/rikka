@@ -32,7 +32,7 @@ func (qnp qiniuPlugin) Init() {
 	// name
 	bucketName = plugins.GetBucketName()
 
-	// host process
+	// host
 	bucketAddr = plugins.GetBucketHost()
 
 	// path
