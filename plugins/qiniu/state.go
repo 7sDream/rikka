@@ -28,7 +28,7 @@ func buildUploadingState(taskID string) *api.State {
 	return &api.State{
 		TaskID:      taskID,
 		State:       stateUploading,
-		StateCode:   statePreparingCode,
+		StateCode:   stateUploadingCode,
 		Description: stateUploadingDesc,
 	}
 }

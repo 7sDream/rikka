@@ -1,7 +1,6 @@
 package qiniu
 
 import (
-	"flag"
 	"github.com/7sDream/rikka/plugins"
 	"qiniupkg.com/api.v7/kodo"
 )
@@ -16,10 +15,6 @@ const (
 
 var (
 	l = plugins.SubLogger("[Qiniu]")
-
-	argBucketName = flag.String("bname", "", "Qiniu bucket name to store image")
-	argBucketHost = flag.String("bhost", "", "Qiniu bucket host")
-	argBucketPath = flag.String("bpath", "", "Where the image will be save in Qiniu bucket")
 
 	access       string
 	secret       string
