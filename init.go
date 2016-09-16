@@ -12,6 +12,7 @@ import (
 	"github.com/7sDream/rikka/plugins/fs"
 	"github.com/7sDream/rikka/plugins/qiniu"
 	"github.com/7sDream/rikka/plugins/upai"
+	"github.com/7sDream/rikka/plugins/weibo"
 )
 
 var (
@@ -87,6 +88,7 @@ func initPluginList() {
 	pluginMap["fs"] = fs.FsPlugin
 	pluginMap["qiniu"] = qiniu.QiniuPlugin
 	pluginMap["upai"] = upai.UPaiPlugin
+	pluginMap["weibo"] = weibo.WeiboPlugin
 }
 
 func initArgVars() {

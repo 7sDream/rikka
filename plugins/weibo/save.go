@@ -35,7 +35,7 @@ func uploadToWeibo(taskIDInt int64, taskIDStr string, q *plugins.SaveRequest) {
 	}
 }
 
-func (wbp weiboPlugin) SaveRequestHandler(q *plugins.SaveRequest) (*api.TaskID, error) {
+func (wbp weiboPlugin) SaveRequestHandle(q *plugins.SaveRequest) (*api.TaskID, error) {
 	taskIDInt := atomic.AddInt64(&counter, 1)
 	taskIDStr := strconv.FormatInt(taskIDInt, 10)
 

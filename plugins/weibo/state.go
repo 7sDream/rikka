@@ -20,7 +20,7 @@ func buildUploadingState(taskID string) *api.State {
 	}
 }
 
-func (wbp weiboPlugin) StateRequestHandler(taskID string) (*api.State, error) {
+func (wbp weiboPlugin) StateRequestHandle(taskID string) (*api.State, error) {
 	l.Debug("Recieve a state request of taskID", taskID)
 
 	pState, err := plugins.GetTaskState(taskID)
