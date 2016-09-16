@@ -9,6 +9,22 @@ import (
 )
 
 func uploadToWeibo(taskIDInt int64, taskIDStr string, q *plugins.SaveRequest) {
+	defer func() {
+		if err := recover(); err != nil {
+			l.Error("Panic happened in background:", err)
+			var errorMsg string
+			switch t := err.(type) {
+			case string:
+				errorMsg = t
+			case error:
+				errorMsg = t.Error()
+			default:
+				errorMsg = "Unknown"
+			}
+			plugins.ChangeTaskState(api.BuildErrorState(taskIDStr, errorMsg))
+		}
+	}()
+
 	err := plugins.ChangeTaskState(buildUploadingState(taskIDStr))
 	if err != nil {
 		l.Fatal("Error happend when change state of task", taskIDStr, "to uploading:", err)

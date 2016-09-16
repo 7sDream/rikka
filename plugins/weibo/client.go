@@ -5,10 +5,12 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"mime/multipart"
 	"net/http"
 	"net/http/cookiejar"
+	"net/textproto"
 	"net/url"
 	"strconv"
 	"strings"
@@ -79,7 +81,16 @@ func updateCookies(cookieStr string) error {
 
 	cookies := req.Cookies()
 
-	l.Debug("Update cookies", cookies, "from string", cookieStr, "successfully")
+	if len(cookies) == 0 {
+		errorMsg := "No cookies data in string your provided"
+		l.Error(errorMsg)
+		return errors.New(errorMsg)
+	}
+
+	l.Debug("Update cookies from string", cookieStr, "successfully")
+	for _, cookie := range cookies {
+		l.Debug(fmt.Sprintf("%#v", cookie))
+	}
 
 	client.Jar.SetCookies(weiboURL, cookies)
 	return nil
@@ -117,6 +128,21 @@ func auxGetUploadURL() string {
 	return uploadURL.String()
 }
 
+var quoteEscaper = strings.NewReplacer("\\", "\\\\", `"`, "\\\"")
+
+func escapeQuotes(s string) string {
+	return quoteEscaper.Replace(s)
+}
+
+func auxCreateImageFormFileField(w *multipart.Writer, fileFieldKey string, filename string, fileType string) (io.Writer, error) {
+	h := make(textproto.MIMEHeader)
+	h.Set("Content-Disposition",
+		fmt.Sprintf(`form-data; name="%s"; filename="%s"`,
+			escapeQuotes(fileFieldKey), escapeQuotes(filename)))
+	h.Set("Content-Type", "image/"+fileType)
+	return w.CreatePart(h)
+}
+
 func auxCreateUploadRequest(q *plugins.SaveRequest) (*http.Request, error) {
 	l.Debug("Creating upload request...")
 
@@ -125,7 +151,7 @@ func auxCreateUploadRequest(q *plugins.SaveRequest) (*http.Request, error) {
 	body := &bytes.Buffer{}
 	writer := multipart.NewWriter(body)
 
-	part, err := writer.CreateFormFile(fileFieldKey, "noname."+q.FileExt)
+	part, err := auxCreateImageFormFileField(writer, fileFieldKey, "noname."+q.FileExt, q.FileExt)
 	if err != nil {
 		l.Error("Error happened when create form file:", err)
 		return nil, err
@@ -157,6 +183,15 @@ func auxCreateUploadRequest(q *plugins.SaveRequest) (*http.Request, error) {
 		l.Error("Error happened when create post request with url", uploadURL, ":", err)
 		return nil, err
 	}
+
+	var cookieStrs []string
+	for _, cookie := range client.Jar.Cookies(weiboURL) {
+		cookieStrs = append(cookieStrs, cookie.Name+"="+cookie.Value)
+	}
+
+	req.Header.Set("Cookie", strings.Join(cookieStrs, "; "))
+	req.Header.Set("Content-Type", writer.FormDataContentType())
+
 	l.Debug("Create post request successfully, url", uploadURL)
 
 	return req, nil
