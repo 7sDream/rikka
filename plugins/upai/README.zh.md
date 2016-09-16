@@ -26,6 +26,7 @@
 
 ## 部署教程
 
-正在编写中。
+请看部署教程：[在 DaoCloud 上部署使用又拍云插件的 Rikka][upai-plugin-guide]。
 
 [version-en]: https://github.com/7sDream/rikka/blob/master/plugins/upai/README.md
+[upai-plugin-guide]: https://github.com/7sDream/rikka/wiki/%E4%BD%BF%E7%94%A8%E5%8F%88%E6%8B%8D%E4%BA%91%E6%8F%92%E4%BB%B6

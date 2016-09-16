@@ -28,6 +28,7 @@ Multi-level dir like `-bpath rikka/images` are also supported.
 
 ## Guide
 
-WIP.
+See [Rikka Deploy Guide with UPai plugin on DaoCloud][upai-plugin-guide]
 
 [version-zh]: https://github.com/7sDream/rikka/blob/master/plugins/upai/README.zh.md
+[upai-plugin-guide]: https://github.com/7sDream/rikka/wiki/%E4%BD%BF%E7%94%A8%E5%8F%88%E6%8B%8D%E4%BA%91%E6%8F%92%E4%BB%B6
