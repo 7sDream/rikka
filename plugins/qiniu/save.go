@@ -20,6 +20,8 @@ func buildPath(taskID string) string {
 }
 
 func uploadToQiniu(taskID string, q *plugins.SaveRequest) {
+	l.Debug("Getting upload token of task", taskID)
+
 	// perparing...
 	err := plugins.ChangeTaskState(buildPreparingState(taskID))
 	if err != nil {
@@ -45,7 +47,7 @@ func uploadToQiniu(taskID string, q *plugins.SaveRequest) {
 	}
 
 	// uploading
-	l.Info("Upload with arg", "key:", buildPath(taskID), ", filesize:", q.FileSize)
+	l.Debug("Upload with arg", "key:", buildPath(taskID), ", filesize:", q.FileSize)
 	err = plugins.ChangeTaskState(buildUploadingState(taskID))
 	if err != nil {
 		l.Fatal("Error happend when change state of task", taskID, "to uploading:", err)

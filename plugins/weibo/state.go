@@ -1,4 +1,4 @@
-package upai
+package weibo
 
 import (
 	"github.com/7sDream/rikka/api"
@@ -20,19 +20,19 @@ func buildUploadingState(taskID string) *api.State {
 	}
 }
 
-func (qnp upaiPlugin) StateRequestHandle(taskID string) (pState *api.State, err error) {
+func (wbp weiboPlugin) StateRequestHandler(taskID string) (*api.State, error) {
 	l.Debug("Recieve a state request of taskID", taskID)
 
-	pState, err = plugins.GetTaskState(taskID)
-	if err == nil {
-		if pState.StateCode == api.StateErrorCode {
-			l.Warn("Get a error state of task", taskID, *pState)
-		} else {
-			l.Debug("Get a normal state of task", taskID, *pState)
-		}
-		return pState, nil
+	pState, err := plugins.GetTaskState(taskID)
+	if err != nil {
+		l.Error("State of task", taskID, "not found, return error")
+		return nil, err
 	}
 
-	l.Debug("State of task", taskID, "not found, just return a finish state")
-	return api.BuildFinishState(taskID), nil
+	if pState.StateCode == api.StateErrorCode {
+		l.Warn("Get a error state of task", taskID, *pState)
+	} else {
+		l.Debug("Get a normal state of task", taskID, *pState)
+	}
+	return pState, nil
 }
