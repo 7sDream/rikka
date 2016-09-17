@@ -14,7 +14,7 @@ var (
 	client  *http.Client
 	counter int64
 
-	urlMap = make(map[int64]string)
+	imageIDMap = make(map[int64]string)
 
 	// WeiboPlugin is the main plugin object instance
 	WeiboPlugin weiboPlugin

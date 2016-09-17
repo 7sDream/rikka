@@ -51,6 +51,10 @@ const (
 	miniPublishPageURL = "http://weibo.com/minipublish"
 )
 
+func buildURL(pid string) string {
+	return imageURLPrefix + pid
+}
+
 func newWeiboClient() *http.Client {
 	l.Debug("Creating weibo client")
 
@@ -197,7 +201,7 @@ func auxCreateUploadRequest(q *plugins.SaveRequest) (*http.Request, error) {
 	return req, nil
 }
 
-func auxGetImageURL(raw string) (string, error) {
+func auxGetImageID(raw string) (string, error) {
 	l.Debug("Getting image url from redirect url", raw)
 
 	redirectURL, err := url.Parse(raw)
@@ -215,7 +219,7 @@ func auxGetImageURL(raw string) (string, error) {
 	}
 	l.Debug("Get image ID", imageID, "from url", raw, "successfully")
 
-	return imageURLPrefix + imageID, nil
+	return imageID, nil
 }
 
 func auxUpload(q *plugins.SaveRequest) (string, error) {
@@ -247,14 +251,14 @@ func auxUpload(q *plugins.SaveRequest) (string, error) {
 		return "", errors.New(errorMsg)
 	}
 
-	imageURL, err := auxGetImageURL(redirectURL)
+	imageID, err := auxGetImageID(redirectURL)
 	if err != nil {
 		errorMsg := "can't get image url from Location header, weibo api changed"
 		l.Error("Error happened when get image:", errorMsg)
 		return "", errors.New(errorMsg)
 	}
 
-	return imageURL, nil
+	return imageID, nil
 }
 
 func upload(client *http.Client, q *plugins.SaveRequest) (string, error) {
@@ -273,12 +277,12 @@ func upload(client *http.Client, q *plugins.SaveRequest) (string, error) {
 	}
 	l.Debug("Weibo account is logged")
 
-	imageURL, err := auxUpload(q)
+	imageID, err := auxUpload(q)
 	if err != nil {
 		l.Error("Error happened when get image url:", err)
 		return "", err
 	}
-	l.Debug("Get image url", imageURL, "successfully")
+	l.Debug("Get image url", imageID, "successfully")
 
-	return imageURL, nil
+	return imageID, nil
 }

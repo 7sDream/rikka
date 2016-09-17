@@ -11,6 +11,7 @@ import (
 func (fsp fsPlugin) Init() {
 	// where to store file
 	l.Info("Start plugin fs")
+
 	l.Info("Args dir =", *argFilesDir)
 	l.Info("Args fsDebugSleep =", *argFsDebugSleep)
 

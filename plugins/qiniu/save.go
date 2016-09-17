@@ -27,6 +27,7 @@ func uploadToQiniu(taskID string, q *plugins.SaveRequest) {
 	if err != nil {
 		l.Fatal("Error happend when change state of task", taskID, "to preparing:", err)
 	}
+	l.Debug("Change state of task", taskID, "to preparing successfully")
 
 	uploader := kodocli.NewUploader(0, nil)
 	policy := &kodo.PutPolicy{
@@ -43,6 +44,7 @@ func uploadToQiniu(taskID string, q *plugins.SaveRequest) {
 		if err != nil {
 			l.Fatal("Error happened when change state of task", taskID, "to error:", err)
 		}
+		l.Debug("Change state of task", taskID, "to error sccessfully")
 		return
 	}
 
@@ -52,6 +54,8 @@ func uploadToQiniu(taskID string, q *plugins.SaveRequest) {
 	if err != nil {
 		l.Fatal("Error happend when change state of task", taskID, "to uploading:", err)
 	}
+	l.Debug("Change state of task", taskID, "to uploading successfully")
+
 	var ret putRet
 	err = uploader.Rput(context.Background(), &ret, token, buildPath(taskID), q.File, q.FileSize, nil)
 
@@ -62,6 +66,7 @@ func uploadToQiniu(taskID string, q *plugins.SaveRequest) {
 		if err != nil {
 			l.Fatal("Error happened when change state of task", taskID, "to error:", err)
 		}
+		l.Debug("Change state of task", taskID, "to error successfully")
 	} else {
 		// uploading successfully
 		l.Info("Upload task", taskID, "to qiniu cloud successfully")
@@ -69,18 +74,23 @@ func uploadToQiniu(taskID string, q *plugins.SaveRequest) {
 		if err != nil {
 			l.Fatal("Error happened when delete state of task", taskID, ":", err)
 		}
+		l.Debug("Delete task", taskID, "successfully")
 	}
 }
 
 func (qnp qiniuPlugin) SaveRequestHandle(q *plugins.SaveRequest) (*api.TaskID, error) {
+	l.Debug("Recieve a file save request")
+
 	taskID := uuid.NewV4().String() + "." + q.FileExt
 
 	err := plugins.CreateTask(taskID)
 	if err != nil {
 		l.Fatal("Error happened when create new task!")
 	}
+	l.Debug("create task", taskID, "successfully, starting background task")
 
 	go uploadToQiniu(taskID, q)
 
+	l.Debug("Background task started, return task ID:", taskID)
 	return &api.TaskID{TaskID: taskID}, nil
 }

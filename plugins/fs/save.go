@@ -102,6 +102,21 @@ func fileCopy(uploadFile multipart.File, saveTo *os.File, filepath string, taskI
 
 // background operate, save file to disk
 func saveFile(uploadFile multipart.File, filename string) {
+	defer func() {
+		if r := recover(); r != nil {
+			var errorMsg string
+			switch t := r.(type) {
+			case string:
+				errorMsg = t
+			case error:
+				errorMsg = t.Error()
+			default:
+				errorMsg = "Unknow Panic"
+			}
+			l.Error("Panic happened when do background task:", errorMsg)
+		}
+	}()
+
 	filepath := pathutil.Join(imageDir, filename)
 
 	saveTo, err := createFile(uploadFile, filepath, filename)
