@@ -34,10 +34,10 @@ var (
 	}{
 		M: map[string]string{
 			"cb":      "",
-			"url":     "x",
+			"url":     "",
 			"markpos": "1",
 			"logo":    "0",
-			"nick":    "x",
+			"nick":    "",
 			"mask":    "0",
 			"app":     "miniblog",
 			"s":       "rdxt",
