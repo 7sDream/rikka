@@ -1,6 +1,7 @@
 package weibo
 
 import (
+	"flag"
 	"net/http"
 
 	"github.com/7sDream/rikka/plugins"
@@ -10,6 +11,11 @@ type weiboPlugin struct{}
 
 var (
 	l = plugins.SubLogger("[Weibo]")
+
+	argUpdateCookiesPassword = flag.String(
+		"ucpwd", "weibo",
+		"Update cookies password, you need input this password when you visit /cookies to update your cookies",
+	)
 
 	client  *http.Client
 	counter int64
@@ -23,7 +29,3 @@ var (
 const (
 	cookiesEnvKey = "RIKKA_WEIBO_COOKIES"
 )
-
-func (wbp weiboPlugin) ExtraHandlers() []plugins.HandlerWithPattern {
-	return nil
-}

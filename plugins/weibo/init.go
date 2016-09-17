@@ -16,5 +16,7 @@ func (wbp weiboPlugin) Init() {
 		l.Fatal("Error happened when create cookies:", err)
 	}
 
+	l.Info("Arg update cookies password =", *argUpdateCookiesPassword)
+
 	l.Info("Weibo plugin start successfilly")
 }

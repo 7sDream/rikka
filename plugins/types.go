@@ -35,7 +35,7 @@ type ImageOperate struct {
 // Plugins' ExtraHandlers func return an array of this and will be added to http.handler when init plugin.
 type HandlerWithPattern struct {
 	Pattern string
-	Handler http.Handler
+	Handler http.HandlerFunc
 }
 
 // RikkaPlugin is plugin interface, all plugin should implement thoose function.

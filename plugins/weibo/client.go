@@ -82,6 +82,7 @@ func updateCookies(cookieStr string) error {
 		l.Error("Error when parse cookies from string", cookieStr, ":", err)
 		return err
 	}
+	l.Debug("Parse cookie from string successfully")
 
 	cookies := req.Cookies()
 
@@ -90,11 +91,22 @@ func updateCookies(cookieStr string) error {
 		l.Error(errorMsg)
 		return errors.New(errorMsg)
 	}
-
-	l.Debug("Update cookies from string", cookieStr, "successfully")
 	for _, cookie := range cookies {
 		l.Debug(fmt.Sprintf("%#v", cookie))
+		if cookie.Value == "" {
+			errorMsg := "A non-value cookie key: " + cookie.Name
+			l.Error(errorMsg)
+			return errors.New(errorMsg)
+		}
 	}
+	l.Debug("Check cookies passed")
+
+	client.Jar, err = cookiejar.New(nil)
+	if err != nil {
+		l.Error("Error happened when create new cookiejar:", err)
+		return err
+	}
+	l.Debug("Create new cookiejar successfully")
 
 	client.Jar.SetCookies(weiboURL, cookies)
 	return nil
