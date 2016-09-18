@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"html/template"
+	"io/ioutil"
 	"net"
 	"net/http"
 	pathutil "path/filepath"
@@ -95,6 +96,26 @@ func RenderTemplate(templatePath string, w http.ResponseWriter, data interface{}
 	return err
 }
 
+func RenderTemplateString(templateString string, w http.ResponseWriter, data interface{}) error {
+	t := template.New("_")
+	t, err := t.Parse(templateString)
+	if ErrHandle(w, err) {
+		l.Error("Error happened when parse template string", templateString, ":", err)
+		return err
+	}
+	buff := bytes.NewBuffer([]byte{})
+	err = t.Execute(buff, data)
+	if err != nil {
+		l.Error("Error happened when execute template", t, "with data", fmt.Sprintf("%+v", data), ":", err)
+		ErrHandle(w, errors.New("error when render template"))
+		return err
+	}
+	content := make([]byte, buff.Len())
+	buff.Read(content)
+	_, err = w.Write(content)
+	return err
+}
+
 // RenderJSON is a shortcut function to write JSON data to response, and set the header Content-Type.
 func RenderJSON(w http.ResponseWriter, data []byte, code int) (err error) {
 	w.WriteHeader(code)
@@ -144,19 +165,16 @@ func DisableListDir(log *logger.Logger, h http.HandlerFunc) http.HandlerFunc {
 // ContextCreator accept a request and return a context, used in TemplateRenderHandler.
 type ContextCreator func(r *http.Request) interface{}
 
-// TemplateRenderHandler is a shortcut function that generate a http.HandlerFunc.
-// The generated func use contextCreator to create context and render the templatePath template file.
+// TemplateStringRenderHandler is a shortcut function that generate a http.HandlerFunc.
+// The generated func use contextCreator to create context and render the templateString as template.
 // If contextCreator is nil, nil will be used as context.
-func TemplateRenderHandler(templatePath string, contextCreator ContextCreator, log *logger.Logger) http.HandlerFunc {
+func TemplateStringRenderHandler(templateName string, templateString string, contextCreator ContextCreator, log *logger.Logger) http.HandlerFunc {
 	if log == nil {
 		l.Warn("Get a nil logger in function TemplateRenderHandler")
 		log = l
 	}
 	return func(w http.ResponseWriter, r *http.Request) {
-
-		templateName := pathutil.Base(templatePath)
 		ip := GetClientIP(r)
-
 		log.Info("Recieve a template render request of", templateName, "from ip", ip)
 
 		var data interface{}
@@ -166,13 +184,27 @@ func TemplateRenderHandler(templatePath string, contextCreator ContextCreator, l
 			data = nil
 		}
 
-		err := RenderTemplate(templatePath, w, data)
+		err := RenderTemplateString(templateString, w, data)
+
 		if err != nil {
-			log.Warn("Error happened when render template", templateName, "with data", fmt.Sprintf("%+v", data), "to", ip, ": ", err)
+			log.Warn("Error happened when render template string", templateString, "with data", fmt.Sprintf("%#v", data), "to", ip, ": ", err)
 		}
 
 		log.Info("Render template", templateName, "to", ip, "successfully")
 	}
+}
+
+// TemplateRenderHandler is a shortcut function that generate a http.HandlerFunc.
+// The generated func use contextCreator to create context and render the templatePath template file.
+// If contextCreator is nil, nil will be used as context.
+func TemplateRenderHandler(templatePath string, contextCreator ContextCreator, log *logger.Logger) http.HandlerFunc {
+	templateBytes, err := ioutil.ReadFile(templatePath)
+	if err != nil {
+		l.Fatal("Error when read template file", templatePath, ":", err)
+	}
+	templateName := pathutil.Base(templatePath)
+	templateString := string(templateBytes)
+	return TemplateStringRenderHandler(templateName, templateString, contextCreator, log)
 }
 
 // RequestFilter accept a http.HandlerFunc and return a new one

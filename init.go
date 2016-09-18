@@ -12,6 +12,7 @@ import (
 	"github.com/7sDream/rikka/plugins/fs"
 	"github.com/7sDream/rikka/plugins/qiniu"
 	"github.com/7sDream/rikka/plugins/upai"
+	"github.com/7sDream/rikka/plugins/weibo"
 )
 
 var (
@@ -25,6 +26,8 @@ var (
 	argMaxSizeByMB   *float64
 	argPluginStr     *string
 	argLogLevel      *int
+	argHTTPS         *bool
+	argCertDir       *string
 
 	// concat socket from ip address and port
 	socket string
@@ -70,7 +73,17 @@ func init() {
 	l.Info("Args password =", *argPassword)
 	l.Info("Args maxFileSize =", *argMaxSizeByMB, "MB")
 	l.Info("Args loggerLevel =", *argLogLevel)
+	l.Info("Args https =", *argHTTPS)
+	l.Info("Args cert dir =", *argCertDir)
 	l.Info("Args plugin =", *argPluginStr)
+
+	if *argPort == 0 {
+		if *argHTTPS {
+			*argPort = 443
+		} else {
+			*argPort = 80
+		}
+	}
 
 	if *argBindIPAddress == ":" {
 		socket = *argBindIPAddress + strconv.Itoa(*argPort)
@@ -87,17 +100,20 @@ func initPluginList() {
 	pluginMap["fs"] = fs.FsPlugin
 	pluginMap["qiniu"] = qiniu.QiniuPlugin
 	pluginMap["upai"] = upai.UPaiPlugin
+	pluginMap["weibo"] = weibo.WeiboPlugin
 }
 
 func initArgVars() {
 	argBindIPAddress = flag.String("bind", ":", "Bind ip address, use : for all address")
-	argPort = flag.Int("port", 80, "Server port")
+	argPort = flag.Int("port", 0, "Server port, 0 means use 80 when disable HTTPS, 443 when enable")
 	argPassword = flag.String("pwd", "rikka", "The password need provided when upload")
 	argMaxSizeByMB = flag.Float64("size", 5, "Max file size by MB")
 	argLogLevel = flag.Int(
 		"level", logger.LevelInfo,
 		fmt.Sprintf("Log level, from %d to %d", logger.LevelDebug, logger.LevelError),
 	)
+	argHTTPS = flag.Bool("https", false, "Use HTTPS")
+	argCertDir = flag.String("cdir", ".", "Where to find HTTPS cert files(cert.pem, key.pem)")
 
 	// Get name array of all avaliable plugins, show in `rikka -h``
 	pluginNames := make([]string, 0, len(pluginMap))

@@ -16,7 +16,9 @@ func uploadToUPai(taskID string, q *plugins.SaveRequest) {
 	if err != nil {
 		l.Fatal("Error happend when change state of task", taskID, "to uploading:", err)
 	}
+	l.Debug("Change state of task", taskID, "to uploading successfully")
 
+	l.Debug("Uploading to UPai cloud...")
 	_, err = client.Put(buildPath(taskID), q.File, false, nil)
 
 	if err != nil {
@@ -25,42 +27,32 @@ func uploadToUPai(taskID string, q *plugins.SaveRequest) {
 		if err != nil {
 			l.Fatal("Error happened when change state of task", taskID, "to error:", err)
 		}
+		l.Debug("Change state of task", taskID, "to error successfully")
 		return
 	}
 	// uploading successfully
 	l.Info("Upload task", taskID, "to upai cloud successfully")
+
 	err = plugins.DeleteTask(taskID)
 	if err != nil {
 		l.Fatal("Error happened when delete state of task", taskID, ":", err)
 	}
+	l.Debug("Delete task", taskID, "successfully")
 }
 
 func (qnp upaiPlugin) SaveRequestHandle(q *plugins.SaveRequest) (*api.TaskID, error) {
+	l.Debug("Recieve a file save request")
+
 	taskID := uuid.NewV4().String() + "." + q.FileExt
 
 	err := plugins.CreateTask(taskID)
 	if err != nil {
 		l.Fatal("Error happened when create new task!")
 	}
+	l.Debug("create task", taskID, "successfully, starting background task")
 
 	go uploadToUPai(taskID, q)
 
+	l.Debug("Background task started, return task ID:", taskID)
 	return &api.TaskID{TaskID: taskID}, nil
-}
-
-func (qnp upaiPlugin) StateRequestHandle(taskID string) (pState *api.State, err error) {
-	l.Debug("Recieve a state request of taskID", taskID)
-
-	pState, err = plugins.GetTaskState(taskID)
-	if err == nil {
-		if pState.StateCode == api.StateErrorCode {
-			l.Warn("Get a error state of task", taskID, *pState)
-		} else {
-			l.Debug("Get a normal state of task", taskID, *pState)
-		}
-		return pState, nil
-	}
-
-	l.Debug("State of task", taskID, "not found, just return a finish state")
-	return api.BuildFinishState(taskID), nil
 }

@@ -20,14 +20,17 @@ Rikka 后端实际图片的储存使用插件形式处理。
 
 这个插件使用又拍云 CDN 来储存你上传的图片。
 
-前看 [UPai 插件文档][upai-doc] 查看插件配置参数。
+请看 [UPai 插件文档][upai-doc] 查看插件配置参数。
 
-## weibo 新狼微博插件
+## weibo 新浪微博插件
 
-还没写出来。
+这个插件使用新浪微博发送微博时的上传图片接口作为图片的最终储存方式。
+
+请看 [Weibo 插件文档][weibo-doc] 查看插件配置参数。
 
 [version-en]: https://github.com/7sDream/rikka/blob/master/plugins/README.md
 
 [fs-doc]: https://github.com/7sDream/rikka/tree/master/plugins/fs/README.zh.md
 [qiniu-doc]: https://github.com/7sDream/rikka/tree/master/plugins/qiniu/README.zh.md
 [upai-doc]: https://github.com/7sDream/rikka/tree/master/plugins/upai/README.zh.md
+[weibo-doc]: https://github.com/7sDream/rikka/tree/master/plugins/weibo/README.zh.md
