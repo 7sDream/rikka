@@ -285,7 +285,7 @@ func upload(client *http.Client, q *plugins.SaveRequest) (string, error) {
 
 	if !login {
 		l.Error("No weibo account login")
-		return "", errors.New("Weibo account not login, please set cookies")
+		return "", errors.New("Weibo account not login, please update cookies")
 	}
 	l.Debug("Weibo account is logged")
 
