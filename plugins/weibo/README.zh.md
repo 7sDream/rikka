@@ -27,7 +27,7 @@ FOO=foofoofoof; BAR=barbarbarb; ZOO=zoozozozozozo
 1. 启动 **Chrome** 浏览器
 2. 访问 http://weibo.com
 3. 登录微博（如果现在没登录的话）
-4. 打开开发人员工具， 转到 `Console`, 输入 `document.cookie`, 然后把输出的东西复制到一个临时文本文件里（注意**不要**复制前后的双引号）
+4. 按 `F12` 打开开发人员工具， 转到 `Console`, 输入 `document.cookie`, 然后把输出的东西复制到一个临时文本文件里（注意**不要**复制前后的双引号）
 6. 转到 `Application`(或 `Resource`) 标签, 点左边的 `Cookies`，找到 `weibo.com`
 7. 点击右边表格的 `HTTPOnly` 字段头，把有这个属性的行集中一下
 8. 把所有 `HTTPOnly` 属性被打勾的行，以 ` Name=Value; ` 的形式添加到之前的文本文件的末尾

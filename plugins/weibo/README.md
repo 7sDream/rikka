@@ -27,7 +27,7 @@ Notice: You should provide **ALL** cookies of weibo.com, contains thoose be tag 
 1. Launch **Chrome**
 2. visit http://weibo.com
 3. Login if you haven't
-4. Open devtools, turn to `Console` tab, type `document.cookie`, and copy output string(exclude around `""`) to a temp text file
+4. `F12` to open devtools, turn to `Console` tab, type `document.cookie`, and copy output string(exclude around `""`) to a temp text file
 6. Turn to `Application`(Or `Resource`) tab, click `Cookies` in left sidebar, and find `weibo.com`
 7. Click `HTTPOnly` field of right table
 8. Add **ALL** lines whose `HTTPOnly` field is checked in format `Name=Value; ` to the end of temp text file
