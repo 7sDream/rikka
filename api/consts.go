@@ -2,7 +2,7 @@ package api
 
 const (
 	// Version of Rikka
-	Version = "0.3.0"
+	Version = "0.3.1"
 
 	// FormKeyFile is file field name when upload image
 	FormKeyFile = "uploadFile"
