@@ -24,10 +24,13 @@ Refer to [UPai Plugin Doc][upai-doc].
 
 ## Sina Weibo Plugin
 
-In plan.
+This plugin use Sina weibo to store your image.
+
+Refer to [Weibo plugin Doc][weibo-doc].
 
 [version-zh]: https://github.com/7sDream/rikka/blob/master/plugins/README.zh.md
 
 [fs-doc]: https://github.com/7sDream/rikka/tree/master/plugins/fs
 [qiniu-doc]: https://github.com/7sDream/rikka/tree/master/plugins/qiniu
 [upai-doc]: https://github.com/7sDream/rikka/tree/master/plugins/upai
+[weibo-doc]: https://github.com/7sDream/rikka/tree/master/plugins/weibo
