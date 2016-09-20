@@ -10,12 +10,15 @@
     <a href="https://github.com/7sDream/rikka"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
     <!-- Error tips bar -->
     <div class="hide" id="error">Some <span style="color: red">error</span> happened on this page, please open <span style="color: red">console</span> of your browser and send a <span style="color: red">snapshot</span> to developers, <span style="color: red">thanks</span>!</div>
+    <!-- Name and description -->
     <header>
         <h1><a href="{{ .RootPath }}">RIKKA</a></h1>
-        <p>A <span style="color: #6cf">simple</span> image share website</p>
+        <p>A <span style="color: #6cf">minimalist personal</span> image sharing website</p>
     </header>
     <main>
+        <!-- Preview image -->
         <img class="preview" src="{{ .URL }}" >
+        <!-- Copy as formatted text -->
         <form>
             <div class="line copyAsText">
                 <label for="src" class="copyBtn">Src</label>
@@ -39,6 +42,7 @@
             </div>
         </form>
     </main>
+    <!-- Version and about -->
     <footer>
         <p>Version {{ .Version}}</p>
         <p>Design with <span style="color: red">❤</span>, by <span style="color: #66ccff">7sDream</span></p>
