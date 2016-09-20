@@ -18,8 +18,8 @@ func GetEnvWithCheck(name, key string, log *logger.Logger) string {
 	}
 	value := os.Getenv(key)
 	if value == "" {
-		l.Fatal("No", name, "provided, please add it to your env var use the name", key)
+		log.Fatal("No", name, "provided, please add it to your env var use the name", key)
 	}
-	l.Info("Args", name, "=", MaskString(value, 5))
+	log.Info("Args", name, "=", MaskString(value, 5))
 	return value
 }
