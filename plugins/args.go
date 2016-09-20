@@ -14,14 +14,14 @@ var (
 )
 
 // CheckCommonArgs will check if bname and bhost is setted and log their value
-func CheckCommonArgs() {
+func CheckCommonArgs(needName, needHost bool) {
 	l.Info("Args bucket name =", *ArgBucketName)
-	if *ArgBucketName == "" {
+	if needName && *ArgBucketName == "" {
 		l.Fatal("No bucket name provided, please add option -bname")
 	}
 
 	l.Info("Args bucket host =", *ArgBucketHost)
-	if *ArgBucketName == "" {
+	if needHost && *ArgBucketHost == "" {
 		l.Fatal("No bucket host provided, please add option -bhost")
 	}
 

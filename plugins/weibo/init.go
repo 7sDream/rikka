@@ -1,14 +1,11 @@
 package weibo
 
-import "os"
+import "github.com/7sDream/rikka/common/util"
 
 func (wbp weiboPlugin) Init() {
 	l.Info("Start plugin weibo")
 
-	cookiesStr := os.Getenv(cookiesEnvKey)
-	if cookiesStr == "" {
-		l.Fatal("No weibo cookies provided， plesae add it into your env var use the name", cookiesEnvKey)
-	}
+	cookiesStr := util.GetEnvWithCheck("Cookies", cookiesEnvKey, l)
 
 	client = newWeiboClient()
 
