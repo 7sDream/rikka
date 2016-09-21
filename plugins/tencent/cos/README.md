@@ -16,7 +16,7 @@ This plugin use Cloud Object Service (COS) of Tencent to store image files.
 
 You should provide 4 options: APPID, Secret ID, Secret Key and Bucket Name.
 
-First three options should be provided in env var, use key `RIKKA_TCCOS_APPID`, `RIKKA_TCCOS_SECRETID` and `RIKKA_TCCOS_SECRETKEY`.
+First three options should be provided in env var, use key `RIKKA_TENCENT_APPID`, `RIKKA_TENCENT_SECRETID` and `RIKKA_TENCENT_SECRETKEY`.
 
 And the Bucket Name should be specified by the command line option `-bname`.
 

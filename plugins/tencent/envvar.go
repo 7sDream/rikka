@@ -6,9 +6,9 @@ import (
 )
 
 const (
-	envAppIDKey     = "RIKKA_TCCOS_APPID"
-	envSecretIDKey  = "RIKKA_TCCOS_SECRETID"
-	envSecretKeyKey = "RIKKA_TCCOS_SECRETKEY"
+	envAppIDKey     = "RIKKA_TENCENT_APPID"
+	envSecretIDKey  = "RIKKA_TENCENT_SECRETID"
+	envSecretKeyKey = "RIKKA_TENCENT_SECRETKEY"
 )
 
 // GetAppIDWithCheck will get APPID of  Tencent Cloud.

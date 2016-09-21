@@ -12,7 +12,7 @@
 
 你需要提供四个参数：腾讯云的项目编号（APPID），密钥ID（SecretID），密钥Key（SecretKey）以及储存空间名（bucket name）。
 
-前三个通过环境变量提供，分别为 `RIKKA_TCCOS_APPID`, `RIKKA_TCCOS_SECRETID`, `RIKKA_TCCOS_SECRETKEY`。
+前三个通过环境变量提供，分别为 `RIKKA_TENCENT_APPID`, `RIKKA_TENCENT_SECRETID`, `RIKKA_TENCENT_SECRETKEY`。
 
 储存空间名通过命令行参数 `-bname` 提供。
 
