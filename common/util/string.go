@@ -17,7 +17,9 @@ func MaskString(str string, showNum int) string {
 			break
 		}
 	}
-	i++
+	if i != showNum {
+		i++
+	}
 	length := utf8.RuneCountInString(str)
 	if i < length {
 		res += strings.Repeat("*", length-i)

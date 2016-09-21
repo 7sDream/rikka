@@ -11,6 +11,7 @@ import (
 	"github.com/7sDream/rikka/plugins"
 	"github.com/7sDream/rikka/plugins/fs"
 	"github.com/7sDream/rikka/plugins/qiniu"
+	"github.com/7sDream/rikka/plugins/tencent/cos"
 	"github.com/7sDream/rikka/plugins/upai"
 	"github.com/7sDream/rikka/plugins/weibo"
 )
@@ -101,6 +102,7 @@ func initPluginList() {
 	pluginMap["qiniu"] = qiniu.QiniuPlugin
 	pluginMap["upai"] = upai.UPaiPlugin
 	pluginMap["weibo"] = weibo.WeiboPlugin
+	pluginMap["tccos"] = cos.TCcosPlugin
 }
 
 func initArgVars() {

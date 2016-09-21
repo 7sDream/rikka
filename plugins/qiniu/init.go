@@ -1,8 +1,6 @@
 package qiniu
 
 import (
-	"os"
-
 	"github.com/7sDream/rikka/common/util"
 	"github.com/7sDream/rikka/plugins"
 	"qiniupkg.com/api.v7/conf"
@@ -13,29 +11,12 @@ import (
 func (qnp qiniuPlugin) Init() {
 	l.Info("Start plugin qiniu")
 
-	plugins.CheckCommonArgs()
+	plugins.CheckCommonArgs(true, true)
 
-	access = os.Getenv(accessEnvKey)
-	secret = os.Getenv(secretEnvKey)
-
-	l.Info("Args access =", util.MaskString(access, 5))
-	l.Info("Args secret =", util.MaskString(secret, 5))
-
-	if access == "" {
-		l.Fatal("No Qiniu access key provided， plesae add it into your env var use the name", accessEnvKey)
-	}
-
-	if secret == "" {
-		l.Fatal("No Qiniu secret key provided, please add it into your env var use the name", secretEnvKey)
-	}
-
-	// name
+	access = util.GetEnvWithCheck("Access", accessEnvKey, l)
+	secret = util.GetEnvWithCheck("Secret", secretEnvKey, l)
 	bucketName = plugins.GetBucketName()
-
-	// host
 	bucketAddr = plugins.GetBucketHost()
-
-	// path
 	bucketPrefix = plugins.GetBucketPath()
 
 	// set qiniu conf
