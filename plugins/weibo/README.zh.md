@@ -27,12 +27,10 @@ FOO=foofoofoof; BAR=barbarbarb; ZOO=zoozozozozozo
 1. 启动 **Chrome** 浏览器
 2. 访问 http://weibo.com
 3. 登录微博（如果现在没登录的话）
-4. 按 `F12` 打开开发人员工具， 转到 `Console`, 输入 `document.cookie`, 然后把输出的东西复制到一个临时文本文件里（注意**不要**复制前后的双引号）
-6. 转到 `Application`(或 `Resource`) 标签, 点左边的 `Cookies`，找到 `weibo.com`
-7. 点击右边表格的 `HTTPOnly` 字段头，把有这个属性的行集中一下
-8. 把所有 `HTTPOnly` 属性被打勾的行，以 ` Name=Value; ` 的形式添加到之前的文本文件的末尾
-9. 现在文本文件里的内容就是完整的 Cookies 字符串了
-10. 输入命令 `export RIKKA_WEIBO_COOKIRS="<temp file content>"` 来设置环境变量 
+4. 按 `F12` 打开开发人员工具， 转到 `Network`
+5. 刷新页面
+6. 找到请求列表里的第一个请求（以 `home` 开头），点击它
+7. 在右边的请求内容里找到 `Request Header` 里的 `Cookies` 字段，复制字段值。（不包括前面的 `Cookies: `）
 
 图文教程请看[部署教程](#部署教程)一节。
 
@@ -46,6 +44,7 @@ FOO=foofoofoof; BAR=barbarbarb; ZOO=zoozozozozozo
 
 ## 部署教程
 
-编写中。
+请看部署教程：[在 DaoCloud 上部署使用新浪微博插件的 Rikka][weibo-plugin-guide]。
 
 [version-en]: https://github.com/7sDream/rikka/blob/master/plugins/weibo/README.md
+[weibo-plugin-guide]: https://github.com/7sDream/rikka/wiki/%E4%BD%BF%E7%94%A8%E6%96%B0%E6%B5%AA%E5%BE%AE%E5%8D%9A%E6%8F%92%E4%BB%B6
