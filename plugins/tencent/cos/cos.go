@@ -5,7 +5,7 @@ import "github.com/7sDream/rikka/plugins"
 type tccosPlugin struct{}
 
 var (
-	l = plugins.SubLogger("[TCcos]")
+	l = plugins.SubLogger("[TC-COS]")
 
 	appID      string
 	secretID   string

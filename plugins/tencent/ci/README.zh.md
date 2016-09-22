@@ -1,4 +1,4 @@
-# 腾讯万象优图 CI —— Cloud Image 插件
+# TC-CI 腾讯万象优图 Cloud Image 插件
 
 [English version][version-en]
 
@@ -6,7 +6,7 @@
 
 ## 简介
 
-这个插件使用腾讯云的万象优图（CI）来储存图片。
+这个插件使用腾讯云的万象优图（Colud Image, CI）来储存图片。
 
 ## 参数
 
