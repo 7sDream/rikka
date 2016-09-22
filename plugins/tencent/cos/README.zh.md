@@ -1,4 +1,4 @@
-# 腾讯 COS —— Cloud Object Service 插件
+# TC-COS 腾讯对象储存服务 Cloud Object Service 插件
 
 [English version][version-en]
 
@@ -6,7 +6,7 @@
 
 ## 简介
 
-这个插件使用腾讯云的对象储存服务（COS）来储存图片。
+这个插件使用腾讯云的对象储存服务（Cloud Object Service, COS）来储存图片。
 
 ## 参数
 

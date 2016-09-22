@@ -30,14 +30,21 @@ Rikka 后端实际图片的储存使用插件形式处理。
 
 [version-en]: https://github.com/7sDream/rikka/blob/master/plugins/README.md
 
-## Tccos 腾讯 COS 插件
+## TC-COS 腾讯 COS 插件
 
-这个插件使用腾讯云的对象储存服务（COS）来储存图片。
+这个插件使用腾讯云的对象储存服务（Cloud Object Service, COS）来储存图片。
 
-请看 [Tccos 插件文档][tccos-doc] 查看插件配置参数。
+请看 [TC-COS 插件文档][tccos-doc] 查看插件配置参数。
+
+## TC-CI 腾讯 CI 插件
+
+这个插件使用腾讯云的万象优图（Cloud Image, CI）服务来储存图片。
+
+请看 [TC-CI 插件文档][tcci-doc] 查看插件配置参数。
 
 [fs-doc]: https://github.com/7sDream/rikka/tree/master/plugins/fs/README.zh.md
 [qiniu-doc]: https://github.com/7sDream/rikka/tree/master/plugins/qiniu/README.zh.md
 [upai-doc]: https://github.com/7sDream/rikka/tree/master/plugins/upai/README.zh.md
 [weibo-doc]: https://github.com/7sDream/rikka/tree/master/plugins/weibo/README.zh.md
 [tccos-doc]: https://github.com/7sDream/rikka/tree/master/plugins/tencent/cos/README.zh.md
+[tccos-doc]: https://github.com/7sDream/rikka/tree/master/plugins/tencent/ci/README.zh.md
