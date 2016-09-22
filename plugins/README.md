@@ -32,7 +32,13 @@ Refer to [Weibo plugin Doc][weibo-doc].
 
 This plugin use Cloud Object Service (COS) of Tencent to store image files.
 
-Refer to [Tccos Plugin Doc][tccos-doc].
+Refer to [TC-COS Plugin Doc][tccos-doc].
+
+## Tencent CI Plugin
+
+This plugin use Cloud Image (CI) of Tencent to store image files.
+
+Refer to [TC-CI Plugin Doc][tcci-doc].
 
 [version-zh]: https://github.com/7sDream/rikka/blob/master/plugins/README.zh.md
 
@@ -41,3 +47,4 @@ Refer to [Tccos Plugin Doc][tccos-doc].
 [upai-doc]: https://github.com/7sDream/rikka/tree/master/plugins/upai
 [weibo-doc]: https://github.com/7sDream/rikka/tree/master/plugins/weibo
 [tccos-doc]: https://github.com/7sDream/rikka/tree/master/plugins/tencent/cos
+[tcci-doc]: https://github.com/7sDream/rikka/tree/master/plugins/tencent/ci
