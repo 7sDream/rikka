@@ -8,7 +8,7 @@ import (
 type tcciPlugin struct{}
 
 var (
-	l = plugins.SubLogger("[TCci]")
+	l = plugins.SubLogger("[TC-CI]")
 
 	appID      string
 	secretID   string
