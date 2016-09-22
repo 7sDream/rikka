@@ -32,7 +32,7 @@ Rikka（因为是日文罗马音，读音类似`莉卡`而不是`瑞卡`）是�
 4. 提供 API
 4. Web 服务和 RESTful API 服务模块化
 5. CLI 工具
-6. **只对最新版 Chrome/Firefox/Safari 保持兼容 \***
+6. **只保证支持较新版本的 Chrome/Firefox/Safari**
 7. 首页标志很可爱
 8. 维护者貌似很活跃 ：）
 

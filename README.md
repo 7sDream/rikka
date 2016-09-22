@@ -32,7 +32,7 @@ Other parts not written in Golang (in plan):
 4. RESTful API provided
 4. Modular Web server and API server
 5. CLI tool provided
-6. **Only support latest verstion of Chrome/Firefox/Safari \***
+6. **Only guarantee support for recent versions of Chrome/Firefox/Safari**
 7. Cute homepage image
 8. An active maintainer :)
 
