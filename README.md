@@ -17,9 +17,9 @@ Rikka（`りっか` in Japanese, sound like `/ɾʲikka/`, not `/rikka/`）is a i
 - A web application (See [Demo](#demo) section)
 - A RESTful API server (See [API Doc][api-doc])
 - A CLI tool named Rikkac based on the API (See [Rikkac Doc][rikkac-doc])
-- image save plugins (See [Plugins Doc][plugins-doc])
+- Image save plugins (See [Plugins Doc][plugins-doc] to get all available plugins)
 
-Other part which not written in Golang (in plan):
+Other parts not written in Golang (in plan):
 
 - Andrild client
 - iOS client
@@ -28,15 +28,13 @@ Other part which not written in Golang (in plan):
 
 1. Simple and minimalist, no upload history
 2. Image address can be copied to various formats
-3. Image save part is plug-oriented
-4. API provided
-4. Modular Web server and API server 
+3. Many available image save plugins, such as weibo, QinNiu, UPai, Tencent Cloud, etc.
+4. RESTful API provided
+4. Modular Web server and API server
 5. CLI tool provided
 6. **Only support latest verstion of Chrome/Firefox/Safari \***
 7. Cute homepage image
-8. An active maintainer
-
-\*: Yes, It is advantage! If you can't copy url in view page or stock in "Please wait" message, it is certainly because your browser is too old to support javascript es6 syntax. Front-end is my weakness, I only learn javascript several days. I will be grateful if someone want help me to improve browser compatibility.
+8. An active maintainer :)
 
 ## Demo
 
@@ -62,15 +60,15 @@ When you see image url, you can click `Src`, `Markdown`, `HTML`, `RST`, `BBCode`
 
 **But**: Once you close this page, you can't get it back except from browser history(Or you save the url).
 
-This is intentional, Because main design concept is simple, just `Upload-Copy-Close-Patse`, then you can forget Rikka.
+This is intentional. The main design concept is simple, just `Upload-Copy-Close-Patse`, then you can forget Rikka.
 
 BTW: The preview image of Demo site is saved in Rikka too. 
 
 ## Plugins
 
-Truly image save back-end of Rikka is written in plugin form, can be set by `-plugin` option.
+Truly image save back-end of Rikka is written as plugins, can be specified by `-plugin` option.
 
-Please see [Rikka Plugins Doc][plugins-doc] for alivaliable plugins.
+Please see [Rikka Plugins Doc][plugins-doc] for available plugins.
 
 ## API
 
@@ -78,7 +76,7 @@ See [Rikka API Doc][api-doc].
 
 ## CLI - Rikkac
 
-Rikkac is a CLI tool for Rikka based on Rikka RESTful API.
+Rikkac is a CLI tool for Rikka based on Rikka's RESTful API.
 
 Build, install, configure and use guide can be found in [Rikkac Doc][rikkac-doc].
 
@@ -91,12 +89,12 @@ Want deploy Rikka system of you own? Check [Rikka Deploy Doc][deploy-doc] for de
 - Fork me
 - Create a new branch from dev branch
 - Add your code, comment, document and meaningful commit message
-- Add yourself to CONTRIBUTION.md and description your work
+- Add yourself to CONTRIBUTION.md and describe your work
 - PR to dev branch
 
 Thanks all contributors!
 
-You can see contributors list in [CONTRIBUTIONS.md][contributors].
+You can see a list of contributors in [CONTRIBUTIONS.md][contributors].
 
 ## Acknowledgements
 
