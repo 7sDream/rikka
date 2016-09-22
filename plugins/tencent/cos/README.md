@@ -30,7 +30,7 @@ But it's ok to use the image url in `src` attr of `image` element, or `backgroun
 
 If you want change this action, you need to bind COS to your own domain and enable the static weisite option.
 
-Refer: [Tencent COS static website option doc][][tencent-cos-static-website-doc].
+Refer: [Tencent COS static website option doc][tencent-cos-static-website-doc].
 
 ## Guide
 
