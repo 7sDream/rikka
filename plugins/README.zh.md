@@ -47,4 +47,4 @@ Rikka 后端实际图片的储存使用插件形式处理。
 [upai-doc]: https://github.com/7sDream/rikka/tree/master/plugins/upai/README.zh.md
 [weibo-doc]: https://github.com/7sDream/rikka/tree/master/plugins/weibo/README.zh.md
 [tccos-doc]: https://github.com/7sDream/rikka/tree/master/plugins/tencent/cos/README.zh.md
-[tccos-doc]: https://github.com/7sDream/rikka/tree/master/plugins/tencent/ci/README.zh.md
+[tcci-doc]: https://github.com/7sDream/rikka/tree/master/plugins/tencent/ci/README.zh.md
