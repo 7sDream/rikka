@@ -28,9 +28,16 @@ This plugin use Sina weibo to store your image.
 
 Refer to [Weibo plugin Doc][weibo-doc].
 
+## Tencent COS Plugin
+
+This plugin use Cloud Object Service (COS) of Tencent to store image files.
+
+Refer to [Tccos Plugin Doc][tccos-doc].
+
 [version-zh]: https://github.com/7sDream/rikka/blob/master/plugins/README.zh.md
 
 [fs-doc]: https://github.com/7sDream/rikka/tree/master/plugins/fs
 [qiniu-doc]: https://github.com/7sDream/rikka/tree/master/plugins/qiniu
 [upai-doc]: https://github.com/7sDream/rikka/tree/master/plugins/upai
 [weibo-doc]: https://github.com/7sDream/rikka/tree/master/plugins/weibo
+[tccos-doc]: https://github.com/7sDream/rikka/tree/master/plugins/tencent/cos

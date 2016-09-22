@@ -182,6 +182,7 @@ func (c *cosClient) Upload(q *plugins.SaveRequest, taskID string) error {
 		data := m["data"].(map[string]interface{})
 		url := data["access_url"].(string)
 		bucketHost = strings.Replace(url, taskID, taskIDPlaceholder, -1)
+		l.Debug("Get image url format:", bucketHost)
 	}
 
 	return nil

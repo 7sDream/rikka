@@ -8,7 +8,7 @@ import (
 const (
 	stateUploading     = "uploading"
 	stateUploadingCode = 2
-	stateUploadingDesc = "Rikka is uploading your image to UPai cloud"
+	stateUploadingDesc = "Rikka is uploading your image to Tencent COS"
 )
 
 func buildUploadingState(taskID string) *api.State {
