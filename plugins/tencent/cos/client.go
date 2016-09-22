@@ -52,13 +52,10 @@ func makeSign(current *time.Time, dur *time.Duration, randInt *int) (string, tim
 		appID, bucketName, secretID, e.Unix(), // 60 * 60 * 24 * 90 = 90 days
 		t.Unix(), *randInt, // random integer, max length: 10
 	)
-	l.Info("Sign original:", original)
 	hmacer := hmac.New(sha1.New, []byte(secretKey))
 	hmacer.Write([]byte(original))
 	signTemp := hmacer.Sum(nil)
-	l.Info("Sign temp:", signTemp)
 	sign := base64.StdEncoding.EncodeToString(append(signTemp, []byte(original)...))
-	l.Info("Final sign:", sign)
 	return sign, e
 }
 
@@ -167,9 +164,17 @@ func (c *cosClient) Upload(q *plugins.SaveRequest, taskID string) error {
 	l.Debug("Read response body of task", taskID, "successfully")
 
 	var resJSON interface{}
-	json.Unmarshal(resContent, &resJSON)
+	err = json.Unmarshal(resContent, &resJSON)
+	if err != nil {
+		l.Error("Error happened when parer response body as json:", err)
+		return err
+	}
+
 	m := resJSON.(map[string]interface{})
-	fmt.Printf("%#v\n", m)
+	jsonString := fmt.Sprintf("%#v", m)
+
+	l.Info("Get resonse json:", jsonString)
+
 	code := m["code"].(float64)
 	if code != 0 {
 		errorMsg := m["message"].(string)
