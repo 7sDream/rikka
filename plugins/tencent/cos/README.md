@@ -37,4 +37,5 @@ Refer: [Tencent COS static website option doc][tencent-cos-static-website-doc].
 See [Rikka Deploy Guide with TC-COS Plugin on DaoCloud][tccos-plugin-guide].
 
 [version-zh]: https://github.com/7sDream/rikka/blob/master/plugins/tencent/cos/README.zh.md
-[tencent-cos-static-website-doc]: https://www.qcloud.com/doc/product/227/%E9%85%8D%E7%BD%AE%E8%AF%A6%E6%83%85#5-静态网站[tccos-plugin-guide]: https://github.com/7sDream/rikka/wiki/%E4%BD%BF%E7%94%A8%E8%85%BE%E8%AE%AF-COS-%E6%8F%92%E4%BB%B6
+[tencent-cos-static-website-doc]: https://www.qcloud.com/doc/product/227/%E9%85%8D%E7%BD%AE%E8%AF%A6%E6%83%85#5-静态网站
+[tccos-plugin-guide]: https://github.com/7sDream/rikka/wiki/%E4%BD%BF%E7%94%A8%E8%85%BE%E8%AE%AF-COS-%E6%8F%92%E4%BB%B6
