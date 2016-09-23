@@ -1,4 +1,4 @@
-# 部署
+# Deploy
 
 [中文版][version-zh]
 
