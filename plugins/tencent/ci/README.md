@@ -22,6 +22,7 @@ For example, `-bpath rikka`，will save image in `rikka` folder.
 
 ## Guide
 
-WIP
+See [Rikka Deploy Guide with TC-CI Plugin on DaoCloud][tcci-plugin-guide].
 
 [version-zh]: https://github.com/7sDream/rikka/blob/master/plugins/tencent/ci/README.zh.md
+[tcci-plugin-guide]: https://github.com/7sDream/rikka/wiki/%E4%BD%BF%E7%94%A8%E8%85%BE%E8%AE%AF-CI-%E6%8F%92%E4%BB%B6

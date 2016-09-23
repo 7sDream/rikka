@@ -22,6 +22,7 @@
 
 ## 部署教程
 
-WIP
+请看部署教程：[在 DaoCloud 上部署使用 TC-CI 插件的 Rikka][tcci-plugin-guide]
 
 [version-en]: https://github.com/7sDream/rikka/blob/master/plugins/tencent/ci/README.md
+[tcci-plugin-guide]: https://github.com/7sDream/rikka/wiki/%E4%BD%BF%E7%94%A8%E8%85%BE%E8%AE%AF-CI-%E6%8F%92%E4%BB%B6
