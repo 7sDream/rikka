@@ -7,6 +7,7 @@ import (
 )
 
 func urlHandleFunc(w http.ResponseWriter, r *http.Request) {
+        setAllowOrigin(w, r)
 	ip := util.GetClientIP(r)
 	taskID := util.GetTaskIDByRequest(r)
 

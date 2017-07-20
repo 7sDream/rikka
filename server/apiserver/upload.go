@@ -190,6 +190,7 @@ func sendUploadResultToClient(w http.ResponseWriter, r *http.Request, ip string,
 // ---- end of upload handle aux functions --
 
 func uploadHandleFunc(w http.ResponseWriter, r *http.Request) {
+        setAllowOrigin(w, r)
 	ip := util.GetClientIP(r)
 
 	l.Info("Recieve file upload request from ip", ip)
@@ -224,4 +225,9 @@ func uploadHandleFunc(w http.ResponseWriter, r *http.Request) {
 	}
 
 	sendUploadResultToClient(w, r, ip, taskID, from)
+}
+
+func setAllowOrigin(w http.ResponseWriter, r *http.Request) {
+    w.Header().Add("Access-Control-Allow-Origin", "*")
+    return
 }

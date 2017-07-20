@@ -17,8 +17,14 @@ LABEL org.label-schema.schema-version="1.0" \
 
 MAINTAINER 7sDream "7seconddream@gmail.com"
 
+RUN mkdir -p $GOPATH/src/golang.org/x/
+WORKDIR $GOPATH/src/golang.org/x/
+RUN git clone https://github.com/golang/net.git net
+RUN go install net
+
 WORKDIR $GOPATH/src/github.com/7sDream/rikka
 ADD . $GOPATH/src/github.com/7sDream/rikka
+
 RUN go get -d . && go build .
 
 EXPOSE 80

@@ -9,6 +9,7 @@ import (
 // stateHandleFunc is the base handle func of path /api/state/taskID
 func stateHandleFunc(w http.ResponseWriter, r *http.Request) {
 
+        setAllowOrigin(w, r)
 	taskID := util.GetTaskIDByRequest(r)
 
 	l.Info("Recieve a state request of task", taskID, "from ip", util.GetClientIP(r))
