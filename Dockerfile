@@ -20,14 +20,13 @@ MAINTAINER 7sDream "7seconddream@gmail.com"
 WORKDIR $GOPATH/src/github.com/7sDream/rikka
 ADD . $GOPATH/src/github.com/7sDream/rikka
 
-RUN go get -v github.com/golang/net/context && \
-    mkdir $GOPATH/src/golang.org && \
-    ln -s $GOPATH/src/github.com/net $GOPATH/src/golang.org/net && \
-    go get -v -d . && \
+RUN go get -v -d . && \
     go build -v . && \
     cp rikka $GOPATH/bin && \
     cp -R server $GOPATH/bin/ && \
-    rm -rf *
+    rm -rf $GOPATH/src
+
+WORKDIR $GOPATH/bin
 
 EXPOSE 80
 
