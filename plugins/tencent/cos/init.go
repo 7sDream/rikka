@@ -5,7 +5,7 @@ import (
 	"github.com/7sDream/rikka/plugins/tencent"
 )
 
-func (cosp tccosPlugin) Init() {
+func (plugin tccosPlugin) Init() {
 	l.Info("Start plugin tccos")
 
 	plugins.CheckCommonArgs(true, false)

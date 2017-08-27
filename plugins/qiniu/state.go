@@ -34,7 +34,7 @@ func buildUploadingState(taskID string) *api.State {
 }
 
 func (qnp qiniuPlugin) StateRequestHandle(taskID string) (pState *api.State, err error) {
-	l.Debug("Recieve a state request of taskID", taskID)
+	l.Debug("Receive a state request of taskID", taskID)
 
 	pState, err = plugins.GetTaskState(taskID)
 	if err != nil {

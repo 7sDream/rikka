@@ -2,7 +2,7 @@ package server
 
 import (
 	"net/http"
-	pathutil "path/filepath"
+	pathUtil "path/filepath"
 
 	"github.com/7sDream/rikka/common/logger"
 	"github.com/7sDream/rikka/common/util"
@@ -15,7 +15,7 @@ var (
 )
 
 // StartRikka start server part of rikka. Include Web Server and API server.
-func StartRikka(socket string, password string, maxSizeByMb float64, https bool, cdir string) {
+func StartRikka(socket string, password string, maxSizeByMb float64, https bool, certDir string) {
 
 	l.Info("Start web server...")
 	viewPath := webserver.StartRikkaWebServer(maxSizeByMb, l)
@@ -28,13 +28,13 @@ func StartRikka(socket string, password string, maxSizeByMb float64, https bool,
 	// real http server function call
 	var err error
 	if https {
-		if !util.IsDir(cdir) {
+		if !util.IsDir(certDir) {
 			l.Fatal("Cert dir argument is not a valid dir")
 		}
 		err = http.ListenAndServeTLS(
 			socket,
-			pathutil.Join(cdir, "cert.pem"),
-			pathutil.Join(cdir, "key.pem"),
+			pathUtil.Join(certDir, "cert.pem"),
+			pathUtil.Join(certDir, "key.pem"),
 			nil,
 		)
 	} else {

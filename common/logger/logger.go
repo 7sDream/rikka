@@ -72,7 +72,7 @@ func (logger *Logger) Warn(data ...interface{}) {
 
 // Error print log message as ERROR level. 
 // This function do not create panic or fatal, it just print error message.
-// If you want get a runtime panic or fatal, use Logger.Panic or Logger.Fatal instand.
+// If you want get a runtime panic or fatal, use Logger.Panic or Logger.Fatal instead.
 func (logger *Logger) Error(data ...interface{}) {
 	if currentLevel <= LevelError {
 		logger.el.Println(data...)

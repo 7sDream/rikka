@@ -1,6 +1,6 @@
 package api
 
-// Built in state code and state str, desctiption.
+// Built in state code and state str, description.
 // Must be used in finish and error state.
 const (
 	StateError     = "error"

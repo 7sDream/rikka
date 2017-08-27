@@ -1,3 +1,4 @@
+/*noinspection CssUnknownTarget*/
 @import 'https://fonts.googleapis.com/css?family=Satisfy';
 .hide {
     display: none;
@@ -67,7 +68,7 @@ div.line label {
     width: 40%;
 }
 div.line input {
-    font-size: 0,75em;
+    font-size: 0.75em;
     width: 60%;
     outline: none;
 }

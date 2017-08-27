@@ -4,7 +4,7 @@ import (
 	"os"
 )
 
-// CheckExist chekc if a file or dir is Exist.
+// CheckExist check if a file or dir is Exist.
 func CheckExist(filepath string) bool {
 	if _, err := os.Stat(filepath); os.IsNotExist(err) {
 		return false
@@ -12,7 +12,7 @@ func CheckExist(filepath string) bool {
 	return true
 }
 
-// IsDir chekc if the path is a file, false when not exist or is a dir.
+// IsDir check if the path is a file, false when not exist or is a dir.
 func IsDir(path string) bool {
 	if CheckExist(path) {
 		stat, _ := os.Stat(path)
@@ -21,7 +21,7 @@ func IsDir(path string) bool {
 	return false
 }
 
-// IsFile chekc if a path a file, false when not exist or is a file.
+// IsFile check if a path a file, false when not exist or is a file.
 func IsFile(path string) bool {
 	if CheckExist(path) {
 		stat, _ := os.Stat(path)

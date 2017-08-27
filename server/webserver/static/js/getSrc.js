@@ -1,13 +1,15 @@
 'use strict';
 function AJAX(method, url) {
+    // noinspection JSUnresolvedFunction
     return new Promise(function (resolve, reject){
         var req = new XMLHttpRequest();
-        var handler = function(state) {
-            if (req.status == 200) {
+        var handler = function() {
+            if (req.status === 200) {
                 resolve(req.response);
             } else {
                 var errorMsg = req.response;
                 try {
+                    // noinspection JSCheckFunctionSignatures
                     var errorJson = JSON.parse(errorMsg);
                     errorMsg = errorJson["Error"];
                 } catch(e) {
@@ -15,10 +17,10 @@ function AJAX(method, url) {
                 }
                 reject(new Error(errorMsg));
             }
-        }
+        };
         req.open(method, url, true);
         req.onload = handler;
-        req.onerror = function(){ reject(new Error("Network error.")); }
+        req.onerror = function(){ reject(new Error("Network error.")); };
         req.send();
     });
 }
@@ -33,19 +35,21 @@ function getPhotoState(taskID, times) {
     var stateElement = document.querySelector("p#state");
     var imageElement = document.querySelector("img.preview");
     var formElement = document.querySelector("form");
+    // noinspection JSUnresolvedFunction
     AJAX("GET", "/api/state/" + taskID).then(function(res){
         var json = JSON.parse(res);
         if ("Error" in json) {
             throw new Error(json["Error"]);
         }
         var state = json['StateCode'];
-        if (state == -1) {  // Error state
+        if (state === -1) {  // Error state
             throw new Error(json['Description']);
-        } else if (state == 0) {    // Successful state
+        } else if (state === 0) {    // Successful state
             return AJAX("GET", '/api/url/' + json["TaskID"]);
         } else {    // Other state
             stateElement.textContent = "Request " + times.toString() + ", upload state: " + json['Description'] + ", please wait...";
             setTimeout(getPhotoState, 1000, taskID, times + 1);
+            // noinspection JSUnresolvedFunction
             return new Promise(function(){});
         }
     }).then(function(res){

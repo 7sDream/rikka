@@ -7,7 +7,7 @@ import (
 	"github.com/7sDream/rikka/api"
 )
 
-// SaveRequest is a request that want to 'save'(acctuly upload) a file.
+// SaveRequest is a request that want to 'save'(actually upload) a file.
 // Plugins' SaveRequestHandle func should accept a point of instance and return a string as taskID
 type SaveRequest struct {
 	File     multipart.File
@@ -23,7 +23,7 @@ type URLRequest struct {
 	PicOp       *ImageOperate
 }
 
-// ImageOperate stand for some operate of src imgage, not used now.
+// ImageOperate stand for some operate of src image, not used now.
 type ImageOperate struct {
 	Width    int
 	Height   int
@@ -38,12 +38,12 @@ type HandlerWithPattern struct {
 	Handler http.HandlerFunc
 }
 
-// RikkaPlugin is plugin interface, all plugin should implement thoose function.
+// RikkaPlugin is plugin interface, all plugin should implement those function.
 type RikkaPlugin interface {
 	// Init will be called when load plugin.
 	Init()
 	// AcceptFile will call this.
-	SaveRequestHandle(*SaveRequest) (*api.TaskID, error)
+	SaveRequestHandle(*SaveRequest) (*api.TaskId, error)
 	// GetState will call this.
 	StateRequestHandle(string) (*api.State, error)
 	// GetURL will call this.

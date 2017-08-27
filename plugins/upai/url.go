@@ -9,8 +9,8 @@ func buildURL(taskID string) string {
 	return bucketAddr + "/" + buildPath(taskID)
 }
 
-// URLRequestHandle will be called when recieve a get image url by taskID request
+// URLRequestHandle will be called when receive a get image url by taskID request
 func (qnp upaiPlugin) URLRequestHandle(q *plugins.URLRequest) (pURL *api.URL, err error) {
-	l.Debug("Recieve an url request of task", q.TaskID)
+	l.Debug("Receive an url request of task", q.TaskID)
 	return &api.URL{URL: buildURL(q.TaskID)}, nil
 }

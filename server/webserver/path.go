@@ -8,7 +8,7 @@ const (
 	faviconFileName = "image/favicon.png"
 )
 
-// Avaliable path of web server, DON'T configure thoose
+// Available path of web server, DON'T configure those
 const (
 	ViewPath          = RootPath + ViewSuffix
 	StaticPath        = RootPath + StaticSuffix

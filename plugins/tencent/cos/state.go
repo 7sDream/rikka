@@ -20,7 +20,7 @@ func buildUploadingState(taskID string) *api.State {
 	}
 }
 
-func (cosp tccosPlugin) StateRequestHandle(taskID string) (*api.State, error) {
+func (plugin tccosPlugin) StateRequestHandle(taskID string) (*api.State, error) {
 	pState, err := plugins.GetTaskState(taskID)
 	if err != nil {
 		// Not exist as finished

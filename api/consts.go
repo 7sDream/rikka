@@ -13,6 +13,6 @@ const (
 
 	// FromWebsite is a value of FromKeyFrom, means request comes from website
 	FromWebsite = "website"
-	// FromAPI is a value of FromKeyFrom, means request comes from RESTful API
+	// FromAPI is a value of FromKeyFrom, means request comes from REST API
 	FromAPI = "api"
 )

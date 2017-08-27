@@ -11,7 +11,7 @@ var (
 	l = logger.NewLogger("[Entry]")
 )
 
-// Main enterypoint
+// Main entry point
 func main() {
 	// print launch args
 	l.Info(

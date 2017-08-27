@@ -3,7 +3,7 @@ package main
 import (
 	"errors"
 	"flag"
-	pathutil "path/filepath"
+	pathUtil "path/filepath"
 	"strings"
 
 	"github.com/7sDream/rikka/client"
@@ -11,7 +11,7 @@ import (
 )
 
 func readFile(filePath string) (string, []byte, error) {
-	absFilePath, err := pathutil.Abs(filePath)
+	absFilePath, err := pathUtil.Abs(filePath)
 	if err != nil {
 		return "", nil, err
 	}

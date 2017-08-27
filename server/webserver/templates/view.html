@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!--suppress ALL -->
 <head>
     <title>Rikka - {{ .Version }} - View - {{ .TaskID }}</title>
     <link rel="shortcut icon" href="{{ .FavIconPath }}" type="image/png">
@@ -24,23 +25,23 @@
         <form class="hide">
             <div class="line copyAsText">
                 <label for="src" class="copyBtn">Src</label>
-                <input name="src" value="" data-template="${url}" disabled/>
+                <input name="src" id="src" value="" data-template="${url}" disabled/>
             </div>
             <div class="line copyAsText">
                 <label for="markdown" class="copyBtn">Markdown</label>
-                <input name="markdown" value="" data-template="![](${url})" disabled/>
+                <input name="markdown" id="markdown" value="" data-template="![](${url})" disabled/>
             </div>
             <div class="line copyAsText">
                 <label for="html" class="copyBtn">HTML</label>
-                <input name="html" value="" data-template="<img src=&quot;${url}&quot; >" disabled/>
+                <input name="html" id="html" value="" data-template="<img src=&quot;${url}&quot; >" disabled/>
             </div>
             <div class="line copyAsText">
                 <label for="rst" class="copyBtn">RST</label>
-                <input name="rst" value="" data-template=".. image:: ${url}" disabled/>
+                <input name="rst" id="rst" value="" data-template=".. image:: ${url}" disabled/>
             </div>
             <div class="line copyAsText">
                 <label for="bbcode" class="copyBtn">BBCode</label>
-                <input name="bbcode" value="" data-template="[img]${url}[/img]" disabled/>
+                <input name="bbcode" id="bbcode" value="" data-template="[img]${url}[/img]" disabled/>
             </div>
         </form>
     </main>
@@ -55,6 +56,6 @@
     <script src="{{ .StaticPath }}js/copy.js?v={{ .Version }}"></script>
     <script>
         'use strict';
-        getPhotoState({{ .TaskID }});
+        getPhotoState({{ .TaskID}});
     </script>
 </body>

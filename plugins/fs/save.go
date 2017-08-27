@@ -4,7 +4,7 @@ import (
 	"io"
 	"mime/multipart"
 	"os"
-	pathutil "path/filepath"
+	pathUtil "path/filepath"
 	"time"
 
 	"github.com/7sDream/rikka/api"
@@ -23,10 +23,10 @@ func deleteFile(filepath string) {
 }
 
 func createFile(uploadFile multipart.File, filepath string, taskID string) (*os.File, error) {
-	// If error happend when change task state, close file
+	// If error happened when change task state, close file
 	if err := plugins.ChangeTaskState(buildCreatingState(taskID)); err != nil {
 		uploadFile.Close()
-		l.Fatal("Error happend when change state of task", taskID, "to copying:", err)
+		l.Fatal("Error happened when change state of task", taskID, "to copying:", err)
 	}
 	l.Debug("Change state of task", taskID, "to creating state successfully")
 
@@ -39,7 +39,7 @@ func createFile(uploadFile multipart.File, filepath string, taskID string) (*os.
 
 		if err := plugins.ChangeTaskState(api.BuildErrorState(taskID, err.Error())); err != nil {
 			// change task state error, exit.
-			l.Fatal("A error happend when change task", taskID, "to error state:", err)
+			l.Fatal("A error happened when change task", taskID, "to error state:", err)
 		} else {
 			l.Warn("Change task", taskID, "state to error successfully")
 		}
@@ -52,16 +52,16 @@ func createFile(uploadFile multipart.File, filepath string, taskID string) (*os.
 }
 
 func fileCopy(uploadFile multipart.File, saveTo *os.File, filepath string, taskID string) {
-	// If error happend when change task state, delete file and close
+	// If error happened when change task state, delete file and close
 	if err := plugins.ChangeTaskState(buildCopyingState(taskID)); err != nil {
 		uploadFile.Close()
 		saveTo.Close()
 		deleteFile(filepath)
-		l.Fatal("Error happend when change state of task", taskID, "to copying:", err)
+		l.Fatal("Error happened when change state of task", taskID, "to copying:", err)
 	}
 	l.Debug("Change task", taskID, "state to copy successfully")
 
-	// sleep for debug javascripta
+	// sleep for debug javascript
 	if *argFsDebugSleep > 0 {
 		l.Debug("Sleep", *argFsDebugSleep, "ms for debug")
 		time.Sleep(time.Duration(*argFsDebugSleep) * time.Millisecond)
@@ -81,7 +81,7 @@ func fileCopy(uploadFile multipart.File, saveTo *os.File, filepath string, taskI
 
 		var err2 error
 		if err2 = plugins.ChangeTaskState(api.BuildErrorState(taskID, err.Error())); err2 != nil {
-			l.Fatal("Error happend when change task", taskID, "to error state:", err2)
+			l.Fatal("Error happened when change task", taskID, "to error state:", err2)
 		} else {
 			l.Warn("Change task", taskID, "state to error successfully")
 		}
@@ -111,13 +111,13 @@ func saveFile(uploadFile multipart.File, filename string) {
 			case error:
 				errorMsg = t.Error()
 			default:
-				errorMsg = "Unknow Panic"
+				errorMsg = "Unknown Panic"
 			}
 			l.Error("Panic happened when do background task:", errorMsg)
 		}
 	}()
 
-	filepath := pathutil.Join(imageDir, filename)
+	filepath := pathUtil.Join(imageDir, filename)
 
 	saveTo, err := createFile(uploadFile, filepath, filename)
 	if err != nil {
@@ -127,9 +127,9 @@ func saveFile(uploadFile multipart.File, filename string) {
 	fileCopy(uploadFile, saveTo, filepath, filename)
 }
 
-// SaveRequestHandle Will be called when recieve a file save request.
-func (fsp fsPlugin) SaveRequestHandle(q *plugins.SaveRequest) (*api.TaskID, error) {
-	l.Debug("Recieve a file save request")
+// SaveRequestHandle Will be called when receive a file save request.
+func (fsp fsPlugin) SaveRequestHandle(q *plugins.SaveRequest) (*api.TaskId, error) {
+	l.Debug("Receive a file save request")
 
 	taskID := uuid.NewV4().String() + "." + q.FileExt
 
@@ -143,5 +143,5 @@ func (fsp fsPlugin) SaveRequestHandle(q *plugins.SaveRequest) (*api.TaskID, erro
 	go saveFile(q.File, taskID)
 
 	l.Debug("Background task started, return task ID:", taskID)
-	return &api.TaskID{TaskID: taskID}, nil
+	return &api.TaskId{TaskId: taskID}, nil
 }

@@ -8,7 +8,7 @@ import (
 )
 
 func (wbp weiboPlugin) URLRequestHandle(q *plugins.URLRequest) (pURL *api.URL, err error) {
-	l.Debug("Recieve an url request of task", q.TaskID)
+	l.Debug("Receive an url request of task", q.TaskID)
 
 	taskIDInt, err := strconv.ParseInt(q.TaskID, 10, 64)
 	if err != nil {
@@ -18,7 +18,7 @@ func (wbp weiboPlugin) URLRequestHandle(q *plugins.URLRequest) (pURL *api.URL, e
 
 	imageID, ok := imageIDMap[taskIDInt]
 	if !ok {
-		l.Fatal("Can't get url of a finshed task", q.TaskID)
+		l.Fatal("Can't get url of a finished task", q.TaskID)
 	}
 	imageURL := buildURL(imageID)
 	l.Debug("Get image ID", imageID, "successfully, return url", imageURL)

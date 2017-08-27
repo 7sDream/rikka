@@ -4,7 +4,7 @@ import (
 	"flag"
 	"github.com/7sDream/rikka/common/util"
 
-	pathutil "path/filepath"
+	pathUtil "path/filepath"
 )
 
 var argWebServerRootDir = flag.String(
@@ -42,12 +42,12 @@ var (
 // updatePathVars update module level path var
 func updatePathVars(root string) {
 	webServerRootDirPath = root
-	staticDirPath = pathutil.Join(webServerRootDirPath, staticDirName)
-	templateDirPath = pathutil.Join(webServerRootDirPath, templateDirName)
+	staticDirPath = pathUtil.Join(webServerRootDirPath, staticDirName)
+	templateDirPath = pathUtil.Join(webServerRootDirPath, templateDirName)
 
-	homeTemplateFilePath = pathutil.Join(templateDirPath, homeTemplateFileName)
-	viewTemplateFilePath = pathutil.Join(templateDirPath, viewTemplateFileName)
-	finishedViewTemplateFilePath = pathutil.Join(templateDirPath, finishedViewTemplateFileName)
+	homeTemplateFilePath = pathUtil.Join(templateDirPath, homeTemplateFileName)
+	viewTemplateFilePath = pathUtil.Join(templateDirPath, viewTemplateFileName)
+	finishedViewTemplateFilePath = pathUtil.Join(templateDirPath, finishedViewTemplateFileName)
 }
 
 // calcRequireFileList calc file list that web server require
@@ -65,7 +65,7 @@ func calcRequireFileList(root string) []string {
 	}
 
 	for _, filename := range staticFilesName {
-		requireFiles = append(requireFiles, pathutil.Join(staticDirPath, filename))
+		requireFiles = append(requireFiles, pathUtil.Join(staticDirPath, filename))
 	}
 
 	return requireFiles
@@ -75,9 +75,9 @@ func calcRequireFileList(root string) []string {
 func checkFiles() {
 	l.Info("Args wsroot = ", *argWebServerRootDir)
 
-	absWebServerDir, err := pathutil.Abs(*argWebServerRootDir)
+	absWebServerDir, err := pathUtil.Abs(*argWebServerRootDir)
 	if err != nil {
-		l.Fatal("Proviede web server root dir", *argWebServerRootDir, "is a invalid path")
+		l.Fatal("Provided web server root dir", *argWebServerRootDir, "is a invalid path")
 	}
 	l.Debug("Change web server dir to absolute:", absWebServerDir)
 

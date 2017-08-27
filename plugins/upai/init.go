@@ -17,7 +17,11 @@ func (qnp upaiPlugin) Init() {
 	bucketAddr = plugins.GetBucketHost()
 	bucketPrefix = plugins.GetBucketPath()
 
-	client = upyun.NewUpYun(bucketName, operator, password)
+	client = upyun.NewUpYun(&upyun.UpYunConfig{
+		Bucket:   bucketName,
+		Operator: operator,
+		Password: password,
+	})
 
 	l.Info("UPai plugin start successfully")
 }

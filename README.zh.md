@@ -15,7 +15,7 @@ Rikka 的镜像已经发布到了 [DockerHub](https://hub.docker.com/r/7sdream/r
 Rikka（因为是日文罗马音，读音类似`莉卡`而不是`瑞卡`）是一套完整的个人图床系统，她包括：
 
 - 一个 Web 应用（详见 [Demo](#demo) 一节）
-- 一个 RESTful API 后端（详见 [API 文档][api-doc]）
+- 一个 REST API 后端（详见 [API 文档][api-doc]）
 - 基于 API 的命令行工具 Rikkac（详见 [Rikkac 文档][rikkac-doc]）
 - 图片的实际储存插件（查看[插件文档][plugins-doc] 来获取所有可用插件的列表）
 
@@ -30,7 +30,7 @@ Rikka（因为是日文罗马音，读音类似`莉卡`而不是`瑞卡`）是�
 2. 支持将图片链接复制成多种格式
 3. 文件储存部分插件化，有很多可用的插件，比如：新浪微博，七牛云，又拍云，腾讯云等
 4. 提供 API
-4. Web 服务和 RESTful API 服务模块化
+4. Web 服务和 REST API 服务模块化
 5. CLI 工具
 6. **只保证支持较新版本的 Chrome/Firefox/Safari**
 7. 首页标志很可爱
@@ -52,7 +52,7 @@ Rikka（因为是日文罗马音，读音类似`莉卡`而不是`瑞卡`）是�
 
 上传完成后你将转到查看页面:
 
-![viewpage][view]
+![view_page][view]
 
 如果文件过大，还没有保存完毕的话会看到等待提示，等一下就好。
 
@@ -76,7 +76,7 @@ Rikka 的真实储存后端使用插件形式编写。可通过 `-plugin` 参数
 
 ## CLI - Rikkac
 
-Rikkac 是基于 Rikka 的 RESTful API 写的 Rikka CLI 工具。
+Rikkac 是基于 Rikka 的 REST API 写的 Rikka CLI 工具。
 
 编译、安装、配置和使用方法请看 [Rikkac 文档][rikkac-doc]。
 

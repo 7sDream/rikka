@@ -22,13 +22,13 @@ For example, `-bpath rikka`，will save image in `rikka` folder.
 
 ## Notices
 
-As a "Static File Store Server", Tencent COS make browsers download the file when visits file url, instand of preview them.
+As a "Static File Store Server", Tencent COS make browsers download the file when visits file url, instead of preview them.
 
 In other word, if you visit a url of image saved in COS in your browser, it will download the image rather than open a new tab to preview the image. 
 
 But it's ok to use the image url in `src` attr of `image` element, or `background` attr of other elements in HTML, 
 
-If you want change this action, you need to bind COS to your own domain and enable the static weisite option.
+If you want change this action, you need to bind COS to your own domain and enable the static website option.
 
 Refer: [Tencent COS static website option doc][tencent-cos-static-website-doc].
 

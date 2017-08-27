@@ -5,10 +5,10 @@ import (
 
 	"github.com/7sDream/rikka/plugins"
 	"github.com/7sDream/rikka/plugins/tencent"
-	qcloud "github.com/tencentyun/image-go-sdk"
+	"github.com/tencentyun/image-go-sdk"
 )
 
-func (cip tcciPlugin) Init() {
+func (plugin tcciPlugin) Init() {
 	l.Info("Start plugin tcci")
 
 	plugins.CheckCommonArgs(true, false)

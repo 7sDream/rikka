@@ -3,7 +3,7 @@ package cos
 import (
 	"github.com/7sDream/rikka/api"
 	"github.com/7sDream/rikka/plugins"
-	uuid "github.com/satori/go.uuid"
+	"github.com/satori/go.uuid"
 )
 
 func uploadToCos(q *plugins.SaveRequest, taskID string) {
@@ -25,7 +25,7 @@ func uploadToCos(q *plugins.SaveRequest, taskID string) {
 
 	err := plugins.ChangeTaskState(buildUploadingState(taskID))
 	if err != nil {
-		l.Fatal("Error happend when change state of task", taskID, "to uploading:", err)
+		l.Fatal("Error happened when change state of task", taskID, "to uploading:", err)
 	}
 	l.Debug("Change state of task", taskID, "to uploading successfully")
 
@@ -46,8 +46,8 @@ func uploadToCos(q *plugins.SaveRequest, taskID string) {
 	l.Debug("Delete task", taskID, "successfully")
 }
 
-func (cosp tccosPlugin) SaveRequestHandle(q *plugins.SaveRequest) (*api.TaskID, error) {
-	l.Debug("Recieve a file save request")
+func (plugin tccosPlugin) SaveRequestHandle(q *plugins.SaveRequest) (*api.TaskId, error) {
+	l.Debug("Receive a file save request")
 	taskID := uuid.NewV4().String() + "." + q.FileExt
 
 	err := plugins.CreateTask(taskID)
@@ -59,5 +59,5 @@ func (cosp tccosPlugin) SaveRequestHandle(q *plugins.SaveRequest) (*api.TaskID, 
 	go uploadToCos(q, taskID)
 
 	l.Debug("Background task started, return task ID:", taskID)
-	return &api.TaskID{TaskID: taskID}, nil
+	return &api.TaskId{TaskId: taskID}, nil
 }

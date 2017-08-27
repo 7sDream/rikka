@@ -3,7 +3,8 @@ package upai
 import (
 	"github.com/7sDream/rikka/api"
 	"github.com/7sDream/rikka/plugins"
-	uuid "github.com/satori/go.uuid"
+	"github.com/satori/go.uuid"
+	"github.com/upyun/go-sdk/upyun"
 )
 
 func buildPath(taskID string) string {
@@ -11,15 +12,20 @@ func buildPath(taskID string) string {
 }
 
 func uploadToUPai(taskID string, q *plugins.SaveRequest) {
-	// perparing...
+	// preparing...
 	err := plugins.ChangeTaskState(buildUploadingState(taskID))
 	if err != nil {
-		l.Fatal("Error happend when change state of task", taskID, "to uploading:", err)
+		l.Fatal("Error happen when change state of task", taskID, "to uploading:", err)
 	}
 	l.Debug("Change state of task", taskID, "to uploading successfully")
 
 	l.Debug("Uploading to UPai cloud...")
-	_, err = client.Put(buildPath(taskID), q.File, false, nil)
+
+	err = client.Put(&upyun.PutObjectConfig{
+		Path:            buildPath(taskID),
+		Reader:          q.File,
+		UseResumeUpload: false,
+	})
 
 	if err != nil {
 		l.Error("Error happened when upload to upai:", err)
@@ -40,8 +46,8 @@ func uploadToUPai(taskID string, q *plugins.SaveRequest) {
 	l.Debug("Delete task", taskID, "successfully")
 }
 
-func (qnp upaiPlugin) SaveRequestHandle(q *plugins.SaveRequest) (*api.TaskID, error) {
-	l.Debug("Recieve a file save request")
+func (qnp upaiPlugin) SaveRequestHandle(q *plugins.SaveRequest) (*api.TaskId, error) {
+	l.Debug("Receive a file save request")
 
 	taskID := uuid.NewV4().String() + "." + q.FileExt
 
@@ -54,5 +60,5 @@ func (qnp upaiPlugin) SaveRequestHandle(q *plugins.SaveRequest) (*api.TaskID, er
 	go uploadToUPai(taskID, q)
 
 	l.Debug("Background task started, return task ID:", taskID)
-	return &api.TaskID{TaskID: taskID}, nil
+	return &api.TaskId{TaskId: taskID}, nil
 }

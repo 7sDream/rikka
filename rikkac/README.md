@@ -16,7 +16,7 @@ Rikkac need to be used with a [Rikka][rikka] server.
 - `-b`: BBCode
 - `-r` reStructuredText
 
-Src is default format. Format priority as same as the list ablove, lowest to highest. This is, `-m -b` considered as `-b`, `-m` is ignored. Not so complicated, you shouldn't remember priority if you never provide two format in one command.
+Src is default format. Format priority as same as the list above, lowest to highest. This is, `-m -b` considered as `-b`, `-m` is ignored. Not so complicated, you shouldn't remember priority if you never provide two format in one command.
 
 ## Build and Install
 
@@ -36,7 +36,7 @@ First, you need have Golang installed in your PC, then:
 
 `go get github.com/7sDream/rikka/rikkac`
 
-Add `$GOPATH/bin` into your `PATH`, if you havn't do this when you install Golang.
+Add `$GOPATH/bin` into your `PATH`, if you haven't do this when you install Golang.
 
 Then run `rikkac --version`, a version number means install successfully.
 

@@ -24,7 +24,7 @@ func buildUploadingState(taskID string) *api.State {
 }
 
 func (wbp weiboPlugin) StateRequestHandle(taskID string) (*api.State, error) {
-	l.Debug("Recieve a state request of taskID", taskID)
+	l.Debug("Receive a state request of taskID", taskID)
 
 	taskIDInt, err := strconv.ParseInt(taskID, 10, 64)
 	if err != nil {

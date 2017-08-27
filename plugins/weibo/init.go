@@ -15,5 +15,5 @@ func (wbp weiboPlugin) Init() {
 
 	l.Info("Arg update cookies password =", *argUpdateCookiesPassword)
 
-	l.Info("Weibo plugin start successfilly")
+	l.Info("Weibo plugin start successfully")
 }

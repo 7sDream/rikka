@@ -1,10 +1,10 @@
 'use strict';
-function errorHandler( message, source, lineno, colno, error){
+function errorHandler( message, source, lineNumber, colNumber, error){
     var errorDiv = document.getElementById("error");
     errorDiv.classList.remove("hide");
     console.log("Error happened, message:", message);
     console.log("On source file: ", source);
-    console.log("On line - col: ", lineno, "-", colno);
+    console.log("On line - col: ", lineNumber, "-", colNumber);
     console.log("Error:", error);
     try {
         var ua = navigator.userAgent;

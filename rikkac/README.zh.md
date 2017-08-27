@@ -62,7 +62,7 @@ Rikkac 需要配置两个环境变量： `RIKKA_HOST` 和 `RIKKA_PWD`。它们�
 
 ![](http://odbw8jckg.bkt.clouddn.com/ba2d2dca-2ae2-4436-ade2-7905183ce23d.png)
 
-## 小 tipc 快速复制到剪贴板
+## 小 tips 快速复制到剪贴板
 
 ![](http://7sdream-rikka-demo.daoapp.io/files/2016-09-05-781037494)
 

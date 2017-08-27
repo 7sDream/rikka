@@ -21,25 +21,25 @@ func jsonEncode(obj interface{}) ([]byte, error) {
 	return nil, err
 }
 
-// getErrorJSON get error json bytes like {"Error": "error message"}
-func getErrorJSON(err error) ([]byte, error) {
+// getErrorJson get error json bytes like {"Error": "error message"}
+func getErrorJson(err error) ([]byte, error) {
 	obj := api.Error{
 		Error: err.Error(),
 	}
 	return jsonEncode(obj)
 }
 
-// getErrorJSON get error json bytes like {"TaskID": "12312398374237"}
-func getTaskIDJSON(taskID string) ([]byte, error) {
-	obj := api.TaskID{
-		TaskID: taskID,
+// getErrorJson get error json bytes like {"TaskId": "12312398374237"}
+func getTaskIdJson(taskId string) ([]byte, error) {
+	obj := api.TaskId{
+		TaskId: taskId,
 	}
 	return jsonEncode(obj)
 }
 
-// getStateJSON get state json bytes.
-// Will call plgins.GetState
-func getStateJSON(taskID string) ([]byte, error) {
+// getStateJson get state json bytes.
+// Will call plugins.GetState
+func getStateJson(taskID string) ([]byte, error) {
 	l.Debug("Send state request of task", taskID, "to plugin manager")
 	state, err := plugins.GetState(taskID)
 	if err != nil {
@@ -50,9 +50,9 @@ func getStateJSON(taskID string) ([]byte, error) {
 	return jsonEncode(state)
 }
 
-// getURLJSON get url json bytes like {"URL": "http://127.0.0.1/files/filename"}
-// Will call plgins.GetURL
-func getURLJSON(taskID string, r *http.Request, picOp *plugins.ImageOperate) ([]byte, error) {
+// getUrlJson get url json bytes like {"URL": "http://127.0.0.1/files/filename"}
+// Will call plugins.GetURL
+func getUrlJson(taskID string, r *http.Request, picOp *plugins.ImageOperate) ([]byte, error) {
 	l.Debug("Send url request of task", taskID, "to plugin manager")
 	url, err := plugins.GetURL(taskID, r, picOp)
 	if err != nil {
@@ -63,8 +63,8 @@ func getURLJSON(taskID string, r *http.Request, picOp *plugins.ImageOperate) ([]
 	return jsonEncode(url)
 }
 
-func renderErrorJSON(w http.ResponseWriter, taskID string, err error, errorCode int) {
-	errorJSONData, err := getErrorJSON(err)
+func renderErrorJson(w http.ResponseWriter, taskID string, err error, errorCode int) {
+	errorJSONData, err := getErrorJson(err)
 
 	if util.ErrHandle(w, err) {
 		// build error json failed
@@ -74,24 +74,24 @@ func renderErrorJSON(w http.ResponseWriter, taskID string, err error, errorCode 
 
 	// build error json successfully
 	l.Debug("Build error json successfully of task", taskID)
-	err = util.RenderJSON(w, errorJSONData, errorCode)
+	err = util.RenderJson(w, errorJSONData, errorCode)
 
 	if util.ErrHandle(w, err) {
-		// rander error json failed
+		// render error json failed
 		l.Error("Error happened when render error json", errorJSONData, "of task", taskID, ":", err)
 	} else {
 		l.Info("Render error json", string(errorJSONData), " of task", taskID, "successfully")
 	}
 }
 
-func renderJSONOrError(w http.ResponseWriter, taskID string, jsonData []byte, err error, errorCode int) {
+func renderJsonOrError(w http.ResponseWriter, taskID string, jsonData []byte, err error, errorCode int) {
 	// has error
 	if err != nil {
-		renderErrorJSON(w, taskID, err, errorCode)
+		renderErrorJson(w, taskID, err, errorCode)
 	}
 
 	// no error, render json
-	err = util.RenderJSON(w, jsonData, http.StatusOK)
+	err = util.RenderJson(w, jsonData, http.StatusOK)
 
 	// render json failed
 	if util.ErrHandle(w, err) {

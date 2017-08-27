@@ -13,6 +13,9 @@ rikka-test:
 qiniu: rikka-build
 	-./rikka -port 8000 -plugin qiniu -bname rikka-qiniu -bhost odbw8jckg.bkt.clouddn.com
 
+upai: rikka-build
+	-./rikka -port 8000 -plugin upai -bname rikka-upai -bhost rikka-upai.b0.upaiyun.com
+
 # Docker
 
 IMAGE_NAME = 7sdream/rikka

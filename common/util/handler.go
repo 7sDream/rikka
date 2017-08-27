@@ -8,7 +8,7 @@ import (
 	"io/ioutil"
 	"net"
 	"net/http"
-	pathutil "path/filepath"
+	pathUtil "path/filepath"
 	"strings"
 
 	"github.com/7sDream/rikka/common/logger"
@@ -16,13 +16,13 @@ import (
 
 // GetTaskIDByRequest gets last part of url path as a taskID and return it.
 func GetTaskIDByRequest(r *http.Request) string {
-	splitedPath := strings.Split(r.URL.Path, "/")
-	filename := splitedPath[len(splitedPath)-1]
+	splitPath := strings.Split(r.URL.Path, "/")
+	filename := splitPath[len(splitPath)-1]
 	return filename
 }
 
-// ErrHandle is a simple error handl function.
-// If err is an error, write 500 InernalServerError to header and write error message to response and return true.
+// ErrHandle is a simple error handle function.
+// If err is an error, write 500 InternalServerError to header and write error message to response and return true.
 // Else (err is nil), don't do anything and return false.
 func ErrHandle(w http.ResponseWriter, err error) bool {
 	if err != nil {
@@ -39,7 +39,7 @@ func ErrHandle(w http.ResponseWriter, err error) bool {
 func GetClientIP(r *http.Request) string {
 	defer func() {
 		if r := recover(); r != nil {
-			l.Error("Unexcepted panic happened when get client ip:", r)
+			l.Error("Unexpected panic happened when get client ip:", r)
 		}
 	}()
 
@@ -58,7 +58,7 @@ func GetClientIP(r *http.Request) string {
 }
 
 // CheckMethod check if request method is as excepted.
-// If not, write the stauts "MethodNotAllow" to header, "Method Not Allowed." to response and return false.
+// If not, write the status "MethodNotAllow" to header, "Method Not Allowed." to response and return false.
 // Else don't do anything and return true.
 func CheckMethod(w http.ResponseWriter, r *http.Request, excepted string) bool {
 	if r.Method != excepted {
@@ -116,8 +116,8 @@ func RenderTemplateString(templateString string, w http.ResponseWriter, data int
 	return err
 }
 
-// RenderJSON is a shortcut function to write JSON data to response, and set the header Content-Type.
-func RenderJSON(w http.ResponseWriter, data []byte, code int) (err error) {
+// RenderJson is a shortcut function to write JSON data to response, and set the header Content-Type.
+func RenderJson(w http.ResponseWriter, data []byte, code int) (err error) {
 	w.WriteHeader(code)
 	w.Header().Set("Content-Type", "application/json")
 	_, err = w.Write(data)
@@ -175,7 +175,7 @@ func TemplateStringRenderHandler(templateName string, templateString string, con
 	}
 	return func(w http.ResponseWriter, r *http.Request) {
 		ip := GetClientIP(r)
-		log.Info("Recieve a template render request of", templateName, "from ip", ip)
+		log.Info("Receive a template render request of", templateName, "from ip", ip)
 
 		var data interface{}
 		if contextCreator != nil {
@@ -202,14 +202,14 @@ func TemplateRenderHandler(templatePath string, contextCreator ContextCreator, l
 	if err != nil {
 		l.Fatal("Error when read template file", templatePath, ":", err)
 	}
-	templateName := pathutil.Base(templatePath)
+	templateName := pathUtil.Base(templatePath)
 	templateString := string(templateBytes)
 	return TemplateStringRenderHandler(templateName, templateString, contextCreator, log)
 }
 
 // RequestFilter accept a http.HandlerFunc and return a new one
 // which only accept path is pathMustBe and method is methodMustBe.
-// Error message in new hander will be print with logger log, if log is nil, will use default logger.
+// Error message in new handler will be print with logger log, if log is nil, will use default logger.
 // If pathMustBe or methodMustBe is empty string, no check will be performed.
 func RequestFilter(pathMustBe string, methodMustBe string, log *logger.Logger, handlerFunc http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {

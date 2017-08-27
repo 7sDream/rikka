@@ -13,7 +13,7 @@ var (
 	ArgBucketPath = flag.String("bpath", "", "Where the image will be save in bucket")
 )
 
-// CheckCommonArgs will check if bname and bhost is setted and log their value
+// CheckCommonArgs will check if bname and bhost is set and log their value
 func CheckCommonArgs(needName, needHost bool) {
 	l.Info("Args bucket name =", *ArgBucketName)
 	if needName && *ArgBucketName == "" {

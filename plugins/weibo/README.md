@@ -10,7 +10,7 @@ This plugin use Sina weibo to store your image.
 
 ## Options
 
-You should provide a cookies string which stand for a logged weibo account in env var `RIKKA_WEIBO_COOKIRS`.
+You should provide a cookies string which stand for a logged weibo account in env var `RIKKA_WEIBO_COOKIES`.
 
 And you should provide a password (with option `-ucpwd`, update cookies password) which will be checked when you update cookies from `/cookies` page. Default password is `weibo`.
 
@@ -20,14 +20,14 @@ Format of cookies string:
 FOO=foofoofoof; BAR=barbarbarb; ZOO=zoozozozozozo
 ```
 
-Notice: You should provide **ALL** cookies of weibo.com, contains thoose be tag with **HTTPOnly**.
+Notice: You should provide **ALL** cookies of weibo.com, contains those be tag with **HTTPOnly**.
 
 ## A way of get cookies string
 
 1. Launch **Chrome**
 2. visit http://weibo.com
 3. Login if you haven't
-4. `F12` to open devtools, turn to `Network` tab
+4. `F12` to open dev tools, turn to `Network` tab
 5. Refresh page
 6. Click first request(starts with `home`) in the left list
 7. Find `Cookies` field of `Request Header` in the request content(right side), copy field value(without the `Cookies: ` prefix)

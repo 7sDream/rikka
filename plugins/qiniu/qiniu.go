@@ -2,7 +2,8 @@ package qiniu
 
 import (
 	"github.com/7sDream/rikka/plugins"
-	"qiniupkg.com/api.v7/kodo"
+	"github.com/qiniu/api.v7/auth/qbox"
+	"github.com/qiniu/api.v7/storage"
 )
 
 // plugin type
@@ -21,7 +22,13 @@ var (
 	bucketName   string
 	bucketAddr   string
 	bucketPrefix string
-	client       *kodo.Client
+
+	conf = &storage.Config{
+		Zone:          &storage.ZoneHuadong,
+		UseHTTPS:      true,
+		UseCdnDomains: true,
+	}
+	mac *qbox.Mac
 
 	// QiniuPlugin is the main plugin instance
 	QiniuPlugin = qiniuPlugin{}

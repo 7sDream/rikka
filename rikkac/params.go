@@ -9,7 +9,6 @@ import (
 )
 
 const (
-	uploadFileKey = "uploadFile"
 	envHostKey    = "RIKKA_HOST"
 	envPwdKey     = "RIKKA_PWD"
 )
@@ -50,13 +49,13 @@ func getHost() string {
 		l.Debug("No extra / in host, won't process")
 	}
 
-	urlStruct, err := url.Parse(host)
-	if err != nil || urlStruct.Host == "" || urlStruct.Scheme == "" || urlStruct.Path != "" {
+	urlObj, err := url.Parse(host)
+	if err != nil || urlObj.Host == "" || urlObj.Scheme == "" || urlObj.Path != "" {
 		l.Fatal("Invalid Rikka host:", host)
 	}
-	l.Debug("Host check passed, struct:", fmt.Sprintf("%+v", *urlStruct))
+	l.Debug("Host check passed, struct:", fmt.Sprintf("%+v", *urlObj))
 
-	return urlStruct.Scheme + "://" + urlStruct.Host
+	return urlObj.Scheme + "://" + urlObj.Host
 }
 
 func getPassword() string {

@@ -1,4 +1,4 @@
-# Rikka project contributors (sorted alphabeticaly)
+# Rikka project contributors (sorted alphabetically)
 
 - [7sDream](https://github.com/7sDream)
   + Main maintainer

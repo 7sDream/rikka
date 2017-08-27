@@ -37,18 +37,18 @@ func format(url *api.URL) string {
 		}
 	}
 
-	template, err := template.New("_").Parse(templateStr)
+	htmlTemplate, err := template.New("_").Parse(templateStr)
 	if err != nil {
-		l.Fatal("Error happened when create template with string", templateStr, ":", err)
+		l.Fatal("Error happened when create htmlTemplate with string", templateStr, ":", err)
 	}
-	l.Debug("Create template with string", templateStr, "successfully")
+	l.Debug("Create htmlTemplate with string", templateStr, "successfully")
 
 	strWriter := bytes.NewBufferString("")
 
-	if err = template.Execute(strWriter, url); err != nil {
-		l.Fatal("Error happened when execute template :", err)
+	if err = htmlTemplate.Execute(strWriter, url); err != nil {
+		l.Fatal("Error happened when execute htmlTemplate :", err)
 	}
-	l.Debug("Execute template successfully")
+	l.Debug("Execute htmlTemplate successfully")
 
 	return strWriter.String()
 }

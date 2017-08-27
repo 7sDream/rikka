@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!--suppress ALL -->
 <head>
     <title>Rikka - Home - {{ .Version }}</title>
     <link rel="shortcut icon" href="{{ .FavIconPath }}" type="image/png">
@@ -19,7 +20,8 @@
     <main>
         <img class="logo" src="{{ .StaticPath }}image/rikka.png" />
         <img id="uploading" />
-        <form id="uploadFrom" enctype="multipart/form-data" action="{{ .UploadPath }}" method="post"  onsubmit="return check({{ .MaxSizeByMb }});">
+        <form id="uploadFrom" enctype="multipart/form-data" action="{{ .UploadPath }}" method="post"
+              onsubmit="return check({{ .MaxSizeByMb }})">
             <div class="line">
                 <label id="fakeUploadBtn" for="uploadFile">Choose</label>
                 <input id="filename" placeholder="<-- Choose File" disabled="disabled" />
@@ -41,8 +43,8 @@
     <script src="{{ .StaticPath }}js/onError.js?v={{ .Version }}"></script>
     <script src="{{ .StaticPath }}js/checkForm.js?v={{ .Version }}"></script>
     <script>
-        let filenameBox = document.querySelector("input#filename");
-        let input = document.querySelector("input#uploadFile");
+        var filenameBox = document.querySelector("input#filename");
+        var input = document.querySelector("input#uploadFile");
         input.addEventListener("change", function(){
             filenameBox.value = input.value.split('\\').pop().split('/').pop();
         });

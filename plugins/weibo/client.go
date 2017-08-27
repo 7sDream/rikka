@@ -14,7 +14,6 @@ import (
 	"net/url"
 	"strconv"
 	"strings"
-	"sync"
 	"time"
 
 	"github.com/7sDream/rikka/plugins"
@@ -28,23 +27,6 @@ var (
 	imageURLPrefix = "http://ww1.sinaimg.cn/large/"
 	cbBase         = "http://weibo.com/aj/static/upimgback.html?_wv=5&callback=STK_ijax_"
 	uploadURLBase  = "http://picupload.service.weibo.com/interface/pic_upload.php"
-	uploadQuery    = struct {
-		sync.Mutex
-		M map[string]string
-	}{
-		M: map[string]string{
-			"cb":      "",
-			"url":     "",
-			"markpos": "1",
-			"logo":    "0",
-			"nick":    "",
-			"mask":    "0",
-			"app":     "miniblog",
-			"s":       "rdxt",
-		},
-	}
-
-	queryLock = sync.Mutex{}
 )
 
 const (
@@ -60,9 +42,9 @@ func newWeiboClient() *http.Client {
 
 	cookieJar, err := cookiejar.New(nil)
 	if err != nil {
-		l.Fatal("Error happened when create cookiejar:", err)
+		l.Fatal("Error happened when create cookie jar:", err)
 	}
-	l.Debug("Create cookiejar successfully")
+	l.Debug("Create cookie jar successfully")
 
 	l.Debug("Create weibo client successfully")
 	return &http.Client{
@@ -103,10 +85,10 @@ func updateCookies(cookieStr string) error {
 
 	client.Jar, err = cookiejar.New(nil)
 	if err != nil {
-		l.Error("Error happened when create new cookiejar:", err)
+		l.Error("Error happened when create new cookie jar:", err)
 		return err
 	}
-	l.Debug("Create new cookiejar successfully")
+	l.Debug("Create new cookie jar successfully")
 
 	client.Jar.SetCookies(weiboURL, cookies)
 	return nil
@@ -116,27 +98,34 @@ func auxCheckLogin() (bool, error) {
 	l.Debug("Checking is login...")
 	res, err := client.Get(miniPublishPageURL)
 	if err != nil {
-		l.Error("Error happened when visit minipublish page:", err)
+		l.Error("Error happened when visit mini publish page:", err)
 		return false, err
 	}
-	l.Debug("Visit minipublish page successfully, code", res.StatusCode)
+	l.Debug("Visit mini publish page successfully, code", res.StatusCode)
 	defer res.Body.Close()
 	return res.StatusCode == http.StatusOK, nil
 }
 
-func auxUpdateCB() {
-	uploadQuery.M["cb"] = cbBase + strconv.FormatInt(time.Now().Unix(), 10)
+func auxCalcCB() string {
+	return cbBase + strconv.FormatInt(time.Now().Unix(), 10)
 }
 
 func auxGetUploadURL() string {
-	uploadQuery.Lock()
-	defer uploadQuery.Unlock()
 
-	auxUpdateCB()
+	uploadQuery := map[string]string{
+		"cb":      auxCalcCB(),
+		"url":     "",
+		"markpos": "1",
+		"logo":    "0",
+		"nick":    "",
+		"mask":    "0",
+		"app":     "miniblog",
+		"s":       "rdxt",
+	}
 
 	uploadURL, _ := url.Parse(uploadURLBase)
 	query := uploadURL.Query()
-	for key, val := range uploadQuery.M {
+	for key, val := range uploadQuery {
 		query.Set(key, val)
 	}
 	uploadURL.RawQuery = query.Encode()
@@ -144,10 +133,10 @@ func auxGetUploadURL() string {
 	return uploadURL.String()
 }
 
-var quoteEscaper = strings.NewReplacer("\\", "\\\\", `"`, "\\\"")
+var quoteEscape = strings.NewReplacer("\\", "\\\\", `"`, "\\\"")
 
 func escapeQuotes(s string) string {
-	return quoteEscaper.Replace(s)
+	return quoteEscape.Replace(s)
 }
 
 func auxCreateImageFormFileField(w *multipart.Writer, fileFieldKey string, filename string, fileType string) (io.Writer, error) {
@@ -161,8 +150,6 @@ func auxCreateImageFormFileField(w *multipart.Writer, fileFieldKey string, filen
 
 func auxCreateUploadRequest(q *plugins.SaveRequest) (*http.Request, error) {
 	l.Debug("Creating upload request...")
-
-	auxUpdateCB()
 
 	body := &bytes.Buffer{}
 	writer := multipart.NewWriter(body)
@@ -194,18 +181,19 @@ func auxCreateUploadRequest(q *plugins.SaveRequest) (*http.Request, error) {
 	l.Debug("Close form writer successfully")
 
 	uploadURL := auxGetUploadURL()
+
 	req, err := http.NewRequest("POST", uploadURL, body)
 	if err != nil {
 		l.Error("Error happened when create post request with url", uploadURL, ":", err)
 		return nil, err
 	}
 
-	var cookieStrs []string
+	var cookies []string
 	for _, cookie := range client.Jar.Cookies(weiboURL) {
-		cookieStrs = append(cookieStrs, cookie.Name+"="+cookie.Value)
+		cookies = append(cookies, cookie.Name+"="+cookie.Value)
 	}
 
-	req.Header.Set("Cookie", strings.Join(cookieStrs, "; "))
+	req.Header.Set("Cookie", strings.Join(cookies, "; "))
 	req.Header.Set("Content-Type", writer.FormDataContentType())
 
 	l.Debug("Create post request successfully, url", uploadURL)
@@ -235,7 +223,7 @@ func auxGetImageID(raw string) (string, error) {
 }
 
 func auxUpload(q *plugins.SaveRequest) (string, error) {
-	l.Debug("Truely uploading image...")
+	l.Debug("Truly uploading image...")
 
 	req, err := auxCreateUploadRequest(q)
 	if err != nil {
@@ -273,7 +261,7 @@ func auxUpload(q *plugins.SaveRequest) (string, error) {
 	return imageID, nil
 }
 
-func upload(client *http.Client, q *plugins.SaveRequest) (string, error) {
+func upload(q *plugins.SaveRequest) (string, error) {
 	l.Debug("Preparing upload...")
 
 	login, err := auxCheckLogin()

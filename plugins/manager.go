@@ -29,21 +29,21 @@ func Load(plugin RikkaPlugin) {
 	}
 }
 
-// AcceptFile whill be called when you recieve a file upload request, the SaveRequest struct contains the file.
-func AcceptFile(q *SaveRequest) (fileID *api.TaskID, err error) {
+// AcceptFile will be called when you receive a file upload request, the SaveRequest struct contains the file.
+func AcceptFile(q *SaveRequest) (fileID *api.TaskId, err error) {
 	return currentPlugin.SaveRequestHandle(q)
 }
 
-// GetState will be called when API server recieve a state request.
-// Also be called when web server recieve a view request,
+// GetState will be called when API server receive a state request.
+// Also be called when web server receive a view request,
 // web server decide response a finished view html or a self-renewal html based on
 // the return state is finished state.
 func GetState(taskID string) (r *api.State, err error) {
 	return currentPlugin.StateRequestHandle(taskID)
 }
 
-// GetURL will be called when API server recieve a url request.
-// Also be called when web server recieve a view request and GetState return a finished state.
+// GetURL will be called when API server receive a url request.
+// Also be called when web server receive a view request and GetState return a finished state.
 // web server use the return url value to render a finished view html.
 func GetURL(taskID string, r *http.Request, picOp *ImageOperate) (pURL *api.URL, err error) {
 	l.Debug("Send state request to plugin before get url of task", taskID)

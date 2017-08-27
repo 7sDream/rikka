@@ -27,17 +27,17 @@ func uploadToWeibo(taskIDInt int64, taskIDStr string, q *plugins.SaveRequest) {
 
 	err := plugins.ChangeTaskState(buildUploadingState(taskIDStr))
 	if err != nil {
-		l.Fatal("Error happend when change state of task", taskIDStr, "to uploading:", err)
+		l.Fatal("Error happened when change state of task", taskIDStr, "to uploading:", err)
 	}
 	l.Debug("Change state of task", taskIDStr, "to uploading successfully")
 
 	l.Debug("Uploading to weibo...")
-	url, err := upload(client, q)
+	url, err := upload(q)
 	if err != nil {
 		l.Error("Error happened when upload image to weibo:", err)
 		err = plugins.ChangeTaskState(api.BuildErrorState(taskIDStr, err.Error()))
 		if err != nil {
-			l.Fatal("Error happend when change task", taskIDStr, "to error state:", err)
+			l.Fatal("Error happened when change task", taskIDStr, "to error state:", err)
 		}
 		l.Debug("Change state of task", taskIDStr, "to error successfully")
 		return
@@ -49,13 +49,13 @@ func uploadToWeibo(taskIDInt int64, taskIDStr string, q *plugins.SaveRequest) {
 	err = plugins.DeleteTask(taskIDStr)
 	if err != nil {
 		delete(imageIDMap, taskIDInt)
-		l.Fatal("Error happend when change task", taskIDStr, "to finish state:", err)
+		l.Fatal("Error happened when change task", taskIDStr, "to finish state:", err)
 	}
 	l.Debug("Delete task", taskIDStr, "successfully")
 }
 
-func (wbp weiboPlugin) SaveRequestHandle(q *plugins.SaveRequest) (*api.TaskID, error) {
-	l.Debug("Recieve a file save request")
+func (wbp weiboPlugin) SaveRequestHandle(q *plugins.SaveRequest) (*api.TaskId, error) {
+	l.Debug("Receive a file save request")
 
 	taskIDInt := atomic.AddInt64(&counter, 1)
 	taskIDStr := strconv.FormatInt(taskIDInt, 10)
@@ -69,5 +69,5 @@ func (wbp weiboPlugin) SaveRequestHandle(q *plugins.SaveRequest) (*api.TaskID, e
 	go uploadToWeibo(taskIDInt, taskIDStr, q)
 
 	l.Debug("Background task started, return task ID:", taskIDStr)
-	return &api.TaskID{TaskID: taskIDStr}, nil
+	return &api.TaskId{TaskId: taskIDStr}, nil
 }

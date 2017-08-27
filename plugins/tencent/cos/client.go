@@ -52,9 +52,9 @@ func makeSign(current *time.Time, dur *time.Duration, randInt *int) (string, tim
 		appID, bucketName, secretID, e.Unix(), // 60 * 60 * 24 * 90 = 90 days
 		t.Unix(), *randInt, // random integer, max length: 10
 	)
-	hmacer := hmac.New(sha1.New, []byte(secretKey))
-	hmacer.Write([]byte(original))
-	signTemp := hmacer.Sum(nil)
+	hmacBuilder := hmac.New(sha1.New, []byte(secretKey))
+	hmacBuilder.Write([]byte(original))
+	signTemp := hmacBuilder.Sum(nil)
 	sign := base64.StdEncoding.EncodeToString(append(signTemp, []byte(original)...))
 	return sign, e
 }
@@ -121,7 +121,7 @@ func (c *cosClient) auxMakeUploadRequest(q *plugins.SaveRequest, taskID string) 
 
 	req, err := http.NewRequest("POST", url, body)
 	if err != nil {
-		l.Debug("Error happened when create post reques of task", taskID, ":", err)
+		l.Debug("Error happened when create post request of task", taskID, ":", err)
 		return nil, err
 	}
 	l.Debug("Create request of task", taskID, "successfully")
@@ -173,7 +173,7 @@ func (c *cosClient) Upload(q *plugins.SaveRequest, taskID string) error {
 	m := resJSON.(map[string]interface{})
 	jsonString := fmt.Sprintf("%#v", m)
 
-	l.Info("Get resonse json:", jsonString)
+	l.Info("Get response json:", jsonString)
 
 	code := m["code"].(float64)
 	if code != 0 {

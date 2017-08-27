@@ -15,3 +15,6 @@ cli/rikkac
 
 # git big picture
 bp.png
+
+# gogland
+.idea/

@@ -2,7 +2,7 @@ package ci
 
 import (
 	"github.com/7sDream/rikka/plugins"
-	qcloud "github.com/tencentyun/image-go-sdk"
+	"github.com/tencentyun/image-go-sdk"
 )
 
 type tcciPlugin struct{}
@@ -27,6 +27,6 @@ func buildFullPath(taskID string) string {
 	return bucketPath + taskID
 }
 
-func (cip tcciPlugin) ExtraHandlers() []plugins.HandlerWithPattern {
+func (plugin tcciPlugin) ExtraHandlers() []plugins.HandlerWithPattern {
 	return nil
 }

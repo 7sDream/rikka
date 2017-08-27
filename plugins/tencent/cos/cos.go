@@ -16,10 +16,10 @@ var (
 
 	client *cosClient
 
-	// TCcosPlugin is the main plugin instance
-	TCcosPlugin tccosPlugin
+	// TccosPlugin is the main plugin instance
+	TccosPlugin tccosPlugin
 )
 
-func (cosp tccosPlugin) ExtraHandlers() []plugins.HandlerWithPattern {
+func (plugin tccosPlugin) ExtraHandlers() []plugins.HandlerWithPattern {
 	return nil
 }

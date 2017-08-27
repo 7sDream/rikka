@@ -16,13 +16,13 @@ func CheckFile(absFilePath string) ([]byte, error) {
 	}
 	l.Debug("Read file", absFilePath, "content successfully")
 
-	filetype := http.DetectContentType(fileContent)
-	if _, ok := apiserver.IsAccepted(filetype); !ok {
-		errMsg := "File" + absFilePath + "is not a acceptable image file, it is" + filetype
+	fileType := http.DetectContentType(fileContent)
+	if _, ok := apiserver.IsAccepted(fileType); !ok {
+		errMsg := "File" + absFilePath + "is not a acceptable image file, it is" + fileType
 		l.Debug(errMsg)
 		return nil, errors.New(errMsg)
 	}
-	l.Debug("Fie", absFilePath, "type check passed:", filetype)
+	l.Debug("Fie", absFilePath, "type check passed:", fileType)
 
 	return fileContent, nil
 }

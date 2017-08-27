@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!--suppress ALL -->
 <head>
     <title>Rikka - {{ .Version }} - View - {{ .TaskID }}</title>
     <link rel="shortcut icon" href="{{ .FavIconPath }}" type="image/png">
@@ -22,23 +23,23 @@
         <form>
             <div class="line copyAsText">
                 <label for="src" class="copyBtn">Src</label>
-                <input name="src" value="{{ .URL }}" disabled/>
+                <input name="src" id="src" value="{{ .URL }}" disabled/>
             </div>
             <div class="line copyAsText">
                 <label for="markdown" class="copyBtn">Markdown</label>
-                <input name="markdown" value="![]({{ .URL }})" disabled/>
+                <input name="markdown" id="markdown" value="![]({{ .URL }})" disabled/>
             </div>
             <div class="line copyAsText">
                 <label for="html" class="copyBtn">HTML</label>
-                <input name="html" value="<img src=&quot;{{ .URL }}&quot; >"disabled/>
+                <input name="html" id="html" value="<img src=&quot;{{ .URL }}&quot; >" disabled/>
             </div>
             <div class="line copyAsText">
                 <label for="rst" class="copyBtn">RST</label>
-                <input name="rst" value=".. image:: {{ .URL }}" disabled/>
+                <input name="rst" id="rst" value=".. image:: {{ .URL }}" disabled/>
             </div>
             <div class="line copyAsText">
                 <label for="bbcode" class="copyBtn">BBCode</label>
-                <input name="bbcode" value="[img]{{ .URL }}[/img]" disabled/>
+                <input name="bbcode" id="bbcode" value="[img]{{ .URL }}[/img]" disabled/>
             </div>
         </form>
     </main>

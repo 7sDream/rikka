@@ -13,7 +13,7 @@ func viewHandleFunc(w http.ResponseWriter, r *http.Request) {
 	context.TaskID = taskID
 	ip := util.GetClientIP(r)
 
-	l.Info("Recieve a view request of task", taskID, "from ip", ip)
+	l.Info("Receive a view request of task", taskID, "from ip", ip)
 
 	l.Debug("Send a url request of task", taskID, "to plugin manager")
 
@@ -27,7 +27,7 @@ func viewHandleFunc(w http.ResponseWriter, r *http.Request) {
 		err = util.RenderTemplate(templateFilePath, w, context)
 		if util.ErrHandle(w, err) {
 			// RenderTemplate error
-			l.Error("Erro happened when render template", viewTemplateFileName, "to", ip, ":", err)
+			l.Error("Error happened when render template", viewTemplateFileName, "to", ip, ":", err)
 		} else {
 			// successfully
 			l.Info("Render template", viewTemplateFileName, "to", ip, "successfully")
@@ -36,7 +36,7 @@ func viewHandleFunc(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// state is finished, use viewFinish.html
-	l.Debug("Recieve url of task", taskID, ":", pURL.URL)
+	l.Debug("Receive url of task", taskID, ":", pURL.URL)
 	templateFilePath := finishedViewTemplateFilePath
 	context.URL = pURL.URL
 	err = util.RenderTemplate(templateFilePath, w, context)
@@ -49,7 +49,7 @@ func viewHandleFunc(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// ViewHandler handle requset ask for image view page(${ViewPath}<taskID>), use templates/view.html
+// ViewHandler handle request ask for image view page(${ViewPath}<taskID>), use templates/view.html
 // Only accept GET Method
 func viewHandleGenerator() http.HandlerFunc {
 	return util.RequestFilter(

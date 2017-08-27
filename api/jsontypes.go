@@ -8,17 +8,17 @@ type State struct {
 	Description string
 }
 
-// Error struct used to build json from eror string.
+// Error struct used to build json from error string.
 type Error struct {
 	Error string
 }
 
-// URL struct used to build json from eror URL.
+// URL struct used to build json from error URL.
 type URL struct {
 	URL string
 }
 
-// TaskID struct used to build json from taskID.
-type TaskID struct {
-	TaskID string
+// TaskId struct used to build json from taskID.
+type TaskId struct {
+	TaskId string
 }

@@ -34,7 +34,7 @@ func checkFromArg(w http.ResponseWriter, r *http.Request, ip string) (string, bo
 	return from, true
 }
 
-func checkPassowrd(w http.ResponseWriter, r *http.Request, ip string, from string) bool {
+func checkPassword(w http.ResponseWriter, r *http.Request, ip string, from string) bool {
 	userPassword := r.FormValue(api.FormKeyPWD)
 	if userPassword != password {
 		// error password
@@ -44,7 +44,7 @@ func checkPassowrd(w http.ResponseWriter, r *http.Request, ip string, from strin
 			http.Error(w, "Error password", http.StatusUnauthorized)
 		} else {
 			// from == "api"
-			renderErrorJSON(w, taskIDUploading, errors.New(api.ErrPwdErrMsg), http.StatusUnauthorized)
+			renderErrorJson(w, taskIDUploading, errors.New(api.ErrPwdErrMsg), http.StatusUnauthorized)
 		}
 
 		return false
@@ -53,7 +53,7 @@ func checkPassowrd(w http.ResponseWriter, r *http.Request, ip string, from strin
 	return true
 }
 
-// IsAccepted check a mime filetype is accped by rikka.
+// IsAccepted check a mime file type is accepted by rikka.
 func IsAccepted(fileMimeTypeStr string) (string, bool) {
 	if !strings.HasPrefix(fileMimeTypeStr, "image") {
 		return "", false
@@ -75,30 +75,30 @@ func checkUploadedFile(w http.ResponseWriter, file multipart.File, ip string, fr
 			util.ErrHandle(w, err)
 		} else {
 			// from == "api"
-			renderErrorJSON(w, taskIDUploading, err, http.StatusInternalServerError)
+			renderErrorJson(w, taskIDUploading, err, http.StatusInternalServerError)
 		}
 
 		return nil, false
 	}
 	l.Debug("Get form file content of ip", ip, "successfully")
 
-	filetype := http.DetectContentType(fileContent)
+	fileType := http.DetectContentType(fileContent)
 
-	ext, ok := IsAccepted(filetype)
+	ext, ok := IsAccepted(fileType)
 
 	if !ok {
-		l.Error("Form file submitted by", ip, "is not a image, it is a", filetype)
+		l.Error("Form file submitted by", ip, "is not a image, it is a", fileType)
 
 		if from == api.FromWebsite {
 			util.ErrHandle(w, errors.New(api.NotAImgFileErrMsg))
 		} else {
 			// from == "api"
-			renderErrorJSON(w, taskIDUploading, errors.New(api.NotAImgFileErrMsg), http.StatusInternalServerError)
+			renderErrorJson(w, taskIDUploading, errors.New(api.NotAImgFileErrMsg), http.StatusInternalServerError)
 		}
 
 		return nil, false
 	}
-	l.Debug("Check type of form file submitted by", ip, ", passed:", filetype)
+	l.Debug("Check type of form file submitted by", ip, ", passed:", fileType)
 
 	if _, err = file.Seek(0, 0); err != nil {
 		l.Error("Error when try to seek form file submitted by", ip, "to start:", err)
@@ -107,7 +107,7 @@ func checkUploadedFile(w http.ResponseWriter, file multipart.File, ip string, fr
 			util.ErrHandle(w, err)
 		} else {
 			// from == "api"
-			renderErrorJSON(w, taskIDUploading, err, http.StatusInternalServerError)
+			renderErrorJson(w, taskIDUploading, err, http.StatusInternalServerError)
 		}
 
 		return nil, false
@@ -130,7 +130,7 @@ func getUploadedFile(w http.ResponseWriter, r *http.Request, ip string, from str
 			util.ErrHandle(w, err)
 		} else {
 			// from == "api"
-			renderErrorJSON(w, taskIDUploading, err, http.StatusBadRequest)
+			renderErrorJson(w, taskIDUploading, err, http.StatusBadRequest)
 		}
 
 		return nil, false
@@ -161,13 +161,13 @@ func sendSaveRequestToPlugin(w http.ResponseWriter, pStateRequest *plugins.SaveR
 		if from == api.FromWebsite {
 			util.ErrHandle(w, err)
 		} else {
-			renderErrorJSON(w, taskIDUploading, err, http.StatusInternalServerError)
+			renderErrorJson(w, taskIDUploading, err, http.StatusInternalServerError)
 		}
 		return "", false
 	}
 
-	taskID := pTaskID.TaskID
-	l.Info("Recieve task ID request by", ip, "from plugin manager:", taskID)
+	taskID := pTaskID.TaskId
+	l.Info("Receive task ID request by", ip, "from plugin manager:", taskID)
 
 	return taskID, true
 }
@@ -178,12 +178,12 @@ func sendUploadResultToClient(w http.ResponseWriter, r *http.Request, ip string,
 	} else {
 		var taskIDJSON []byte
 		var err error
-		if taskIDJSON, err = getTaskIDJSON(taskID); err != nil {
+		if taskIDJSON, err = getTaskIdJson(taskID); err != nil {
 			l.Error("Error happened when build task ID json of task", taskID, "request by", ip, ":", err)
 		} else {
 			l.Info("Build task ID json", taskIDJSON, "of task", "request by", ip, "successfully")
 		}
-		renderJSONOrError(w, taskID, taskIDJSON, err, http.StatusInternalServerError)
+		renderJsonOrError(w, taskID, taskIDJSON, err, http.StatusInternalServerError)
 	}
 }
 
@@ -192,7 +192,7 @@ func sendUploadResultToClient(w http.ResponseWriter, r *http.Request, ip string,
 func uploadHandleFunc(w http.ResponseWriter, r *http.Request) {
 	ip := util.GetClientIP(r)
 
-	l.Info("Recieve file upload request from ip", ip)
+	l.Info("Receive file upload request from ip", ip)
 
 	maxSize := int64(maxSizeByMb * 1024 * 1024)
 	r.Body = http.MaxBytesReader(w, r.Body, maxSize)
@@ -209,7 +209,7 @@ func uploadHandleFunc(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if !checkPassowrd(w, r, ip, from) {
+	if !checkPassword(w, r, ip, from) {
 		return
 	}
 

@@ -44,7 +44,7 @@ func createSignalHandler(handlerFunc func()) (func(), chan os.Signal) {
 	signalChain := make(chan os.Signal, 1)
 
 	return func() {
-		for _ = range signalChain {
+		for range signalChain {
 			handlerFunc()
 		}
 	}, signalChain
@@ -103,7 +103,7 @@ func initPluginList() {
 	pluginMap["qiniu"] = qiniu.QiniuPlugin
 	pluginMap["upai"] = upai.UPaiPlugin
 	pluginMap["weibo"] = weibo.WeiboPlugin
-	pluginMap["tccos"] = cos.TCcosPlugin
+	pluginMap["tccos"] = cos.TccosPlugin
 	pluginMap["tcci"] = ci.TCciPlugin
 }
 
@@ -117,9 +117,9 @@ func initArgVars() {
 		fmt.Sprintf("Log level, from %d to %d", logger.LevelDebug, logger.LevelError),
 	)
 	argHTTPS = flag.Bool("https", false, "Use HTTPS")
-	argCertDir = flag.String("cdir", ".", "Where to find HTTPS cert files(cert.pem, key.pem)")
+	argCertDir = flag.String("certDir", ".", "Where to find HTTPS cert files(cert.pem, key.pem)")
 
-	// Get name array of all avaliable plugins, show in `rikka -h``
+	// Get name array of all available plugins, show in `rikka -h``
 	pluginNames := make([]string, 0, len(pluginMap))
 	for k := range pluginMap {
 		pluginNames = append(pluginNames, k)

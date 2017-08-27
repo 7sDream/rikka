@@ -2,7 +2,7 @@ package fs
 
 import (
 	"os"
-	pathutil "path/filepath"
+	pathUtil "path/filepath"
 
 	"github.com/7sDream/rikka/common/util"
 )
@@ -15,7 +15,7 @@ func (fsp fsPlugin) Init() {
 	l.Info("Args dir =", *argFilesDir)
 	l.Info("Args fsDebugSleep =", *argFsDebugSleep)
 
-	absFilesDir, err := pathutil.Abs(*argFilesDir)
+	absFilesDir, err := pathUtil.Abs(*argFilesDir)
 	if err == nil {
 		l.Debug("Abs path of image file dir:", absFilesDir)
 		imageDir = absFilesDir
@@ -26,7 +26,7 @@ func (fsp fsPlugin) Init() {
 	if util.CheckExist(absFilesDir) {
 		l.Debug("Image file dir already exist")
 	} else {
-		l.Debug("Image file dir not eixst, try to create it")
+		l.Debug("Image file dir not exist, try to create it")
 		err = os.MkdirAll(absFilesDir, 0755)
 		if err == nil {
 			l.Debug("Create dir", absFilesDir, "successfully")

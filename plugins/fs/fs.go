@@ -13,7 +13,7 @@ var (
 	l = plugins.SubLogger("[FS]")
 
 	argFilesDir     = flag.String("dir", "files", "Where files will be save when use fs plugin.")
-	argFsDebugSleep = flag.Int("fsDebugSleep", 0, "Debug: sleep some ms before copy file to fs, used to test javascripta ajax")
+	argFsDebugSleep = flag.Int("fsDebugSleep", 0, "Debug: sleep some ms before copy file to fs, used to test javascript ajax")
 
 	imageDir string
 

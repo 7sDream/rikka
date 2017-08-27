@@ -6,11 +6,11 @@ import (
 
 	"github.com/7sDream/rikka/api"
 	"github.com/7sDream/rikka/plugins"
-	uuid "github.com/satori/go.uuid"
+	"github.com/satori/go.uuid"
 )
 
 const (
-	taskIDPlaceholder = "{TaskID}"
+	taskIDPlaceholder = "{TaskId}"
 )
 
 func uploadToCI(q *plugins.SaveRequest, taskID string) {
@@ -32,7 +32,7 @@ func uploadToCI(q *plugins.SaveRequest, taskID string) {
 
 	err := plugins.ChangeTaskState(buildReadingState(taskID))
 	if err != nil {
-		l.Fatal("Error happend when change state of task", taskID, "to reading file:", err)
+		l.Fatal("Error happened when change state of task", taskID, "to reading file:", err)
 	}
 	l.Debug("Change state of task", taskID, "to reading file successfully")
 
@@ -52,7 +52,7 @@ func uploadToCI(q *plugins.SaveRequest, taskID string) {
 
 	err = plugins.ChangeTaskState(buildUploadingState(taskID))
 	if err != nil {
-		l.Fatal("Error happend when change state of task", taskID, "to uploading file:", err)
+		l.Fatal("Error happened when change state of task", taskID, "to uploading file:", err)
 	}
 	l.Debug("Change state of task", taskID, "to uploading file successfully")
 
@@ -79,8 +79,8 @@ func uploadToCI(q *plugins.SaveRequest, taskID string) {
 	}
 }
 
-func (cip tcciPlugin) SaveRequestHandle(q *plugins.SaveRequest) (*api.TaskID, error) {
-	l.Debug("Recieve a file save request")
+func (plugin tcciPlugin) SaveRequestHandle(q *plugins.SaveRequest) (*api.TaskId, error) {
+	l.Debug("Receive a file save request")
 	taskID := uuid.NewV4().String() + "." + q.FileExt
 
 	err := plugins.CreateTask(taskID)
@@ -92,5 +92,5 @@ func (cip tcciPlugin) SaveRequestHandle(q *plugins.SaveRequest) (*api.TaskID, er
 	go uploadToCI(q, taskID)
 
 	l.Debug("Background task started, return task ID:", taskID)
-	return &api.TaskID{TaskID: taskID}, nil
+	return &api.TaskId{TaskId: taskID}, nil
 }

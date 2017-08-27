@@ -1,15 +1,19 @@
 'use strict';
 
 function isImageType(typeStr) {
+    // noinspection JSUnresolvedFunction
     if (typeStr.startsWith("image") === false) {
         return false;
     }
     var accepted = ["jpeg", "bmp", "gif", "png"];
-    return accepted.some(function(type){return typeStr.endsWith("/" + type)})
+    return accepted.some(function(type){
+        // noinspection JSUnresolvedFunction
+        return typeStr.endsWith("/" + type)
+    })
 }
 
 function check(maxSizeByMb) {
-    var passwordInput = document.querySelector("input#password")
+    var passwordInput = document.querySelector("input#password");
     var fileInput = document.querySelector("input#uploadFile");
     var file = fileInput.files[0];
     if (passwordInput.value === "") {
@@ -17,10 +21,10 @@ function check(maxSizeByMb) {
         return false;
     }
     if (file === undefined) {
-        alert("Plesae choose a image to upload");
+        alert("Please choose a image to upload");
         return false;
     }
-    var fileType = file.type
+    var fileType = file.type;
     if (!isImageType(fileType)) {
         fileType = fileType || "unknown";
         alert("Can't upload a " + fileType + " type file");

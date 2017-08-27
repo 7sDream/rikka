@@ -88,12 +88,12 @@ func Upload(host string, path string, content []byte, password string) (string, 
 		return "", err
 	}
 
-	pTaskID := &api.TaskID{}
-	if err = json.Unmarshal(resContent, pTaskID); err != nil || pTaskID.TaskID == "" {
+	pTaskID := &api.TaskId{}
+	if err = json.Unmarshal(resContent, pTaskID); err != nil || pTaskID.TaskId == "" {
 		l.Debug("Decode response to taskID json failed, try to decode to error message")
 		return "", mustBeErrorJSON(resContent)
 	}
 	l.Debug("Decode response to taskID json successfully")
 
-	return pTaskID.TaskID, nil
+	return pTaskID.TaskId, nil
 }

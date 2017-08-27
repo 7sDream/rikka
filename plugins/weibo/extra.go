@@ -10,7 +10,7 @@ import (
 
 const (
 	updateCookiesFormHTML = `
-    <!doctype html>
+    <!DOCTYPE html>
     <html>
         <head>
             <title>Update cookies</title>
@@ -37,7 +37,7 @@ func (wbp weiboPlugin) ExtraHandlers() []plugins.HandlerWithPattern {
 		),
 	}
 
-	updateCookiesHander := plugins.HandlerWithPattern{
+	updateCookiesHandler := plugins.HandlerWithPattern{
 		Pattern: "/update",
 		Handler: util.RequestFilter(
 			"/update", "POST", l,
@@ -55,5 +55,5 @@ func (wbp weiboPlugin) ExtraHandlers() []plugins.HandlerWithPattern {
 		),
 	}
 
-	return []plugins.HandlerWithPattern{updateCookiesFormHandler, updateCookiesHander}
+	return []plugins.HandlerWithPattern{updateCookiesFormHandler, updateCookiesHandler}
 }

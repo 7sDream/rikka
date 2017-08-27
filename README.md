@@ -15,13 +15,13 @@ Badges above shows latest version and size of Rikka image.
 Rikka（`りっか` in Japanese, sound like `/ɾʲikka/`, not `/rikka/`）is a integral personal image share system, includes:
 
 - A web application (See [Demo](#demo) section)
-- A RESTful API server (See [API Doc][api-doc])
+- A REST API server (See [API Doc][api-doc])
 - A CLI tool named Rikkac based on the API (See [Rikkac Doc][rikkac-doc])
 - Image save plugins (See [Plugins Doc][plugins-doc] to get all available plugins)
 
 Other parts not written in Golang (in plan):
 
-- Andrild client
+- Android client
 - iOS client
 
 ## Feature and Advantage
@@ -29,7 +29,7 @@ Other parts not written in Golang (in plan):
 1. Simple and minimalist, no upload history
 2. Image address can be copied to various formats
 3. Many available image save plugins, such as weibo, QinNiu, UPai, Tencent Cloud, etc.
-4. RESTful API provided
+4. REST API provided
 4. Modular Web server and API server
 5. CLI tool provided
 6. **Only guarantee support for recent versions of Chrome/Firefox/Safari**
@@ -52,7 +52,7 @@ Click `Upload` button.
 
 If no error happened, you will be redirect to preview page:
 
-![viewpage][view]
+![view_page][view]
 
 You will see a "Please wait" message If you uploaded a large file and save process is not finished, just wait a second.
 
@@ -60,7 +60,7 @@ When you see image url, you can click `Src`, `Markdown`, `HTML`, `RST`, `BBCode`
 
 **But**: Once you close this page, you can't get it back except from browser history(Or you save the url).
 
-This is intentional. The main design concept is simple, just `Upload-Copy-Close-Patse`, then you can forget Rikka.
+This is intentional. The main design concept is simple, just `Upload-Copy-Close-Paste`, then you can forget Rikka.
 
 BTW: The preview image of Demo site is saved in Rikka too. 
 
@@ -76,7 +76,7 @@ See [Rikka API Doc][api-doc].
 
 ## CLI - Rikkac
 
-Rikkac is a CLI tool for Rikka based on Rikka's RESTful API.
+Rikkac is a CLI tool for Rikka based on Rikka's REST API.
 
 Build, install, configure and use guide can be found in [Rikkac Doc][rikkac-doc].
 

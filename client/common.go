@@ -26,7 +26,7 @@ func mustBeErrorJSON(content []byte) error {
 func checkRes(url string, res *http.Response) ([]byte, error) {
 	resContent, err := ioutil.ReadAll(res.Body)
 	if err != nil {
-		l.Debug("Error happaned when read response body:", err)
+		l.Debug("Error happened when read response body:", err)
 		return nil, err
 	}
 	l.Debug("Get response content of", url, "successfully:", string(resContent))
