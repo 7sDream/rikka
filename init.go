@@ -60,6 +60,7 @@ func registerSignalHandler(handlerFunc func()) {
 func init() {
 
 	registerSignalHandler(func() {
+		l.Info("Receive interrupt signal")
 		l.Info("Rikka have to go to sleep, see you tomorrow")
 		os.Exit(0)
 	})

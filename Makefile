@@ -41,7 +41,7 @@ endif
 	-docker rmi $(IMAGE_NAME):$(NEW_VERSION)
 
 build: version confirm delete clean
-	@docker build \
+	docker build \
 		--build-arg VERSION=$(NEW_VERSION) \
 		--build-arg VCS_URL=$(shell git config --get remote.origin.url) \
   		--build-arg VCS_REF=$(GIT_COMMIT) \
