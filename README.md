@@ -38,7 +38,7 @@ Other parts not written in Golang (in plan):
 
 ## Demo
 
-There is a [Demo site][demo] built with Rikka, password is `rikka`, just try it.
+There is a [Demo site][demo] built with Rikka, ~~password is `rikka`, just try it.~~ Because the free docker service provider I used stop it's free plan, the demo is on my personal VPS now. So the password is not given anymore, but you can also visit it and have a look :)
 
 homepage:
 
@@ -62,7 +62,7 @@ When you see image url, you can click `Src`, `Markdown`, `HTML`, `RST`, `BBCode`
 
 This is intentional. The main design concept is simple, just `Upload-Copy-Close-Paste`, then you can forget Rikka.
 
-BTW: The preview image of Demo site is saved in Rikka too. 
+BTW: The preview image of Demo site is saved in Rikka too. (But Github will put images which in Markdown files into its own CDN to accelerate access)
 
 ## Plugins
 
@@ -116,9 +116,9 @@ See [LICENSE][license].
 
 [image-in-dockerhub]: https://hub.docker.com/r/7sdream/rikka/
 
-[demo]: http://7sdream-rikka-demo.daoapp.io/
-[home]: http://7sdream-rikka-demo.daoapp.io/files/2016-09-05-498160687
-[view]: http://7sdream-rikka-demo.daoapp.io/files/2016-09-05-457359417
+[demo]: https://rikka.7sdre.am/
+[home]: https://rikka.7sdre.am/files/56c3ae9d-4d96-49c8-bc03-5104214a1ac8.png
+[view]: https://rikka.7sdre.am/files/97bebf3b-9fb8-4b0c-a156-4b92b1951ae4.png
 
 [api-doc]: https://github.com/7sDream/rikka/tree/master/api
 [rikkac-doc]: https://github.com/7sDream/rikka/tree/master/rikkac

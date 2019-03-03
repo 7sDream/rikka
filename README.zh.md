@@ -38,7 +38,7 @@ Rikka（因为是日文罗马音，读音类似`莉卡`而不是`瑞卡`）是�
 
 ## Demo
 
-这里有一个使用 Rikka 建立的[网站 Demo][demo]，密码是 `rikka`。
+这里有一个使用 Rikka 建立的[网站 Demo][demo]，~~密码是 `rikka`~~，由于 DaoCloud 现在不能免费用了，所以现在这里的 demo 其实是我自己用的，所以大家只能看看主页了。
 
 主页大概长这样:
 
@@ -62,7 +62,7 @@ Rikka（因为是日文罗马音，读音类似`莉卡`而不是`瑞卡`）是�
 
 这是有意为之的，因为 Rikka 的主要设计的理念就是简单， `上传-复制-关闭-粘贴`，之后就再也不用管了。
 
-PS：你看到的这些预览图也是由 Rikka 储存的哟。
+PS：你看到的这些预览图也是由 Rikka 储存的哟。（不过放到 Github 之后会被 Github 弄到 CDN 上去）
 
 ## 插件
 
@@ -114,9 +114,9 @@ Rikka 系统的所有代码均基于 MIT 协议开源。
 [badge-version-img]: https://images.microbadger.com/badges/version/7sdream/rikka.svg
 [badge-license-img]: https://images.microbadger.com/badges/license/7sdream/rikka.svg
 
-[demo]: http://7sdream-rikka-demo.daoapp.io/
-[home]: http://7sdream-rikka-demo.daoapp.io/files/2016-09-05-498160687
-[view]: http://7sdream-rikka-demo.daoapp.io/files/2016-09-05-457359417
+[demo]: https://rikka.7sdre.am/
+[home]: https://rikka.7sdre.am/files/56c3ae9d-4d96-49c8-bc03-5104214a1ac8.png
+[view]: https://rikka.7sdre.am/files/97bebf3b-9fb8-4b0c-a156-4b92b1951ae4.png
 
 [api-doc]: https://github.com/7sDream/rikka/blob/master/api/README.zh.md
 [rikkac-doc]: https://github.com/7sDream/rikka/blob/master/rikkac/README.zh.md
