@@ -1,4 +1,4 @@
-FROM golang:latest
+FROM amd64/golang:latest as builder
 
 ARG VCS_REF
 ARG VCS_URL
@@ -17,17 +17,23 @@ LABEL org.label-schema.schema-version="1.0" \
 
 MAINTAINER 7sDream "docker@7sdre.am"
 
-WORKDIR $GOPATH/src/github.com/7sDream/rikka
-ADD . $GOPATH/src/github.com/7sDream/rikka
+ENV GO111MODULE=on
 
-RUN go get -v -d . && \
-    go build -v . && \
-    cp rikka $GOPATH/bin && \
-    cp -R server $GOPATH/bin/ && \
-    rm -rf $GOPATH/src
+WORKDIR /go-modules
+COPY . ./
 
-WORKDIR $GOPATH/bin
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v .
+
+FROM amd64/alpine:latest
+
+RUN mkdir -p /root/rikka/server/webserver
+
+WORKDIR /root/rikka
+
+COPY --from=builder /go-modules/rikka rikka
+COPY --from=builder /go-modules/server/webserver/templates server/webserver/templates
+COPY --from=builder /go-modules/server/webserver/static server/webserver/static
 
 EXPOSE 80
 
-ENTRYPOINT ["rikka"]
+ENTRYPOINT ["./rikka"]
