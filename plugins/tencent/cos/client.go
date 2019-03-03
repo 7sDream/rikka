@@ -79,6 +79,8 @@ func (c *cosClient) auxMakeUploadRequest(q *plugins.SaveRequest, taskID string) 
 	l.Debug("Create form writer of task", taskID, "successfully")
 
 	fileContent, err := ioutil.ReadAll(q.File)
+
+	//noinspection GoUnhandledErrorResult
 	defer q.File.Close()
 
 	if err != nil {
@@ -156,7 +158,10 @@ func (c *cosClient) Upload(q *plugins.SaveRequest, taskID string) error {
 	l.Debug("Send request and get response of task", taskID, "successfully")
 
 	resContent, err := ioutil.ReadAll(res.Body)
+
+	//noinspection GoUnhandledErrorResult
 	defer res.Body.Close()
+
 	if err != nil {
 		l.Error("Error when read response body of task", taskID, ":", err)
 		return err

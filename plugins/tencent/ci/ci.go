@@ -5,7 +5,7 @@ import (
 	"github.com/tencentyun/image-go-sdk"
 )
 
-type tcciPlugin struct{}
+type TencentCloudImagePlugin struct{}
 
 var (
 	l = plugins.SubLogger("[TC-CI]")
@@ -17,8 +17,8 @@ var (
 	bucketHost string
 	bucketPath string
 
-	// TCciPlugin is the main plugin instance
-	TCciPlugin tcciPlugin
+	// Plugin is the main plugin instance
+	Plugin TencentCloudImagePlugin
 
 	cloud *qcloud.PicCloud
 )
@@ -27,6 +27,6 @@ func buildFullPath(taskID string) string {
 	return bucketPath + taskID
 }
 
-func (plugin tcciPlugin) ExtraHandlers() []plugins.HandlerWithPattern {
+func (plugin TencentCloudImagePlugin) ExtraHandlers() []plugins.HandlerWithPattern {
 	return nil
 }

@@ -8,10 +8,10 @@ import (
 	"github.com/7sDream/rikka/plugins"
 )
 
-func (plugin tcciPlugin) URLRequestHandle(q *plugins.URLRequest) (*api.URL, error) {
+func (plugin TencentCloudImagePlugin) URLRequestHandle(q *plugins.URLRequest) (*api.URL, error) {
 	if bucketHost == "" {
 		l.Error("Request URL of task", q.TaskID, "before state become to finish")
-		return nil, errors.New("Get url before task finish")
+		return nil, errors.New("get url before task finish")
 	}
 
 	if !strings.Contains(bucketHost, taskIDPlaceholder) {

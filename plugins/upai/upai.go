@@ -21,8 +21,8 @@ var (
 	bucketAddr   string
 	bucketPrefix string
 
-	// UPaiPlugin is the main plugin instance
-	UPaiPlugin = upaiPlugin{}
+	// Plugin is the main plugin instance
+	Plugin = upaiPlugin{}
 
 	client *upyun.UpYun
 )

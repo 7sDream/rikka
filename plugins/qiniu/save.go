@@ -1,12 +1,12 @@
 package qiniu
 
 import (
+	"context"
+
 	"github.com/7sDream/rikka/api"
 	"github.com/7sDream/rikka/plugins"
 	"github.com/qiniu/api.v7/storage"
-
 	"github.com/satori/go.uuid"
-	"golang.org/x/net/context"
 )
 
 type putRet struct {

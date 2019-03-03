@@ -88,10 +88,7 @@ func RenderTemplate(templatePath string, w http.ResponseWriter, data interface{}
 		return err
 	}
 
-	// no error happened, write to response
-	content := make([]byte, buff.Len())
-	buff.Read(content)
-	_, err = w.Write(content)
+	_, err = w.Write(buff.Bytes())
 
 	return err
 }
@@ -110,9 +107,7 @@ func RenderTemplateString(templateString string, w http.ResponseWriter, data int
 		ErrHandle(w, errors.New("error when render template"))
 		return err
 	}
-	content := make([]byte, buff.Len())
-	buff.Read(content)
-	_, err = w.Write(content)
+	_, err = w.Write(buff.Bytes())
 	return err
 }
 

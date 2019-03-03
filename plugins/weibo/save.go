@@ -21,7 +21,7 @@ func uploadToWeibo(taskIDInt int64, taskIDStr string, q *plugins.SaveRequest) {
 			default:
 				errorMsg = "Unknown"
 			}
-			plugins.ChangeTaskState(api.BuildErrorState(taskIDStr, errorMsg))
+			_ = plugins.ChangeTaskState(api.BuildErrorState(taskIDStr, errorMsg))
 		}
 	}()
 

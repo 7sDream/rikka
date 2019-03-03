@@ -69,7 +69,7 @@ func updateCookies(cookieStr string) error {
 	cookies := req.Cookies()
 
 	if len(cookies) == 0 {
-		errorMsg := "No cookies data in string your provided"
+		errorMsg := "no cookies data in string your provided"
 		l.Error(errorMsg)
 		return errors.New(errorMsg)
 	}
@@ -102,7 +102,10 @@ func auxCheckLogin() (bool, error) {
 		return false, err
 	}
 	l.Debug("Visit mini publish page successfully, code", res.StatusCode)
+
+	//noinspection GoUnhandledErrorResult
 	defer res.Body.Close()
+
 	return res.StatusCode == http.StatusOK, nil
 }
 
@@ -239,14 +242,14 @@ func auxUpload(q *plugins.SaveRequest) (string, error) {
 	}
 
 	if res.StatusCode != http.StatusFound {
-		errorMsg := "Upload response code is not 302, weibo api changed"
+		errorMsg := "upload response code is not 302, weibo api changed"
 		l.Error("Error happened when get image url:", errorMsg)
 		return "", errors.New(errorMsg)
 	}
 
 	redirectURL := res.Header.Get("Location")
 	if redirectURL == "" {
-		errorMsg := "No location header, weibo api changed"
+		errorMsg := "no location header, weibo api changed"
 		l.Error("Error happened when get image url:", errorMsg)
 		return "", errors.New(errorMsg)
 	}
@@ -273,7 +276,7 @@ func upload(q *plugins.SaveRequest) (string, error) {
 
 	if !login {
 		l.Error("No weibo account login")
-		return "", errors.New("Weibo account not login, please update cookies")
+		return "", errors.New("weibo account not login, please update cookies")
 	}
 	l.Debug("Weibo account is logged")
 

@@ -19,7 +19,7 @@ type Logger struct {
 	fl     *log.Logger
 }
 
-// Logger level consts
+// Logger levels
 const (
 	LevelDebug int = iota
 	LevelInfo

@@ -33,7 +33,7 @@ func buildReadingState(taskID string) *api.State {
 	}
 }
 
-func (plugin tcciPlugin) StateRequestHandle(taskID string) (*api.State, error) {
+func (plugin TencentCloudImagePlugin) StateRequestHandle(taskID string) (*api.State, error) {
 	pState, err := plugins.GetTaskState(taskID)
 	if err != nil {
 		// Not exist as finished

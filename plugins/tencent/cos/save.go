@@ -46,7 +46,7 @@ func uploadToCos(q *plugins.SaveRequest, taskID string) {
 	l.Debug("Delete task", taskID, "successfully")
 }
 
-func (plugin tccosPlugin) SaveRequestHandle(q *plugins.SaveRequest) (*api.TaskId, error) {
+func (plugin tencentCloudObjectStoragePlugin) SaveRequestHandle(q *plugins.SaveRequest) (*api.TaskId, error) {
 	l.Debug("Receive a file save request")
 	taskID := uuid.NewV4().String() + "." + q.FileExt
 

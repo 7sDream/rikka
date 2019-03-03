@@ -1,6 +1,6 @@
 FROM golang:latest
 
-MAINTAINER 7sDream "7seconddream@gmail.com"
+MAINTAINER 7sDream "docker@7sdre.am"
 
 WORKDIR $GOPATH/src/github.com/7sDream/rikka
 ADD . $GOPATH/src/github.com/7sDream/rikka

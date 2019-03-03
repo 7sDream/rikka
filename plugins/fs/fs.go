@@ -17,6 +17,6 @@ var (
 
 	imageDir string
 
-	// FsPlugin is the main plugin instance.
-	FsPlugin = fsPlugin{}
+	// Plugin is the main plugin instance.
+	Plugin = fsPlugin{}
 )

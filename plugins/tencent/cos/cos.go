@@ -2,7 +2,7 @@ package cos
 
 import "github.com/7sDream/rikka/plugins"
 
-type tccosPlugin struct{}
+type tencentCloudObjectStoragePlugin struct{}
 
 var (
 	l = plugins.SubLogger("[TC-COS]")
@@ -16,10 +16,10 @@ var (
 
 	client *cosClient
 
-	// TccosPlugin is the main plugin instance
-	TccosPlugin tccosPlugin
+	// Plugin is the main plugin instance
+	Plugin tencentCloudObjectStoragePlugin
 )
 
-func (plugin tccosPlugin) ExtraHandlers() []plugins.HandlerWithPattern {
+func (plugin tencentCloudObjectStoragePlugin) ExtraHandlers() []plugins.HandlerWithPattern {
 	return nil
 }

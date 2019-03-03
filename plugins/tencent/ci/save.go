@@ -26,7 +26,7 @@ func uploadToCI(q *plugins.SaveRequest, taskID string) {
 			default:
 				errorMsg = "Unknown"
 			}
-			plugins.ChangeTaskState(api.BuildErrorState(taskID, errorMsg))
+			_ = plugins.ChangeTaskState(api.BuildErrorState(taskID, errorMsg))
 		}
 	}()
 
@@ -37,6 +37,8 @@ func uploadToCI(q *plugins.SaveRequest, taskID string) {
 	l.Debug("Change state of task", taskID, "to reading file successfully")
 
 	fileContent, err := ioutil.ReadAll(q.File)
+
+	//noinspection GoUnhandledErrorResult
 	defer q.File.Close()
 
 	if err != nil {
@@ -79,7 +81,7 @@ func uploadToCI(q *plugins.SaveRequest, taskID string) {
 	}
 }
 
-func (plugin tcciPlugin) SaveRequestHandle(q *plugins.SaveRequest) (*api.TaskId, error) {
+func (plugin TencentCloudImagePlugin) SaveRequestHandle(q *plugins.SaveRequest) (*api.TaskId, error) {
 	l.Debug("Receive a file save request")
 	taskID := uuid.NewV4().String() + "." + q.FileExt
 

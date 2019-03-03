@@ -22,8 +22,8 @@ var (
 
 	imageIDMap = make(map[int64]string)
 
-	// WeiboPlugin is the main plugin object instance
-	WeiboPlugin weiboPlugin
+	// Plugin is the main plugin object instance
+	Plugin weiboPlugin
 )
 
 const (

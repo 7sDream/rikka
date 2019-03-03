@@ -8,8 +8,8 @@ import (
 	"github.com/tencentyun/image-go-sdk"
 )
 
-func (plugin tcciPlugin) Init() {
-	l.Info("Start plugin tcci")
+func (plugin TencentCloudImagePlugin) Init() {
+	l.Info("Start plugin tencent cloud image")
 
 	plugins.CheckCommonArgs(true, false)
 
@@ -32,5 +32,5 @@ func (plugin tcciPlugin) Init() {
 		Bucket:    bucketName,
 	}
 
-	l.Info("Plugin tcci started")
+	l.Info("Tencent cloud image plugin start successfully")
 }

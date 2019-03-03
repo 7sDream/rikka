@@ -30,8 +30,8 @@ var (
 	}
 	mac *qbox.Mac
 
-	// QiniuPlugin is the main plugin instance
-	QiniuPlugin = qiniuPlugin{}
+	// Plugin is the main plugin instance
+	Plugin = qiniuPlugin{}
 )
 
 func (qnp qiniuPlugin) ExtraHandlers() []plugins.HandlerWithPattern {

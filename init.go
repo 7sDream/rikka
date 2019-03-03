@@ -100,12 +100,12 @@ func init() {
 }
 
 func initPluginList() {
-	pluginMap["fs"] = fs.FsPlugin
-	pluginMap["qiniu"] = qiniu.QiniuPlugin
-	pluginMap["upai"] = upai.UPaiPlugin
-	pluginMap["weibo"] = weibo.WeiboPlugin
-	pluginMap["tccos"] = cos.TccosPlugin
-	pluginMap["tcci"] = ci.TCciPlugin
+	pluginMap["fs"] = fs.Plugin
+	pluginMap["qiniu"] = qiniu.Plugin
+	pluginMap["upai"] = upai.Plugin
+	pluginMap["weibo"] = weibo.Plugin
+	pluginMap["tccos"] = cos.Plugin
+	pluginMap["tcci"] = ci.Plugin
 }
 
 func initArgVars() {

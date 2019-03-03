@@ -43,7 +43,7 @@ func (wbp weiboPlugin) ExtraHandlers() []plugins.HandlerWithPattern {
 			"/update", "POST", l,
 			func(w http.ResponseWriter, r *http.Request) {
 				if r.FormValue("password") != *argUpdateCookiesPassword {
-					util.ErrHandle(w, errors.New("Error password"))
+					util.ErrHandle(w, errors.New("error password"))
 					return
 				}
 				err := updateCookies(r.FormValue("cookies"))

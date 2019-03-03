@@ -1,14 +1,14 @@
 package api
 
-// API error message consts
+// API error messages
 var (
 	// Upload errors
-	ErrPwdErrMsg         = "Error password"
-	InvalidFromArgErrMsg = "From argument can only be website or api"
-	NotAImgFileErrMsg    = "The file you upload is not an image"
+	ErrPwdErrMsg         = "error password"
+	InvalidFromArgErrMsg = "from argument can only be website or api"
+	NotAImgFileErrMsg    = "the file you upload is not an image"
 
 	// Task errors
-	TaskNotExistErrMsg     = "Task not exist"
-	TaskAlreadyExistErrMsg = "Task already exist"
-	TaskNotFinishErrMsg    = "Task is not finished"
+	TaskNotExistErrMsg     = "task not exist"
+	TaskAlreadyExistErrMsg = "task already exist"
+	TaskNotFinishErrMsg    = "task is not finished"
 )

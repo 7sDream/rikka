@@ -36,5 +36,5 @@ func (fsp fsPlugin) URLRequestHandle(q *plugins.URLRequest) (pURL *api.URL, err 
 		return &api.URL{URL: taskUrl}, nil
 	}
 	l.Error("File of task", taskID, "not exist, return error")
-	return nil, errors.New("File not exist.")
+	return nil, errors.New("file not exist")
 }

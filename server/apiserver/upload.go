@@ -27,7 +27,7 @@ func checkFromArg(w http.ResponseWriter, r *http.Request, ip string) (string, bo
 	if from != api.FromWebsite && from != api.FromAPI {
 		l.Warn(ip, "use a error from value:", from)
 		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte(api.InvalidFromArgErrMsg))
+		_, _ = w.Write([]byte(api.InvalidFromArgErrMsg))
 		return "", false
 	}
 	l.Debug("Request of", ip, "is from:", from)

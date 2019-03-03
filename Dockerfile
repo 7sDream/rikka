@@ -15,7 +15,7 @@ LABEL org.label-schema.schema-version="1.0" \
     org.label-schema.docker.dockerfile="/Dockerfile" \
     org.label-schema.name="Rikka"
 
-MAINTAINER 7sDream "7seconddream@gmail.com"
+MAINTAINER 7sDream "docker@7sdre.am"
 
 WORKDIR $GOPATH/src/github.com/7sDream/rikka
 ADD . $GOPATH/src/github.com/7sDream/rikka

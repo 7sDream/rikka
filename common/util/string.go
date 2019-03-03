@@ -5,7 +5,7 @@ import (
 	"unicode/utf8"
 )
 
-// MaskString keep first `showNum`` count char of a string `str`` and change all remaining chars to "*"
+// MaskString keep first `showNum` count char of a string `str` and change all remaining chars to "*"
 func MaskString(str string, showNum int) string {
 	var res string
 	var i int
