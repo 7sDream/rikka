@@ -16,7 +16,7 @@ var (
 	region     string
 	version    string
 
-	client GenericCosClient
+	client genericCosClient
 
 	// Plugin is the main plugin instance
 	Plugin tencentCloudObjectStoragePlugin

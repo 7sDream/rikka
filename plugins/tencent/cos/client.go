@@ -38,7 +38,7 @@ type cosSdkv5Client struct {
 	*cos.Client
 }
 
-type GenericCosClient interface {
+type genericCosClient interface {
 	Upload(q *plugins.SaveRequest, taskID string) error
 }
 
