@@ -20,6 +20,8 @@ If you want, you can use option `-bpath` to set the path image will be store to(
 
 For example, `-bpath rikka`，will save image in `rikka` folder.
 
+The object storage version is provided by the command line parameter `-tccosVer`. The default version is v4. The v5 version needs to set the region in the domain name, and add the env var `RIKKA_TENCENT_REGION`.
+
 ## Notices
 
 As a "Static File Store Server", Tencent COS make browsers download the file when visits file url, instead of preview them.

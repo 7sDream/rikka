@@ -2,6 +2,7 @@ package cos
 
 import (
 	"bytes"
+	"context"
 	"crypto/hmac"
 	"crypto/sha1"
 	"encoding/base64"
@@ -9,10 +10,12 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/tencentyun/cos-go-sdk-v5"
 	"io/ioutil"
 	"math/rand"
 	"mime/multipart"
 	"net/http"
+	"net/url"
 	"strings"
 	"time"
 
@@ -22,12 +25,21 @@ import (
 const (
 	uploadBaseURL     = "http://web.file.myqcloud.com/files/v1/%s/%s/%s%s"
 	taskIDPlaceholder = "{taskID}"
+	baseCosv5Url      = "http://%s-%s.cos.%s.myqcloud.com"
 )
 
 type cosClient struct {
 	http.Client
 	sign   string
 	expire time.Time
+}
+
+type cosSdkv5Client struct {
+	*cos.Client
+}
+
+type genericCosClient interface {
+	Upload(q *plugins.SaveRequest, taskID string) error
 }
 
 func makeSign(current *time.Time, dur *time.Duration, randInt *int) (string, time.Time) {
@@ -65,6 +77,19 @@ func newCosClient() *cosClient {
 		Client: http.Client{},
 		sign:   sign,
 		expire: expire,
+	}
+}
+
+func newCosSdkv5Client() *cosSdkv5Client {
+	rawUrl := fmt.Sprintf(baseCosv5Url, bucketName, appID, region)
+	u, _ := url.Parse(rawUrl)
+	return &cosSdkv5Client{
+		cos.NewClient(&cos.BaseURL{BucketURL: u}, &http.Client{
+			Transport: &cos.AuthorizationTransport{
+				SecretID:  secretID,
+				SecretKey: secretKey,
+			},
+		}),
 	}
 }
 
@@ -196,4 +221,18 @@ func (c *cosClient) Upload(q *plugins.SaveRequest, taskID string) error {
 	}
 
 	return nil
+}
+
+func buildPath(taskID string) string {
+	if len(bucketPath) > 0 {
+		return bucketPath + "/" + taskID
+	} else {
+		return taskID
+	}
+}
+
+func (c *cosSdkv5Client) Upload(q *plugins.SaveRequest, taskID string) error {
+	_, e := c.Client.Object.Put(context.Background(), buildPath(taskID), q.File, nil)
+	bucketHost = strings.Replace(fmt.Sprintf(baseCosv5Url+"/%s%s", bucketName, appID, region, bucketPath, taskID), taskID, taskIDPlaceholder, -1)
+	return e
 }

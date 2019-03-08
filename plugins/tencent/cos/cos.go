@@ -13,8 +13,10 @@ var (
 	bucketName string
 	bucketPath string
 	bucketHost string
+	region     string
+	version    string
 
-	client *cosClient
+	client genericCosClient
 
 	// Plugin is the main plugin instance
 	Plugin tencentCloudObjectStoragePlugin

@@ -15,8 +15,14 @@ func (plugin tencentCloudObjectStoragePlugin) Init() {
 	secretKey = tencent.GetSecretKeyWithCheck(l)
 	bucketName = plugins.GetBucketName()
 	bucketPath = plugins.GetBucketPath()
+	version = GetVersionWitchCheck(l)
 
-	client = newCosClient()
+	if "v5" == version {
+		region = tencent.GetRegionWithCheck(l)
+		client = newCosSdkv5Client()
+	} else if "v4" == version {
+		client = newCosClient()
+	}
 
 	l.Info("Tencent cloud object storage plugin start successfully")
 }
