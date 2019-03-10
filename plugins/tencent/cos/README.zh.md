@@ -20,7 +20,9 @@
 
 比如，使用 `-bpath rikka`，上传到的文件会传到空间的 `rikka` 文件夹下。
 
-对象存储版本通过命令行参数 `-tccosVer` 提供，默认版本为 v4, v5 版本需要设置域名中的所属地域(region),添加环境变量 `RIKKA_TENCENT_REGION`
+对象存储版本通过命令行参数 `-tccosVer` 提供，为保持老版本兼容性，默认为 `v4`。
+
+如需使用 `v5` 版本需要通过添加环境变量 `RIKKA_TENCENT_REGION` 来设置域名中的所属地域（region）。
 
 ## 注意事项
 
