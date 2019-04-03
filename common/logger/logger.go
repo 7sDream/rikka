@@ -10,13 +10,8 @@ import (
 // It has 4 level: DEBUG, INFO, WARN, ERROR,
 // and 2 exception logger: PANIC and FATAL
 type Logger struct {
-	Prefix string
-	dl     *log.Logger
-	il     *log.Logger
-	wl     *log.Logger
-	el     *log.Logger
-	pl     *log.Logger
-	fl     *log.Logger
+	prefix     string
+	trueLogger *log.Logger
 }
 
 // Logger levels
@@ -35,14 +30,10 @@ var (
 
 // NewLogger create a new top level logger based on prefix.
 func NewLogger(prefix string) *Logger {
+	flag := log.Ldate | log.Ltime | log.Lmicroseconds
 	return &Logger{
-		Prefix: prefix,
-		dl:     log.New(os.Stdout, fmt.Sprintf("[%s] %s ", "DEBUG", prefix), log.LstdFlags),
-		il:     log.New(os.Stdout, fmt.Sprintf("[%s] %s ", "INFO", prefix), log.LstdFlags),
-		wl:     log.New(os.Stdout, fmt.Sprintf("[%s] %s ", "WARN", prefix), log.LstdFlags),
-		el:     log.New(os.Stdout, fmt.Sprintf("[%s] %s ", "ERROR", prefix), log.LstdFlags),
-		pl:     log.New(os.Stdout, fmt.Sprintf("[%s] %s ", "PANIC", prefix), log.LstdFlags),
-		fl:     log.New(os.Stdout, fmt.Sprintf("[%s] %s ", "FATAL", prefix), log.LstdFlags),
+		prefix:     prefix,
+		trueLogger: log.New(os.Stdout, "", flag),
 	}
 }
 
@@ -50,7 +41,7 @@ func NewLogger(prefix string) *Logger {
 // if you set log level higher than LevelDebug, no message will be print.
 func (logger *Logger) Debug(data ...interface{}) {
 	if currentLevel <= LevelDebug {
-		logger.dl.Println(data...)
+		logger.trueLogger.Print("[DEBUG] ", logger.prefix, " ", fmt.Sprintln(data...))
 	}
 }
 
@@ -58,7 +49,7 @@ func (logger *Logger) Debug(data ...interface{}) {
 // If you set log level higher than LevelInfo, no message will be print.
 func (logger *Logger) Info(data ...interface{}) {
 	if currentLevel <= LevelInfo {
-		logger.il.Println(data...)
+		logger.trueLogger.Print("[ Info] ", logger.prefix, " ", fmt.Sprintln(data...))
 	}
 }
 
@@ -66,7 +57,7 @@ func (logger *Logger) Info(data ...interface{}) {
 // If you set log level higher than LevelWarn, no message will be print.
 func (logger *Logger) Warn(data ...interface{}) {
 	if currentLevel <= LevelWarn {
-		logger.wl.Println(data...)
+		logger.trueLogger.Print("[ WARN] ", logger.prefix, " ", fmt.Sprintln(data...))
 	}
 }
 
@@ -75,25 +66,24 @@ func (logger *Logger) Warn(data ...interface{}) {
 // If you want get a runtime panic or fatal, use Logger.Panic or Logger.Fatal instead.
 func (logger *Logger) Error(data ...interface{}) {
 	if currentLevel <= LevelError {
-		logger.el.Println(data...)
+		logger.trueLogger.Print("[ERROR] ", logger.prefix, " ", fmt.Sprintln(data...))
 	}
 }
 
 // Panic print log message, and create a panic use the message.
 func (logger *Logger) Panic(data ...interface{}) {
-	logger.pl.Panicln(data...)
+	logger.trueLogger.Panic("[PANIC]", logger.prefix, " ", fmt.Sprint(data...))
 }
 
 // Fatal print log message, and create a fatal use the message.
 func (logger *Logger) Fatal(data ...interface{}) {
-	logger.fl.Fatalln(data...)
+	logger.trueLogger.Fatal("FATAL", logger.prefix, " ", fmt.Sprint(data...))
 }
 
 // SubLogger create a new logger based on the logger.
 // Prefix string of new logger will be concat of old and provided argument.
 func (logger *Logger) SubLogger(prefix string) (subLogger *Logger) {
-	subLogger = NewLogger(fmt.Sprintf("%s %s", logger.Prefix, prefix))
-	return subLogger
+	return NewLogger(fmt.Sprintf("%s %s", logger.prefix, prefix))
 }
 
 // SetLevel set the minimum level that message will be print out

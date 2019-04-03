@@ -1,6 +1,7 @@
 img.logo {
     margin-bottom: 1em;
 }
+
 @keyframes rotate {
     from {
         transform: rotate(0);
@@ -9,6 +10,7 @@ img.logo {
         transform: rotate(360deg);
     }
 }
+
 img#uploading {
     width: 24px;
     height: 24px;
@@ -16,12 +18,12 @@ img#uploading {
     visibility: hidden;
 }
 
-/*noinspection CssUnusedSymbol*/
 img#uploading.show {
     content: url('data:image/gif;base64,R0lGODlhGAAYAPYHALjn/mbM//r8/vX7/mnN/u74/ofX/rzo/uD0/o7Z/vz9/oLV/u/5/mrN/nXR/pLa/vn8/sbr/obW/vL6/pTb/sjs/m3O/nvT/qDf/s7u/qfh/o3Y/vb7/r/p/m7O/nnS/oDU/pjc/sPq/uP1/nzT/pHa/rHk/pvd/nfR/uz4/rTl/pXb/uf2/tbx/qTg/ovY/tzy/n/U/nDP/sDp/oPV/qri/tHv/rLl/qPg/s/u/nTQ/ur3/qvi/tLv/nHP/rbm/srt/vP6/svt/v///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQFBQAHACwAAAAAGAAYAAAHmoAHgoOEhYaHgwMzKxIEASAhIhyIhAIAMgGZmpkeKgKUEwabo5k+BYgMH6SkNogKoqubNZQAsZsGCogcPraZMimUQL2ZQpQHK8MuxgcxvSCfxpixFizLB9KxLdbNtg5By8i9D8sVwwEdxhzYsQ0jxrXDz5QKEubKlAwo5q2UBbC2powJ+LFuk4cb0IwN6ECBRqYLKzpMskaxUCAAIfkEBQUAHAAsCwABAAoAFgAABUkgZ0lUBXFomlqAoqrBwrxoEFzFawfJANsaXaARoQUcCKNhYsQIjAda6nGSxnJWpJQTsGSsNgA4gHEJAxufEGeU0VhmDkHyqLxCACH5BAUFAAoALAsAAQALABYAAAZNQEWAFBJxFMik0qNSOpOFp/IjTQYS1YD24NQGCK6UUgsWj8tPtFMtNbSqyMALBteWEFntapQPnFhSXgBZL3AoZk8giEsmAmMoKx0DTkEAIfkEBQUABgAsCwABAAwAFgAABlNAgwEkhAiPSKEsyRTSmtCogaaQGgDRQMAz0Hq/WhHYS+LZIF/dKcJANh6AUdSByxmzhBJgl9V+aj0KY2Adg15chlomUgsCVlIFUTdVSTEhMxxMQQAh+QQJBQAFACwLAAEADAAWAAAGRkACQbKaDQrIpBIJECyfhsnzyZgqDdbs1McJeL/gwCxMXpHDqDO4of562t4YPGCGj9uybhuglWgLVVZYVjI/Tks0FB1HS0EAIfkECQUABgAsCwABAAwAFgAABmRAQgAUEkEMyGRguZSpFEkDc0orKKfMj1WKZdKg3SmAGw54BmWmqEzi2SBT3SnCiDYegFE0GnDgckd7ZAEEJQA7fGEfNT0KaUsdj2ePJoNYCwKWTCgpSGEgW5YeN1BXMSEzHIJBACH5BAkFAAwALAsAAQALABYAAAZXQEKAFBJxGEhkYLn0qBRJpnRRUEqZn+pVmmBspYdvgOBKbckp6xKd9I7LbSQ7rjS06OoXjH4tIdpfKyNqWycsYksAiC9uWyhpXyBpjU0mAlEBKCsdA3FBACH5BAUFAB0ALAsAAQAKABYAAAVPIGFJVAV1aBesqwUoKCsvjCqzV3GzybAHmpisEUnJHIiULWCYKG0YwVN1mMYep+lqUdCukE+ZJaPcAYw7DOwX2Ph+uR9t2XrFCJJHhaMMAQA7');
     animation: rotate 4s linear infinite;
     visibility: inherit;
 }
+
 input#uploadFile {
     position: absolute;
     top: 0;
@@ -34,9 +36,11 @@ input#uploadFile {
     display: none;
     filter: alpha(opacity=0);
 }
+
 label#fakeUploadBtn {
     cursor: pointer;
 }
+
 input#submitBtn {
     color: #66ccff;
     border: 1px solid;

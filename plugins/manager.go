@@ -45,7 +45,7 @@ func GetState(taskID string) (r *api.State, err error) {
 // GetURL will be called when API server receive a url request.
 // Also be called when web server receive a view request and GetState return a finished state.
 // web server use the return url value to render a finished view html.
-func GetURL(taskID string, r *http.Request, picOp *ImageOperate) (pURL *api.URL, err error) {
+func GetURL(taskID string, r *http.Request, isServeTLS bool, picOp *ImageOperate) (pURL *api.URL, err error) {
 	l.Debug("Send state request to plugin before get url of task", taskID)
 	var pState *api.State
 
@@ -62,6 +62,7 @@ func GetURL(taskID string, r *http.Request, picOp *ImageOperate) (pURL *api.URL,
 			HTTPRequest: r,
 			TaskID:      taskID,
 			PicOp:       picOp,
+			IsServeTLS:  isServeTLS,
 		})
 	}
 

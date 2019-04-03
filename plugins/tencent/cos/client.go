@@ -25,7 +25,7 @@ import (
 const (
 	uploadBaseURL     = "http://web.file.myqcloud.com/files/v1/%s/%s/%s%s"
 	taskIDPlaceholder = "{taskID}"
-	baseCosv5Url      = "http://%s-%s.cos.%s.myqcloud.com"
+	baseCosV5Url      = "http://%s-%s.cos.%s.myqcloud.com"
 )
 
 type cosClient struct {
@@ -34,7 +34,7 @@ type cosClient struct {
 	expire time.Time
 }
 
-type cosSdkv5Client struct {
+type cosSdkV5Client struct {
 	*cos.Client
 }
 
@@ -80,10 +80,10 @@ func newCosClient() *cosClient {
 	}
 }
 
-func newCosSdkv5Client() *cosSdkv5Client {
-	rawUrl := fmt.Sprintf(baseCosv5Url, bucketName, appID, region)
+func newCosSdkV5Client() *cosSdkV5Client {
+	rawUrl := fmt.Sprintf(baseCosV5Url, bucketName, appID, region)
 	u, _ := url.Parse(rawUrl)
-	return &cosSdkv5Client{
+	return &cosSdkV5Client{
 		cos.NewClient(&cos.BaseURL{BucketURL: u}, &http.Client{
 			Transport: &cos.AuthorizationTransport{
 				SecretID:  secretID,
@@ -144,9 +144,9 @@ func (c *cosClient) auxMakeUploadRequest(q *plugins.SaveRequest, taskID string) 
 	}
 	l.Debug("Close form writer of task", taskID, "successfully")
 
-	url := fmt.Sprintf(uploadBaseURL, appID, bucketName, bucketPath, taskID)
+	rawUrl := fmt.Sprintf(uploadBaseURL, appID, bucketName, bucketPath, taskID)
 
-	req, err := http.NewRequest("POST", url, body)
+	req, err := http.NewRequest("POST", rawUrl, body)
 	if err != nil {
 		l.Debug("Error happened when create post request of task", taskID, ":", err)
 		return nil, err
@@ -215,9 +215,9 @@ func (c *cosClient) Upload(q *plugins.SaveRequest, taskID string) error {
 
 	if bucketHost == "" {
 		data := m["data"].(map[string]interface{})
-		url := data["access_url"].(string)
-		bucketHost = strings.Replace(url, taskID, taskIDPlaceholder, -1)
-		l.Debug("Get image url format:", bucketHost)
+		accessUrl := data["access_url"].(string)
+		bucketHost = strings.Replace(accessUrl, taskID, taskIDPlaceholder, -1)
+		l.Debug("Get image accessUrl format:", bucketHost)
 	}
 
 	return nil
@@ -231,8 +231,8 @@ func buildPath(taskID string) string {
 	}
 }
 
-func (c *cosSdkv5Client) Upload(q *plugins.SaveRequest, taskID string) error {
+func (c *cosSdkV5Client) Upload(q *plugins.SaveRequest, taskID string) error {
 	_, e := c.Client.Object.Put(context.Background(), buildPath(taskID), q.File, nil)
-	bucketHost = strings.Replace(fmt.Sprintf(baseCosv5Url+"/%s%s", bucketName, appID, region, bucketPath, taskID), taskID, taskIDPlaceholder, -1)
+	bucketHost = strings.Replace(fmt.Sprintf(baseCosV5Url+"/%s%s", bucketName, appID, region, bucketPath, taskID), taskID, taskIDPlaceholder, -1)
 	return e
 }

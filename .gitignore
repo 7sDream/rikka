@@ -1,5 +1,6 @@
 # rikka binary
 rikka
+rikkac/rikkac
 
 # rikka binary when debug
 debug
@@ -8,7 +9,7 @@ debug
 .vscode/
 
 # default uploaded image save dir
-files/*
+files
 
 # rikkac binary
 cli/rikkac
@@ -16,5 +17,5 @@ cli/rikkac
 # git big picture
 bp.png
 
-# gogland
+# goland
 .idea/

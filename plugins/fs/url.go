@@ -12,9 +12,9 @@ import (
 )
 
 // buildURL build complete url from request's Host header and task ID
-func buildURL(r *http.Request, taskID string) string {
+func buildURL(r *http.Request, scheme string, taskID string) string {
 	res := url.URL{
-		Scheme: "http",
+		Scheme: scheme,
 		Host:   r.Host,
 		//    remove root /
 		Path: fileURLPath[1:] + taskID,
@@ -31,7 +31,11 @@ func (fsp fsPlugin) URLRequestHandle(q *plugins.URLRequest) (pURL *api.URL, err 
 	l.Debug("Check if file exist of task", taskID)
 	// If file exist, return url
 	if util.CheckExist(pathUtil.Join(imageDir, taskID)) {
-		taskUrl := buildURL(r, taskID)
+		scheme := "http"
+		if q.IsServeTLS {
+			scheme += "s"
+		}
+		taskUrl := buildURL(r, scheme, taskID)
 		l.Debug("File of task", taskID, "exist, return taskUrl", taskUrl)
 		return &api.URL{URL: taskUrl}, nil
 	}

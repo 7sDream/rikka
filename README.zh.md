@@ -6,7 +6,7 @@
 
 Rikka 主要使用 Go 语言编写，并提供 Docker 镜像。
 
-Rikka 的镜像已经发布到了 [DockerHub](https://hub.docker.com/r/7sdream/rikka/), 直接开始用吧。
+Rikka 的镜像已经发布到了 [DockerHub][image-in-docker-hub], 直接开始用吧。
 
 最新版本号和镜像大小见上面的徽章。
 
@@ -113,6 +113,8 @@ Rikka 系统的所有代码均基于 MIT 协议开源。
 [badge-info-img]: https://images.microbadger.com/badges/image/7sdream/rikka.svg
 [badge-version-img]: https://images.microbadger.com/badges/version/7sdream/rikka.svg
 [badge-license-img]: https://images.microbadger.com/badges/license/7sdream/rikka.svg
+
+[image-in-docker-hub]: https://hub.docker.com/r/7sdream/rikka/
 
 [demo]: https://rikka.7sdre.am/
 [home]: https://rikka.7sdre.am/files/56c3ae9d-4d96-49c8-bc03-5104214a1ac8.png

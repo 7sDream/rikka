@@ -8,7 +8,7 @@ rikka-build:
 	go build .
 
 rikka-test:
-	-./rikka -port 8000 -fsDebugSleep 5000
+	-./rikka -port 8000 -fsDebugSleep 5000 -https -level 0
 
 qiniu: rikka-build
 	-./rikka -port 8000 -plugin qiniu -bname rikka-qiniu -bhost odbw8jckg.bkt.clouddn.com

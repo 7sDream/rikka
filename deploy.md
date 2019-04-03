@@ -43,7 +43,7 @@ BTW: You can use `-dir` option of plugin `fs` to set image save dir, like bellow
 
 `docker run -d -P -v rikka_files:/data --name rikka 7sdream/rikka -pwd 12345 -dir /data`
 
-So you needn't input a long mount path like `/go/src/github.com/7sDream/rikka/files`.
+So you need't input a long mount path like `/go/src/github.com/7sDream/rikka/files`.
 
 ## Way 3: Use Docker Cloud Service Provider
 

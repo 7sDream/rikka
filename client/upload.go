@@ -10,6 +10,12 @@ import (
 	"github.com/7sDream/rikka/api"
 )
 
+var uploadClient *http.Client
+
+func init() {
+	uploadClient = &http.Client{}
+}
+
 func createUploadRequest(url string, path string, content []byte, params map[string]string) (*http.Request, error) {
 	body := &bytes.Buffer{}
 	writer := multipart.NewWriter(body)
@@ -65,7 +71,6 @@ func getParams(password string) map[string]string {
 }
 
 func Upload(host string, path string, content []byte, password string) (string, error) {
-	client := &http.Client{}
 
 	url := host + api.UploadPath
 
@@ -76,7 +81,7 @@ func Upload(host string, path string, content []byte, password string) (string, 
 		return "", err
 	}
 
-	res, err := client.Do(req)
+	res, err := uploadClient.Do(req)
 	if err != nil {
 		l.Debug("Error happened when try to send upload request:", err)
 		return "", err

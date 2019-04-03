@@ -53,8 +53,10 @@ func getHost() string {
 	if err != nil || urlObj.Host == "" || urlObj.Scheme == "" || urlObj.Path != "" {
 		l.Fatal("Invalid Rikka host:", host)
 	}
+	//noinspection GoNilness because l.Fatal will exit
 	l.Debug("Host check passed, struct:", fmt.Sprintf("%+v", *urlObj))
 
+	//noinspection GoNilness, ditto
 	return urlObj.Scheme + "://" + urlObj.Host
 }
 
@@ -74,15 +76,4 @@ func getPassword() string {
 		l.Info("Get password from env variable:", password)
 	}
 	return password
-}
-
-func getParams() map[string]string {
-	params := map[string]string{
-		"from":     "api",
-		"password": getPassword(),
-	}
-
-	l.Debug("Build params:", params)
-
-	return params
 }

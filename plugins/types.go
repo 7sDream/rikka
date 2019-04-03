@@ -21,6 +21,7 @@ type URLRequest struct {
 	HTTPRequest *http.Request
 	TaskID      string
 	PicOp       *ImageOperate
+	IsServeTLS  bool // only fs plugin use this field
 }
 
 // ImageOperate stand for some operate of src image, not used now.
