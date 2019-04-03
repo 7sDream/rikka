@@ -54,7 +54,7 @@ func getStateJson(taskID string) ([]byte, error) {
 // Will call plugins.GetURL
 func getUrlJson(taskID string, r *http.Request, picOp *plugins.ImageOperate) ([]byte, error) {
 	l.Debug("Send url request of task", taskID, "to plugin manager")
-	url, err := plugins.GetURL(taskID, r, picOp)
+	url, err := plugins.GetURL(taskID, r, isServerTLS, picOp)
 	if err != nil {
 		l.Error("Error happened when get url of task", taskID, ":", err)
 		return nil, err

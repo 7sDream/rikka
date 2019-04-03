@@ -19,7 +19,7 @@ func viewHandleFunc(w http.ResponseWriter, r *http.Request) {
 
 	var pURL *api.URL
 	var err error
-	if pURL, err = plugins.GetURL(taskID, r, nil); err != nil {
+	if pURL, err = plugins.GetURL(taskID, r, isServeTLS, nil); err != nil {
 		// state is not finished or error when get url, use view.html
 		templateFilePath := viewTemplateFilePath
 		l.Warn("Can't get url of task", taskID, ":", err)

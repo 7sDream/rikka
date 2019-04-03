@@ -7,15 +7,18 @@ import (
 )
 
 var (
+	isServeTLS bool
 	l *logger.Logger
 )
 
 // StartRikkaWebServer start web server of rikka.
-func StartRikkaWebServer(maxSizeByMb float64, log *logger.Logger) string {
+func StartRikkaWebServer(maxSizeByMb float64, argIsServeTLS bool, log *logger.Logger) string {
 
 	if maxSizeByMb <= 0 {
 		l.Fatal("Max file size can't be equal or less than 0, you set it to", maxSizeByMb)
 	}
+
+	isServeTLS = argIsServeTLS
 
 	context.MaxSizeByMb = maxSizeByMb
 	context.FavIconPath = FavIconTruePath

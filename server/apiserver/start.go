@@ -11,16 +11,18 @@ import (
 var (
 	password    string
 	maxSizeByMb float64
+	isServerTLS bool
 
 	l *logger.Logger
 )
 
 // StartRikkaAPIServer start API server of Rikka
-func StartRikkaAPIServer(argViewPath string, argPassword string, argMaxSizeByMb float64, log *logger.Logger) {
+func StartRikkaAPIServer(argViewPath string, argPassword string, argMaxSizeByMb float64, argIsServerTLS bool, log *logger.Logger) {
 
 	viewPath = argViewPath
 	password = argPassword
 	maxSizeByMb = argMaxSizeByMb
+	isServerTLS = argIsServerTLS
 
 	l = log.SubLogger("[API]")
 

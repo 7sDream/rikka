@@ -14,4 +14,6 @@
 
 `-fsDebugSleep` 一般用不到，是让 fs 插件在复制文件前暂停一段时间，模拟耗时操作，便于测试 javascript AJAX 的。单位是 ms。
 
+如果你的域名支持 https，请设置参数 `-https` 来使 fs 模块返回的 https 协议的 url。
+
 [version-en]: https://github.com/7sDream/rikka/blob/master/plugins/fs/README.md
