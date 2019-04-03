@@ -5,7 +5,8 @@ function isImageType(typeStr) {
     if (typeStr.startsWith("image") === false) {
         return false;
     }
-    var accepted = ["jpeg", "bmp", "gif", "png"];
+
+    const accepted = ["jpeg", "bmp", "gif", "png"];
     return accepted.some(function(type){
         // noinspection JSUnresolvedFunction
         return typeStr.endsWith("/" + type)
@@ -13,29 +14,36 @@ function isImageType(typeStr) {
 }
 
 function check(maxSizeByMb) {
-    var passwordInput = document.querySelector("input#password");
-    var fileInput = document.querySelector("input#uploadFile");
-    var file = fileInput.files[0];
+    const passwordInput = document.querySelector("input#password");
+    const fileInput = document.querySelector("input#uploadFile");
+
+    const file = fileInput.files[0];
+
     if (passwordInput.value === "") {
         alert("Please input password");
         return false;
     }
+
     if (file === undefined) {
         alert("Please choose a image to upload");
         return false;
     }
-    var fileType = file.type;
+
+    let fileType = file.type;
     if (!isImageType(fileType)) {
         fileType = fileType || "unknown";
         alert("Can't upload a " + fileType + " type file");
         return false;
     }
+
     if (file.size > (maxSizeByMb * 1024 * 1024)) {
-        var fileSizeByMb = Math.round(file.size / 1024 / 1024 * 100) / 100;
+        const fileSizeByMb = Math.round(file.size / 1024 / 1024 * 100) / 100;
         alert("Max file size is " + maxSizeByMb + " Mb, input file is " + fileSizeByMb.toString() + " Mb");
         return false;
     }
-    var imgElement = document.querySelector("img#uploading");
+
+    const imgElement = document.querySelector("img#uploading");
     imgElement.classList.add("show");
+
     return true;
 }

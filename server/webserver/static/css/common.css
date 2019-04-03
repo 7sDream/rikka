@@ -3,6 +3,7 @@
 .hide {
     display: none;
 }
+
 div#error {
     color: #6cf;
     margin-bottom: 1em;
@@ -11,67 +12,82 @@ div#error {
     border: 0.1em solid #6cf;
     border-radius: 0.2em;
 }
+
 div#error > span {
     font-family: monospace;
 }
+
 h1, p, span {
     font-family: 'Satisfy', sans-serif;
 }
+
 body, header, main {
     display: flex;
     flex-flow: column nowrap;
     justify-content: center;
     align-items: center;
 }
+
 header {
     margin-bottom: 2em;
 }
+
 h1 {
     order: 0;
     font-size: 3em;
     margin: 0;
 }
+
 h1 a {
     text-decoration: none;
     color: black;
 }
+
 header p {
     font-size: 1em;
     margin: 0;
 }
+
 main {
     margin-bottom: 1em;
 }
+
 img.preview {
     margin-bottom: 2em;
 }
+
 form {
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
     justify-content: flex-start;
 }
+
 div.line {
     display: flex;
     margin-bottom: 0.5em;
     width: 15em;
     height: 1.6em;
 }
+
 div.line label, div.line input {
     color: #66ccff;
     border: 1px solid #6cf;
     border-radius: 2px;
     text-align: center;
 }
+
 div.line label {
     font-size: 1em;
     width: 40%;
 }
+
 div.line input {
     font-size: 0.75em;
     width: 60%;
     outline: none;
 }
+
 footer {
     width: 100%;
     font-size: 1em;
@@ -80,6 +96,7 @@ footer {
     justify-content: center;
     align-items: center;
 }
+
 footer p {
     margin-bottom: 0;
 }
