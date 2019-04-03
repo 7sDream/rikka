@@ -115,6 +115,7 @@ func auxCalcCB() string {
 
 func auxGetUploadURL() string {
 
+	//noinspection SpellCheckingInspection
 	uploadQuery := map[string]string{
 		"cb":      auxCalcCB(),
 		"url":     "",

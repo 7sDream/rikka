@@ -133,6 +133,7 @@ func MustBeOr404(w http.ResponseWriter, r *http.Request, path string) bool {
 // MustExistOr404 check if a file is exist.
 // If not, write 404 to header, "404 not fount" to response, and return false.
 // Else don't do anything and return true.
+//noinspection GoUnusedExportedFunction
 func MustExistOr404(w http.ResponseWriter, r *http.Request, filepath string) bool {
 	if !CheckExist(filepath) {
 		http.NotFound(w, r)

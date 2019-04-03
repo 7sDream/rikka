@@ -26,7 +26,7 @@ Now we only provide [executable binary for Linux][download], Because I only have
 
 Then rename the file to `rikkac` and move to a folder in your `PATH`.
 
-OK, installation finished, now you need [configure](#configure_and_usage) Rikkac before use it.
+OK, installation finished, now you need [configure](#configure-and-usage) Rikkac before use it.
 
 User of other os please refer to next section to build and install Rikkac.
 
@@ -46,9 +46,12 @@ You need some [configure](#configure-and-usage) before use Rikkac.
 
 Rikkac need to env variable： `RIKKA_HOST` and `RIKKA_PWD`. for  Rikka server address and password.
 
-![](http://7sdream-rikka-demo.daoapp.io/files/2016-09-05-066558195)
+```
+export RIKKA_HOST=https://rikka.7sdre.am
+export RIKKA_PWD=afakepassword
+```
 
-Than you can enjoy Rikkac.
+Then you can enjoy Rikkac.
 
 Just run `rikkac -m filepath` for upload.
 
@@ -56,15 +59,23 @@ You can get detail log when you meet some error by add  `-v` or `-vv` option.
 
 ## Multi File upload
 
-Just provide file path one by one: `rikkac -m file1 file2 file3 ...`
+Just provide file path one by one: 
 
-Or you can use wildcard if your shell support：`rikkac -m *.png`。
+```bash
+rikkac -m file1 file2 file3 ...
+```
 
-![](http://odbw8jckg.bkt.clouddn.com/ba2d2dca-2ae2-4436-ade2-7905183ce23d.png)
+Or you can use wildcard if your shell support：
+
+```bash
+rikkac -m *.png
+```
 
 ## Tips: Copy Result to Clipboard in Quick
 
-![](http://7sdream-rikka-demo.daoapp.io/files/2016-09-05-781037494)
+```bash
+rikkac -m a.png | xclip -sel clip
+```
 
 need xclip installed：`apt-get install xclip`.
 

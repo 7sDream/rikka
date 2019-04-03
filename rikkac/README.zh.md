@@ -40,13 +40,16 @@
 
 然后输入 `rikkac --version` 如果输出了一个版本号则说明安装成功了。
 
-编译和安装成功后并不能立即使用，需要进行一些[配置](#configure-and-usage)。
+编译和安装成功后并不能立即使用，需要进行一些[配置](#配置和使用)。
 
 ## 配置和使用
 
 Rikkac 需要配置两个环境变量： `RIKKA_HOST` 和 `RIKKA_PWD`。它们分别代表 Rikka 服务器地址和密码。
 
-![](http://7sdream-rikka-demo.daoapp.io/files/2016-09-05-066558195)
+```
+export RIKKA_HOST=https://rikka.7sdre.am
+export RIKKA_PWD=afakepassword
+```
 
 配置完就可以使用啦。
 
@@ -56,15 +59,23 @@ Rikkac 需要配置两个环境变量： `RIKKA_HOST` 和 `RIKKA_PWD`。它们�
 
 ## 批量上传
 
-`rikkac -m file1 file2 file3 ...` 这样就行了。
+```bash
+rikkac -m file1 file2 file3 ...
+```
 
-如果你用的 shell 带有通配符自动展开的话，那这样也行：`rikkac -m *.png`。
+这样就行了。
 
-![](http://odbw8jckg.bkt.clouddn.com/ba2d2dca-2ae2-4436-ade2-7905183ce23d.png)
+如果你用的 shell 带有通配符自动展开的话，那这样也行：
+
+```bash
+rikkac -m *.png
+```
 
 ## 小 tips 快速复制到剪贴板
 
-![](http://7sdream-rikka-demo.daoapp.io/files/2016-09-05-781037494)
+```bash
+rikkac -m a.png | xclip -sel clip
+```
 
 此方法需要安装 xclip：`apt-get install xclip`。
 
