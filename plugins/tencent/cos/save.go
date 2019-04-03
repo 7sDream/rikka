@@ -19,7 +19,9 @@ func uploadToCos(q *plugins.SaveRequest, taskID string) {
 			default:
 				errorMsg = "Unknown"
 			}
-			plugins.ChangeTaskState(api.BuildErrorState(taskID, errorMsg))
+			if err = plugins.ChangeTaskState(api.BuildErrorState(taskID, errorMsg)); err != nil {
+				l.Fatal("Unable to change task", taskID, "to error state:", err)
+			}
 		}
 	}()
 

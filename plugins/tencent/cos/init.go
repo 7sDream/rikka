@@ -19,7 +19,7 @@ func (plugin tencentCloudObjectStoragePlugin) Init() {
 
 	if "v5" == version {
 		region = tencent.GetRegionWithCheck(l)
-		client = newCosSdkv5Client()
+		client = newCosSdkV5Client()
 	} else if "v4" == version {
 		client = newCosClient()
 	}
