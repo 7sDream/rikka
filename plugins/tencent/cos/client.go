@@ -10,7 +10,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/tencentyun/cos-go-sdk-v5"
 	"io/ioutil"
 	"math/rand"
 	"mime/multipart"
@@ -18,6 +17,8 @@ import (
 	"net/url"
 	"strings"
 	"time"
+
+	"github.com/tencentyun/cos-go-sdk-v5"
 
 	"github.com/7sDream/rikka/plugins"
 )
@@ -226,9 +227,8 @@ func (c *cosClient) Upload(q *plugins.SaveRequest, taskID string) error {
 func buildPath(taskID string) string {
 	if len(bucketPath) > 0 {
 		return bucketPath + "/" + taskID
-	} else {
-		return taskID
 	}
+	return taskID
 }
 
 func (c *cosSdkV5Client) Upload(q *plugins.SaveRequest, taskID string) error {

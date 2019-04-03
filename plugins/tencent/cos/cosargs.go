@@ -2,13 +2,14 @@ package cos
 
 import (
 	"flag"
+
 	"github.com/7sDream/rikka/common/logger"
 )
 
-// flags for Tencent cloud cos sdk
+// ArgCosVersion is flags for set Tencent cloud cos sdk version
 var ArgCosVersion = flag.String("tccosVer", "v4", "Tencent cos sdk version, v4(default) or v5")
 
-// GetVersion get the version to know the version of Tencent cos version
+// GetVersionWitchCheck get the version of Tencent cos version from arguments
 func GetVersionWitchCheck(l *logger.Logger) string {
 	if l == nil {
 		l = logger.NewLogger("[CosArgs]")
