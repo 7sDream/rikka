@@ -1,4 +1,8 @@
-FROM amd64/golang:latest as builder
+# ---------------
+# Build Stage
+# ---------------
+
+FROM amd64/golang:1 as builder
 
 ARG VCS_REF
 ARG VCS_URL
@@ -13,26 +17,29 @@ LABEL org.label-schema.schema-version="1.0" \
     org.label-schema.vcs-type="Git" \
     org.label-schema.license="MIT" \
     org.label-schema.docker.dockerfile="/Dockerfile" \
-    org.label-schema.name="Rikka"
-
-MAINTAINER 7sDream "docker@7sdre.am"
+    org.label-schema.name="Rikka" \
+    maintainer="docker@7sdre.am"
 
 ENV GO111MODULE=on
 
-WORKDIR /go-modules
-COPY . ./
+WORKDIR /src
+COPY . .
 
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v .
+RUN go env -w GOPROXY="https://goproxy.io,direct" && \
+    go env -w GOSUMDB="gosum.io+ce6e7565+AY5qEHUk/qmHc5btzW45JVoENfazw8LielDsaI+lEbq6" && \
+    CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v .
 
-FROM amd64/alpine:latest
+# ---------------
+# Final Stage
+# ---------------
 
-RUN mkdir -p /root/rikka/server/webserver
+FROM amd64/alpine:3
 
 WORKDIR /root/rikka
 
-COPY --from=builder /go-modules/rikka rikka
-COPY --from=builder /go-modules/server/webserver/templates server/webserver/templates
-COPY --from=builder /go-modules/server/webserver/static server/webserver/static
+COPY --from=builder /src/rikka rikka
+COPY --from=builder /src/server/webserver/templates server/webserver/templates
+COPY --from=builder /src/server/webserver/static server/webserver/static
 
 EXPOSE 80
 

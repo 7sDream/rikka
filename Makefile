@@ -1,3 +1,15 @@
+ifeq ($(OS),Windows_NT)     # is Windows_NT on XP, 2000, 7, Vista, 10...
+	detected_OS := Windows
+else
+	detected_OS := $(shell uname)
+endif
+
+ifeq ($(detected_OS),Darwin)        # Mac OS X
+	SED = "gsed"
+else
+	SED = "sed"
+endif
+
 default: rikka-build-test
 
 # Rikka
@@ -19,12 +31,13 @@ upai: rikka-build
 # Docker
 
 IMAGE_NAME = 7sdream/rikka
-OLD_VERSION = $(shell docker images | sed -n 's:$(IMAGE_NAME) \+\([0-9.]\+\).*:\1:gp')
-HAS_LATEST = $(shell docker images | sed -n 's:$(IMAGE_NAME) \+\(latest\).*:\1:gp')
-NEW_VERSION = $(shell sed -n 's:\t*Version = "\([0-9.]\+\).*":\1:p' api/consts.go)
+OLD_VERSION = $(shell docker images | $(SED) -n 's:$(IMAGE_NAME) \+\([0-9.]\+\).*:\1:gp')
+HAS_LATEST = $(shell docker images | $(SED) -n 's:$(IMAGE_NAME) \+\(latest\).*:\1:gp')
+NEW_VERSION = $(shell $(SED) -n 's:\t*Version = "\([0-9.]\+\).*":\1:p' api/consts.go)
 GIT_COMMIT = $(strip $(shell git rev-parse --short HEAD))
 
 version:
+	@echo "Current git commit: $(GIT_COMMIT)"
 	@echo "Will delete $(OLD_VERSION) $(HAS_LATEST)"
 	@echo "Will build $(NEW_VERSION) latest"
 
@@ -53,7 +66,6 @@ just-push:
 	docker push $(IMAGE_NAME)
 
 push: build just-push
-	
 
 # Clean
 
