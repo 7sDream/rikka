@@ -176,20 +176,24 @@ func sendUploadResultToClient(w http.ResponseWriter, r *http.Request, ip string,
 	if from == api.FromWebsite {
 		redirectToView(w, r, ip, taskID)
 	} else {
-		var taskIDJSON []byte
+		var taskIdJSON []byte
 		var err error
-		if taskIDJSON, err = getTaskIdJson(taskID); err != nil {
+		if taskIdJSON, err = getTaskIdJson(taskID); err != nil {
 			l.Error("Error happened when build task ID json of task", taskID, "request by", ip, ":", err)
 		} else {
-			l.Info("Build task ID json", taskIDJSON, "of task", "request by", ip, "successfully")
+			l.Info("Build task ID json", taskIdJSON, "of task", "request by", ip, "successfully")
 		}
-		renderJsonOrError(w, taskID, taskIDJSON, err, http.StatusInternalServerError)
+		renderJsonOrError(w, taskID, taskIdJSON, err, http.StatusInternalServerError)
 	}
 }
 
 // ---- end of upload handle aux functions --
 
 func uploadHandleFunc(w http.ResponseWriter, r *http.Request) {
+	if corsAllowOrigin != "" {
+		w.Header().Set("Access-Control-Allow-Origin", corsAllowOrigin)
+	}
+
 	ip := util.GetClientIP(r)
 
 	l.Info("Receive file upload request from ip", ip)
@@ -198,7 +202,7 @@ func uploadHandleFunc(w http.ResponseWriter, r *http.Request) {
 	r.Body = http.MaxBytesReader(w, r.Body, maxSize)
 
 	err := r.ParseMultipartForm(maxSize)
-	if util.ErrHandle(w, err) {
+	if util.ErrHandleWithCode(w, err, http.StatusBadRequest) {
 		l.Error("Error happened when parse form submitted by", ip, ":", err)
 		return
 	}

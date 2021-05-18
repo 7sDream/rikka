@@ -22,11 +22,17 @@ func GetTaskIDByRequest(r *http.Request) string {
 }
 
 // ErrHandle is a simple error handle function.
-// If err is an error, write 500 InternalServerError to header and write error message to response and return true.
-// Else (err is nil), don't do anything and return false.
+// See ErrHandleWithCode, this func use `http.StatusInternalServerError` as code.
 func ErrHandle(w http.ResponseWriter, err error) bool {
+	return ErrHandleWithCode(w, err, http.StatusInternalServerError)
+}
+
+// ErrHandleWithCode is a simple error handle function.
+// If err is an error, write code to header and write error message to response and return true.
+// Else (err is nil), don't do anything and return false.
+func ErrHandleWithCode(w http.ResponseWriter, err error, code int) bool {
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, err.Error(), code)
 		return true
 	}
 	return false
@@ -113,8 +119,8 @@ func RenderTemplateString(templateString string, w http.ResponseWriter, data int
 
 // RenderJson is a shortcut function to write JSON data to response, and set the header Content-Type.
 func RenderJson(w http.ResponseWriter, data []byte, code int) (err error) {
-	w.WriteHeader(code)
 	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(code)
 	_, err = w.Write(data)
 	return err
 }

@@ -15,7 +15,7 @@ var (
 )
 
 // StartRikka start server part of rikka. Include Web Server and API server.
-func StartRikka(socket string, password string, maxSizeByMb float64, https bool, certDir string) {
+func StartRikka(socket string, password string, maxSizeByMb float64, https bool, certDir string, allowOrigin string) {
 	realHttps := false
 
 	certPemPath := pathUtil.Join(certDir, "cert.pem")
@@ -33,7 +33,7 @@ func StartRikka(socket string, password string, maxSizeByMb float64, https bool,
 	viewPath := webserver.StartRikkaWebServer(maxSizeByMb, https, l)
 
 	l.Info("Start API server...")
-	apiserver.StartRikkaAPIServer(viewPath, password, maxSizeByMb, https, l)
+	apiserver.StartRikkaAPIServer(viewPath, password, maxSizeByMb, https, allowOrigin, l)
 
 	l.Info("Rikka is listening", socket)
 

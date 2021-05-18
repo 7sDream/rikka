@@ -26,5 +26,5 @@ func main() {
 	plugins.Load(thePlugin)
 
 	// start Rikka servers (this call is Sync)
-	server.StartRikka(socket, *argPassword, *argMaxSizeByMB, *argHTTPS, *argCertDir)
+	server.StartRikka(socket, *argPassword, *argMaxSizeByMB, *argHTTPS, *argCertDir, *argAllowOrigin)
 }
