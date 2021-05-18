@@ -3,7 +3,7 @@ package qiniu
 import (
 	"github.com/7sDream/rikka/common/util"
 	"github.com/7sDream/rikka/plugins"
-	"github.com/qiniu/api.v7/auth/qbox"
+	"github.com/qiniu/go-sdk/v7/auth/qbox"
 )
 
 // Init is the plugin init function, will be called when plugin be load.

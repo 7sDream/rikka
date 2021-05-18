@@ -3,7 +3,7 @@ package upai
 import (
 	"github.com/7sDream/rikka/common/util"
 	"github.com/7sDream/rikka/plugins"
-	"github.com/upyun/go-sdk/upyun"
+	"github.com/upyun/go-sdk/v3/upyun"
 )
 
 func (qnp upaiPlugin) Init() {

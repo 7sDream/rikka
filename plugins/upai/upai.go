@@ -2,7 +2,7 @@ package upai
 
 import (
 	"github.com/7sDream/rikka/plugins"
-	"github.com/upyun/go-sdk/upyun"
+	"github.com/upyun/go-sdk/v3/upyun"
 )
 
 type upaiPlugin struct{}

@@ -5,18 +5,15 @@ go 1.12
 require (
 	github.com/bitly/go-simplejson v0.5.0 // indirect
 	github.com/bmizerany/assert v0.0.0-20160611221934-b7ed37b82869 // indirect
-	github.com/google/go-querystring v1.0.0 // indirect
+	github.com/google/go-querystring v1.1.0 // indirect
 	github.com/kr/pretty v0.1.0 // indirect
-	github.com/mozillazg/go-httpheader v0.2.1 // indirect
-	github.com/qiniu/api.v7 v7.2.5+incompatible
-	github.com/qiniu/x v7.0.8+incompatible // indirect
+	github.com/mozillazg/go-httpheader v0.3.0 // indirect
+	github.com/qiniu/go-sdk/v7 v7.9.5
 	github.com/satori/go.uuid v1.2.0
-	github.com/stretchr/testify v1.3.0 // indirect
-	github.com/tencentyun/cos-go-sdk-v5 v0.0.0-20190228064519-e689ead098f8
+	github.com/tencentyun/cos-go-sdk-v5 v0.7.25
 	github.com/tencentyun/go-sdk v2.0.4+incompatible // indirect
 	github.com/tencentyun/image-go-sdk v2.0.4+incompatible
-	github.com/upyun/go-sdk v2.1.0+incompatible
-	golang.org/x/net v0.0.0-20190301231341-16b79f2e4e95 // indirect
+	github.com/upyun/go-sdk/v3 v3.0.2
+	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c // indirect
 	gopkg.in/check.v1 v1.0.0-20180628173108-788fd7840127 // indirect
-	qiniupkg.com/x v7.0.8+incompatible // indirect
 )

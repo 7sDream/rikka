@@ -4,7 +4,7 @@ import (
 	"github.com/7sDream/rikka/api"
 	"github.com/7sDream/rikka/plugins"
 	"github.com/satori/go.uuid"
-	"github.com/upyun/go-sdk/upyun"
+	"github.com/upyun/go-sdk/v3/upyun"
 )
 
 func buildPath(taskID string) string {
