@@ -4,6 +4,8 @@
 
 Note: API was added into Rikka after version 0.1.0
 
+BTW，Rikka disable CORS by default, if you need use api in other domain, please add `-corsAllowOrigin '*'` argument on start (available after version 0.8.0).
+
 ## Upload
 
 ### Path
