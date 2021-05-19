@@ -110,9 +110,9 @@ See [LICENSE][license].
 
 [readme-zh]: https://github.com/7sDream/rikka/blob/master/README.zh.md
 
-[badge-info-img]: https://images.microbadger.com/badges/image/7sdream/rikka.svg
-[badge-version-img]: https://images.microbadger.com/badges/version/7sdream/rikka.svg
-[badge-license-img]: https://images.microbadger.com/badges/license/7sdream/rikka.svg
+[badge-info-img]: https://img.shields.io/docker/image-size/7sdream/rikka
+[badge-version-img]: https://img.shields.io/docker/v/7sdream/rikka
+[badge-license-img]: https://img.shields.io/github/license/7sdream/rikka
 
 [image-in-docker-hub]: https://hub.docker.com/r/7sdream/rikka/
 
