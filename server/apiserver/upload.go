@@ -190,10 +190,6 @@ func sendUploadResultToClient(w http.ResponseWriter, r *http.Request, ip string,
 // ---- end of upload handle aux functions --
 
 func uploadHandleFunc(w http.ResponseWriter, r *http.Request) {
-	if corsAllowOrigin != "" {
-		w.Header().Set("Access-Control-Allow-Origin", corsAllowOrigin)
-	}
-
 	ip := util.GetClientIP(r)
 
 	l.Info("Receive file upload request from ip", ip)

@@ -17,6 +17,15 @@ var (
 	l *logger.Logger
 )
 
+func addCors(h http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		if len(corsAllowOrigin) > 0 {
+			w.Header().Set("Access-Control-Allow-Origin", corsAllowOrigin)
+		}
+		h(w, r)
+	}
+}
+
 // StartRikkaAPIServer start API server of Rikka
 func StartRikkaAPIServer(argViewPath string, argPassword string, argMaxSizeByMb float64, argIsServerTLS bool, argCorsAllowOrigin string, log *logger.Logger) {
 
@@ -43,11 +52,9 @@ func StartRikkaAPIServer(argViewPath string, argPassword string, argMaxSizeByMb 
 		uploadHandleFunc,
 	)
 
-	http.HandleFunc(api.StatePath, stateHandler)
-	http.HandleFunc(api.URLPath, urlHandler)
-	http.HandleFunc(api.UploadPath, uploadHandler)
+	http.HandleFunc(api.StatePath, addCors(stateHandler))
+	http.HandleFunc(api.URLPath, addCors(urlHandler))
+	http.HandleFunc(api.UploadPath, addCors(uploadHandler))
 
 	l.Info("API server start successfully")
-
-	return
 }
