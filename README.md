@@ -1,6 +1,6 @@
 # Rikka - A simple image share system
 
-![][badge-version-img] ![][badge-info-img] ![][badge-license-img]
+![docker image version][badge-version-img] ![docker image size][badge-info-img] ![MIT license][badge-license-img]
 
 [中文版][readme-zh]
 
@@ -30,11 +30,10 @@ Other parts not written in Golang (in plan):
 2. Image address can be copied to various formats
 3. Many available image save plugins, such as weibo, QinNiu, UPai, Tencent Cloud, etc.
 4. REST API provided
-4. Modular Web server and API server
-5. CLI tool provided
-6. **Only guarantee support for recent versions of Chrome/Firefox/Safari**
-7. Cute homepage image
-8. An active maintainer :)
+5. Modular Web server and API server
+6. CLI tool provided
+7. **Only guarantee support for recent versions of Chrome/Firefox/Safari**
+8. Cute homepage image
 
 ## Demo
 
