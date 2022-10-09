@@ -56,7 +56,7 @@ func makeSign(current *time.Time, dur *time.Duration, randInt *int) (string, tim
 	}
 	e := t.Add(*dur)
 	if randInt == nil {
-		number := rand.Intn(10000000000)
+		number := rand.Intn(1000000000)
 		randInt = &number
 	}
 	// Original = "a=[appid]&b=[bucket]&k=[SecretID]&e=[expiredTime]&t=[currentTime]&r=[rand]&f="

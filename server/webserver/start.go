@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/7sDream/rikka/common/logger"
+	"github.com/7sDream/rikka/common/util"
 )
 
 var (
@@ -19,6 +20,15 @@ func StartRikkaWebServer(maxSizeByMb float64, argIsServeTLS bool, log *logger.Lo
 	}
 
 	isServeTLS = argIsServeTLS
+
+	// change all sub-folder in content
+	subFolder := util.GetSubFolder()
+	if len(subFolder) > 1 {
+		tmpStr := subFolder[:len(subFolder) - 1]
+		context.RootPath = tmpStr + "/"
+		context.StaticPath = tmpStr + context.StaticPath
+		context.UploadPath = tmpStr + context.UploadPath
+	}
 
 	context.MaxSizeByMb = maxSizeByMb
 	context.FavIconPath = FavIconTruePath

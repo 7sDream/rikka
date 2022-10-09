@@ -25,6 +25,9 @@ func main() {
 	l.Info("Load plugin...")
 	plugins.Load(thePlugin)
 
+	// Set SubFolder
+	util.SetSubFolder(*argSubFolder)
+
 	// start Rikka servers (this call is Sync)
 	server.StartRikka(socket, *argPassword, *argMaxSizeByMB, *argHTTPS, *argCertDir, *argAllowOrigin)
 }
