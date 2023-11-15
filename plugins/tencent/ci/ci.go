@@ -2,7 +2,7 @@ package ci
 
 import (
 	"github.com/7sDream/rikka/plugins"
-	"github.com/tencentyun/image-go-sdk"
+	qcloud "github.com/jeremywangjun/image-go-sdk"
 )
 
 type TencentCloudImagePlugin struct{}

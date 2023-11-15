@@ -11,6 +11,8 @@ github.com/google/go-querystring v1.1.0 h1:AnCroh3fv4ZBgVIf1Iwtovgjaw/GiKJo8M8yD
 github.com/google/go-querystring v1.1.0/go.mod h1:Kcdr2DB4koayq7X8pmAG4sNG59So17icRSOU623lUBU=
 github.com/google/uuid v1.1.1 h1:Gkbcsh/GbpXz7lPftLA3P6TYMwjCLYm83jiFQZF/3gY=
 github.com/google/uuid v1.1.1/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
+github.com/jeremywangjun/image-go-sdk v2.0.4+incompatible h1:QgGpbe0a3OSCzuaLyel4nxxZBjkKWuyOWAowftyDe/s=
+github.com/jeremywangjun/image-go-sdk v2.0.4+incompatible/go.mod h1:8ROP0hKpwkYUw7kRYr7wTaolL/N6T5PRwppm8m8pIKE=
 github.com/kr/pretty v0.1.0 h1:L/CwN0zerZDmRFUapSPitk6f+Q3+0za1rQkzVuMiMFI=
 github.com/kr/pretty v0.1.0/go.mod h1:dAy3ld7l9f0ibDNOQOHHMYYIIbhfbHSm3C4ZsoJORNo=
 github.com/kr/pty v1.1.1/go.mod h1:pFQYn66WHrOpPYNljwOMqo10TkYh1fy3cYio2l3bCsQ=
@@ -30,8 +32,6 @@ github.com/tencentyun/cos-go-sdk-v5 v0.7.25 h1:CvVHCy46TKU1ibT7FLb2i46CIrmwWPZIc
 github.com/tencentyun/cos-go-sdk-v5 v0.7.25/go.mod h1:wQBO5HdAkLjj2q6XQiIfDSP8DXDNrppDRw2Kp/1BODA=
 github.com/tencentyun/go-sdk v2.0.4+incompatible h1:0uLI3F/DHuHqdWL2RKN8wtRWF5NJwA01AjXQEHHxOLU=
 github.com/tencentyun/go-sdk v2.0.4+incompatible/go.mod h1:9sWrHEQHdyq5ztiwaJif1SE5KjoweQSyND3wPbv4sFU=
-github.com/tencentyun/image-go-sdk v2.0.4+incompatible h1:EYx6S7Cdb7mPVBOklR/O2OyiD9SETNWfkLwJd5HfBxw=
-github.com/tencentyun/image-go-sdk v2.0.4+incompatible/go.mod h1:EbFLXmzkHd0uiirT4HrG4LBJx2INEHecfecT/1g1ovs=
 github.com/upyun/go-sdk/v3 v3.0.2 h1:Ke+iOipK5CT0xzMwsgJsi7faJV7ID4lAs+wrH1RH0dA=
 github.com/upyun/go-sdk/v3 v3.0.2/go.mod h1:P/SnuuwhrIgAVRd/ZpzDWqCsBAf/oHg7UggbAxyZa0E=
 golang.org/x/sync v0.0.0-20201207232520-09787c993a3a/go.mod h1:RxMgew5VJxzue5/jJTE5uejpjVlOe/izrB70Jof72aM=

@@ -5,7 +5,7 @@ import (
 
 	"github.com/7sDream/rikka/plugins"
 	"github.com/7sDream/rikka/plugins/tencent"
-	"github.com/tencentyun/image-go-sdk"
+	qcloud "github.com/jeremywangjun/image-go-sdk"
 )
 
 func (plugin TencentCloudImagePlugin) Init() {
