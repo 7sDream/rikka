@@ -13,11 +13,12 @@ import (
 
 // buildURL build complete url from request's Host header and task ID
 func buildURL(r *http.Request, scheme string, taskID string) string {
+	subFolder := util.GetSubFolder()
 	res := url.URL{
 		Scheme: scheme,
 		Host:   r.Host,
 		//    remove root /
-		Path: fileURLPath[1:] + taskID,
+		Path: subFolder[1:] + fileURLPath[1:] + taskID,
 	}
 	return res.String()
 }

@@ -31,6 +31,7 @@ var (
 	argHTTPS         *bool
 	argCertDir       *string
 	argAllowOrigin   *string
+	argSubFolder     *string
 
 	// concat socket from ip address and port
 	socket string
@@ -78,6 +79,7 @@ func init() {
 	l.Info("Args maxFileSize =", *argMaxSizeByMB, "MB")
 	l.Info("Args loggerLevel =", *argLogLevel)
 	l.Info("Args https =", *argHTTPS)
+	l.Info("Args sub-folder =", *argSubFolder)
 	l.Info("Args cert dir =", *argCertDir)
 	l.Info("Args plugin =", *argPluginStr)
 
@@ -119,6 +121,7 @@ func initArgVars() {
 		fmt.Sprintf("Log level, from %d to %d", logger.LevelDebug, logger.LevelError),
 	)
 	argHTTPS = flag.Bool("https", false, "Use HTTPS")
+	argSubFolder = flag.String("subFolder", "/", "The sub-folder of domain.")
 	argCertDir = flag.String("certDir", ".", "Where to find HTTPS cert files(cert.pem, key.pem)")
 	argAllowOrigin = flag.String("corsAllowOrigin", "", "Enable upload api CORS support, default is empty(disable). Set this to a origin, or * to enable for all origin")
 	// Get name array of all available plugins, show in `rikka -h`

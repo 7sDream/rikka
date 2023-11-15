@@ -8,7 +8,16 @@ import (
 
 var (
 	l = logger.NewLogger("[Util]")
+	SubFolder = "/"
 )
+
+func SetSubFolder(subFolder string) {
+	SubFolder = subFolder
+}
+
+func GetSubFolder() string {
+	return SubFolder
+}
 
 // GetEnvWithCheck will get a env var, print it, and return it.
 // If the var is empty, will raise a Fatal.

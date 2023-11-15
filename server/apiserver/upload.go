@@ -146,7 +146,8 @@ func getUploadedFile(w http.ResponseWriter, r *http.Request, ip string, from str
 }
 
 func redirectToView(w http.ResponseWriter, r *http.Request, ip string, taskID string) {
-	viewPage := viewPath + taskID
+	subFolder := util.GetSubFolder()
+	viewPage := subFolder[:len(subFolder) - 1] + viewPath + taskID
 	http.Redirect(w, r, viewPage, http.StatusFound)
 	l.Debug("Redirect client", ip, "to view page", viewPage)
 }
